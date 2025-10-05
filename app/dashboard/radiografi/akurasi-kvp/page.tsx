@@ -25,8 +25,8 @@ export default async function DashboardRadAkurKVPage({
 
   return (
     <div>
-      <DashboardAkurKV payloadQueryParams={payloadQueryParams} />
-      {/* <div>Hello World</div> */}
+      {/* <DashboardAkurKV payloadQueryParams={payloadQueryParams} /> */}
+      <div>Hello World</div>
     </div>
   );
 }
