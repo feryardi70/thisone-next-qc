@@ -3,11 +3,9 @@ import { cookies } from "next/headers";
 import { precheck } from "@/app/lib/precheck";
 import { readDataRadByUserIdnSNNumber } from "@/app/DAL/repository/radiografi-repository";
 
-interface Params {
-  id_user: string;
-}
+type Params = Promise<{ id_user: string }>;
 
-export async function GET(request: Request, { params }: { params: Params }) {
+export async function GET(request: Request, segmentData: { params: Params }) {
   const referer = request.headers.get('referer');
   const refererCheck = referer?.includes(process.env.NEXT_PUBLIC_APP_URL!);
   const csrfToken = (await cookies()).get("authjs.csrf-token")?.value;
@@ -20,7 +18,8 @@ export async function GET(request: Request, { params }: { params: Params }) {
     return NextResponse.json(preCheckResult.body, { status: preCheckResult.status });
   }
 
-  const { id_user } = await params;
+  const params = await segmentData.params;
+  const id_user = params.id_user;
   const { searchParams } = new URL(request.url);
   const No_Seri = searchParams.get("No_Seri");
   //console.log("ID USER (API):", id_user);
