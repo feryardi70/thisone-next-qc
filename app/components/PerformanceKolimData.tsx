@@ -27,6 +27,10 @@ ChartJS.register(
   annotationPlugin
 );
 
+interface LabelOptions {
+  position?: "start" | "center" | "end";
+}
+
 interface DataPoint {
   x: string; // format ISO string
   y: number;
@@ -100,7 +104,7 @@ export default function DualAxisChart({ data }: { data: DataPoint[] }) {
             label: {
               display: true,
               content: "NLU = 2 (%SID)",
-              position: "end" as const,
+              position: "end" as const, // eslint-disable-line @typescript-eslint/prefer-as-const
               backgroundColor: "rgba(255,0,0,0.8)",
               color: "white",
               padding: 4,

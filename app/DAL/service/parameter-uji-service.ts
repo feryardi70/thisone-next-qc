@@ -23,7 +23,7 @@ export const insertDataUji = async(Iluminasi: string, Kolimasi_deltaX: string, K
     return result;
 }
 
-export const editDataUjiByIdParameter = async(Iluminasi: string, Kolimasi_deltaX: string, Kolimasi_deltaY: string, Akurasi_kV: string, Akurasi_waktu: string, Linearitas: string, Reproduksibilitas: string, HVL: string, Kebocoran: string, Tanggal_uji: string, id_user: number, id_spesifikasi: number, id_parameter: any) => {
+export const editDataUjiByIdParameter = async(Iluminasi: string, Kolimasi_deltaX: string, Kolimasi_deltaY: string, Akurasi_kV: string, Akurasi_waktu: string, Linearitas: string, Reproduksibilitas: string, HVL: string, Kebocoran: string, Tanggal_uji: string, id_user: number | string, id_spesifikasi: number | string, id_parameter: string) => {
     const data = {
         ilum: parseInt(Iluminasi),
         deltaX: parseFloat(Kolimasi_deltaX),

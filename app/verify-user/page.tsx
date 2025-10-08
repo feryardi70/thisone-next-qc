@@ -21,7 +21,7 @@ export default async function VerifyUserPage({ searchParams }: VerifyUserPagePro
             Verification Failed
           </h1>
           <p className="mb-4">
-            Sorry, we couldn't verify your account. The token may be invalid or
+            Sorry, we could not verify your account. The token may be invalid or
             expired.
           </p>
           <a href="/register" className="text-blue-500 hover:underline">
