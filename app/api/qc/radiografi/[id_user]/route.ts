@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { precheck } from "@/app/lib/precheck";
 import { readDataRadByUserIdnSNNumber } from "@/app/DAL/repository/radiografi-repository";
 
-export async function GET(request: Request, { params }: { params: { id_user: number } }) {
+export async function GET(request: Request, { params }: { params: { id_user: string } }) {
   const referer = request.headers.get('referer');
   const refererCheck = referer?.includes(process.env.NEXT_PUBLIC_APP_URL!);
   const csrfToken = (await cookies()).get("authjs.csrf-token")?.value;
@@ -26,11 +26,13 @@ export async function GET(request: Request, { params }: { params: { id_user: num
     return NextResponse.json({ error: "bad request: id_user is required" }, { status: 400 });
   }
 
+  const id_userNumber = parseInt(id_user, 10);
+
   if (!No_Seri) {
     return NextResponse.json({ error: "bad request: No_Seri is required" }, { status: 400 });
   }
 
-  const qcData = await readDataRadByUserIdnSNNumber(id_user, No_Seri);
+  const qcData = await readDataRadByUserIdnSNNumber(id_userNumber, No_Seri);
   //console.log(qcData);
 
   return NextResponse.json(qcData, { status: 200 });
