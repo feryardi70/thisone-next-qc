@@ -6,7 +6,11 @@ interface VerifyUserPageProps {
   };
 }
 
-export default async function VerifyUserPage({ searchParams }: VerifyUserPageProps) {
+export default async function VerifyUserPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const { token } = await searchParams;
   console.log("Token:", token);
 
