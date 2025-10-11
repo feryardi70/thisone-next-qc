@@ -2,14 +2,15 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { precheck } from "@/app/lib/precheck";
 import { readDataRadByUserEmail } from "@/app/DAL/repository/radiografi-repository";
+import { csrfTokenName, sessionTokenName } from "@/app/lib/constant";
 
 type Params = Promise<{ id_spesifikasi: string | number }>;
 
 export async function GET(request: Request) {
   const referer = request.headers.get("referer");
   const refererCheck = referer?.includes(process.env.NEXT_PUBLIC_APP_URL!);
-  const csrfToken = (await cookies()).get("authjs.csrf-token")?.value;
-  const token = (await cookies()).get("authjs.session-token")?.value;
+  const csrfToken = (await cookies()).get(csrfTokenName)?.value;
+  const token = (await cookies()).get(sessionTokenName)?.value;
 
   const preCheckResult = precheck(refererCheck, csrfToken, token);
 

@@ -10,6 +10,7 @@ import {
 } from "@/app/DAL/service/spec-service";
 import { precheck } from "@/app/lib/precheck";
 import { cookies } from "next/headers";
+import { csrfTokenName, sessionTokenName } from "@/app/lib/constant";
 
 export async function GET(request: Request) {
   //const { spesifikasiId } = await params;
@@ -46,8 +47,8 @@ export async function GET(request: Request) {
 export async function PATCH(request: Request) {
   const referer = request.headers.get("referer");
   const refererCheck = referer?.includes(process.env.NEXT_PUBLIC_APP_URL!);
-  const csrfToken = (await cookies()).get("authjs.csrf-token")?.value;
-  const token = (await cookies()).get("authjs.session-token")?.value;
+  const csrfToken = (await cookies()).get(csrfTokenName)?.value;
+  const token = (await cookies()).get(sessionTokenName)?.value;
 
   const preCheckResult = precheck(refererCheck, csrfToken, token);
 
@@ -88,8 +89,8 @@ export async function PATCH(request: Request) {
 export async function POST(request: Request) {
   const referer = request.headers.get("referer");
   const refererCheck = referer?.includes(process.env.NEXT_PUBLIC_APP_URL!);
-  const csrfToken = (await cookies()).get("authjs.csrf-token")?.value;
-  const token = (await cookies()).get("authjs.session-token")?.value;
+  const csrfToken = (await cookies()).get(csrfTokenName)?.value;
+  const token = (await cookies()).get(sessionTokenName)?.value;
 
   const preCheckResult = precheck(refererCheck, csrfToken, token);
 
@@ -127,8 +128,8 @@ export async function POST(request: Request) {
 export async function DELETE(request: Request) {
   const referer = request.headers.get("referer");
   const refererCheck = referer?.includes(process.env.NEXT_PUBLIC_APP_URL!);
-  const csrfToken = (await cookies()).get("authjs.csrf-token")?.value;
-  const token = (await cookies()).get("authjs.session-token")?.value;
+  const csrfToken = (await cookies()).get(csrfTokenName)?.value;
+  const token = (await cookies()).get(sessionTokenName)?.value;
 
   const preCheckResult = precheck(refererCheck, csrfToken, token);
 

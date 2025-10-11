@@ -3,12 +3,13 @@ import { insertDataUji } from "@/app/DAL/service/parameter-uji-service";
 import { editDataUjiByIdParameter } from "@/app/DAL/service/parameter-uji-service";
 import { precheck } from "@/app/lib/precheck";
 import { cookies } from "next/headers";
+import { csrfTokenName, sessionTokenName } from "@/app/lib/constant";
 
 export async function POST(request: Request) {
   const referer = request.headers.get("referer");
   const refererCheck = referer?.includes(process.env.NEXT_PUBLIC_APP_URL!);
-  const csrfToken = (await cookies()).get("authjs.csrf-token")?.value;
-  const token = (await cookies()).get("authjs.session-token")?.value;
+  const csrfToken = (await cookies()).get(csrfTokenName)?.value;
+  const token = (await cookies()).get(sessionTokenName)?.value;
 
   const preCheckResult = precheck(refererCheck, csrfToken, token);
 
@@ -66,8 +67,8 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   const referer = request.headers.get("referer");
   const refererCheck = referer?.includes(process.env.NEXT_PUBLIC_APP_URL!);
-  const csrfToken = (await cookies()).get("authjs.csrf-token")?.value;
-  const token = (await cookies()).get("authjs.session-token")?.value;
+  const csrfToken = (await cookies()).get(csrfTokenName)?.value;
+  const token = (await cookies()).get(sessionTokenName)?.value;
 
   const preCheckResult = precheck(refererCheck, csrfToken, token);
 

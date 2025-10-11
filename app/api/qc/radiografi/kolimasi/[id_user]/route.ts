@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { precheck } from "@/app/lib/precheck";
-import { externalApiUrl } from "@/app/lib/constant";
+import { csrfTokenName, externalApiUrl, sessionTokenName } from "@/app/lib/constant";
 
 type Params = Promise<{ id_user: string }>;
 
@@ -11,8 +11,8 @@ export async function GET(
 ) {
   const referer = request.headers.get("referer");
   const refererCheck = referer?.includes(process.env.NEXT_PUBLIC_APP_URL!);
-  const csrfToken = (await cookies()).get("authjs.csrf-token")?.value;
-  const token = (await cookies()).get("authjs.session-token")?.value;
+  const csrfToken = (await cookies()).get(csrfTokenName)?.value;
+  const token = (await cookies()).get(sessionTokenName)?.value;
 
   const preCheckResult = precheck(refererCheck, csrfToken, token);
   console.log(preCheckResult);
