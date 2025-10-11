@@ -2,11 +2,15 @@ import getSession from "@/app/action/session";
 import EditDataRadComponent from "@/app/components/radiografi/FormEditDataRad";
 import { redirect } from "next/navigation";
 
-interface PageProps {
-  params: { No_Seri: string };
-}
+// interface PageProps {
+//   params: { No_Seri: string };
+// }
 
-export default async function DaftarPesawatRadiografiPage({ params }: PageProps) {
+export default async function DaftarPesawatRadiografiPage({
+  params,
+}: {
+  params: Promise<{ No_Seri: string }>;
+}) {
   const session = await getSession();
   const { No_Seri } = await params;
   console.log("id", No_Seri);
