@@ -10,7 +10,11 @@ interface PageProps {
   params: { id_parameter: string };
 }
 
-export default async function DaftarPesawatRadiografiPage({ params }: PageProps) {
+export default async function DaftarPesawatRadiografiPage({
+  params,
+}: {
+  params: Promise<{ id_parameter: string }>;
+}) {
   const session = await getSession();
   const { id_parameter } = await params;
   //console.log("id", id);
