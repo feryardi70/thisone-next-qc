@@ -2,11 +2,15 @@ import DashboardKolim from "@/app/components/radiografi/dashboardKolim";
 import getSession from "@/app/action/session";
 import { redirect } from "next/navigation";
 
-interface PageProps {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
+// interface PageProps {
+//   searchParams?: { [key: string]: string | string[] | undefined };
+// }
 
-export default async function DashboardRadKolimPage({ searchParams }: PageProps) {
+export default async function DashboardRadKolimPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const session = await getSession();
 
   if (!session) {
@@ -14,7 +18,8 @@ export default async function DashboardRadKolimPage({ searchParams }: PageProps)
     redirect("/login");
   }
 
-  const { id_user, No_Seri } = searchParams || {};
+  const resolvedSearchParams = await searchParams;
+  const { id_user, No_Seri } = resolvedSearchParams;
   //console.log("ID USER:", id_user);
   //console.log("No Seri:", No_Seri);
   const payloadQueryParams = {
