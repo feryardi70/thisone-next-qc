@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 export default async function DashboardRadPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const session = await getSession();
 
@@ -14,7 +14,8 @@ export default async function DashboardRadPage({
     redirect("/login");
   }
 
-  const { id, No_Seri } = await searchParams;
+  const resolvedSearchParams = await searchParams;
+  const { id, No_Seri } = resolvedSearchParams;
   //console.log("ID USER:", id);
   //console.log("No Seri:", No_Seri);
   const payloadQueryParams = {
