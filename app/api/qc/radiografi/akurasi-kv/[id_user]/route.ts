@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request, { params }: { params: { id_user: number } }) {
-  const { id_user } = await params;
+type Params = Promise<{ id_user: string }>;
+
+export async function GET(request: Request, segmentData: { params: Params }) {
+  const params = await segmentData.params;
+  const id_user = params.id_user;
   const { searchParams } = new URL(request.url);
   const No_Seri = searchParams.get("No_Seri");
   //console.log("ID USER (API):", id_user);

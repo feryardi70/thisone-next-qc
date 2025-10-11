@@ -1,8 +1,11 @@
 import { verifyToken } from "@/app/lib/generateToken";
 import { randstr } from "@/app/lib/randstr";
 
-export async function GET(request: Request, { params }: { params: { token: string } }) {
-    const { token } = await params;
+type Params = Promise<{ token: string }>;
+
+export async function GET(request: Request, segmentData: { params: Params }) {
+    const params = await segmentData.params;
+    const token = params.token;
 
     if (!token) {
         return new Response(JSON.stringify({ error: "bad request: token is required" }), { status: 400 });

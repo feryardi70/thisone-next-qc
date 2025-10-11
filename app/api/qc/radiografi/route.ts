@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import { precheck } from "@/app/lib/precheck";
 import { readDataRadByUserEmail } from "@/app/DAL/repository/radiografi-repository";
 
+type Params = Promise<{ id_spesifikasi: string | number }>;
+
 export async function GET(request: Request) {
   const referer = request.headers.get("referer");
   const refererCheck = referer?.includes(process.env.NEXT_PUBLIC_APP_URL!);
@@ -35,9 +37,10 @@ export async function GET(request: Request) {
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id_spesifikasi: number } }
+  segmentData: { params: Params }
 ) {
-  const { id_spesifikasi } = await params;
+  const params = await segmentData.params;
+  const id_spesifikasi = params.id_spesifikasi;
 
   if (!id_spesifikasi) {
     return NextResponse.json(

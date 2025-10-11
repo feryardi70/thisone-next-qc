@@ -3,9 +3,11 @@ import { readDataRadBySN } from "@/app/DAL/repository/spec-repository";
 import { precheck } from "@/app/lib/precheck";
 import { cookies } from "next/headers";
 
+type Params = Promise<{ No_Seri: string }>;
+
 export async function GET(
   request: Request,
-  { params }: { params: { No_Seri: string } }
+  segmentData: { params: Params }
 ) {
   const referer = request.headers.get("referer");
   const refererCheck = referer?.includes(process.env.NEXT_PUBLIC_APP_URL!);
@@ -20,7 +22,8 @@ export async function GET(
     });
   }
 
-  const { No_Seri } = await params;
+  const params = await segmentData.params;
+  const No_Seri = params.No_Seri;
   console.log("SN =", No_Seri);
 
   if (!No_Seri) {

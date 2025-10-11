@@ -3,9 +3,11 @@ import { cookies } from "next/headers";
 import { precheck } from "@/app/lib/precheck";
 import { externalApiUrl } from "@/app/lib/constant";
 
+type Params = Promise<{ id_user: string }>;
+
 export async function GET(
   request: Request,
-  { params }: { params: { id_user: number } }
+  segmentData: { params: Params }
 ) {
   const referer = request.headers.get("referer");
   const refererCheck = referer?.includes(process.env.NEXT_PUBLIC_APP_URL!);
@@ -21,7 +23,8 @@ export async function GET(
     });
   }
 
-  const { id_user } = await params;
+  const params = await segmentData.params;
+  const id_user = params.id_user;
   const { searchParams } = new URL(request.url);
   const No_Seri = searchParams.get("No_Seri");
 

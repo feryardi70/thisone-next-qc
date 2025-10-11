@@ -6,9 +6,11 @@ import {
 import { precheck } from "@/app/lib/precheck";
 import { cookies } from "next/headers";
 
+type Params = Promise<{ id_parameter: string | number }>;
+
 export async function GET(
   request: Request,
-  { params }: { params: { id_parameter: string | number } }
+  segmentData: { params: Params }
 ) {
   const referer = request.headers.get("referer");
   const refererCheck = referer?.includes(process.env.NEXT_PUBLIC_APP_URL!);
@@ -23,7 +25,8 @@ export async function GET(
     });
   }
 
-  const { id_parameter } = await params;
+  const params = await segmentData.params;
+  const id_parameter = params.id_parameter;
   //console.log('selectedId =', id_parameter)
 
   if (!id_parameter) {
@@ -48,7 +51,7 @@ export async function GET(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id_parameter: string | number } }
+  segmentData: { params: Params }
 ) {
   const referer = request.headers.get("referer");
   const refererCheck = referer?.includes(process.env.NEXT_PUBLIC_APP_URL!);
@@ -63,7 +66,8 @@ export async function DELETE(
     });
   }
 
-  const { id_parameter } = await params;
+  const params = await segmentData.params;
+  const id_parameter = params.id_parameter;
   //console.log('selectedId =', id_parameter)
 
   if (!id_parameter) {
