@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 export default async function DaftarPesawatRadiografiPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const session = await getSession();
 
