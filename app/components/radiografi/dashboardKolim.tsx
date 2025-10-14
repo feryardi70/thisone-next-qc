@@ -57,6 +57,13 @@ export default function DashboardRad({
       y: Kolimasi_deltaX,
       y1: Kolimasi_deltaY,
     })
+  )
+  .filter(
+    (d) =>
+      d.y !== null &&
+      d.y !== undefined &&
+      d.y1 !== null &&
+      d.y1 !== undefined
   );
 
   const renderModality = () => {
@@ -235,7 +242,7 @@ export default function DashboardRad({
   };
 
   const checkDS = allDataUji[0]?.id_spesifikasi != null ? 1 : 0;
-  console.log("checkDS:", checkDS);
+  //console.log("checkDS:", checkDS);
 
   return (
     <div>
@@ -297,7 +304,7 @@ export default function DashboardRad({
 
             {/* Cards */}
             <div className="mt-4 flex flex-col items-center p-8 gap-1">
-              <h1 className="text-2xl font-bold">Iluminasi Tren</h1>
+              <h1 className="text-2xl font-bold">Kolimasi Tren</h1>
               <p>
                 <small>
                   {dataUji[0]

@@ -6,10 +6,6 @@ import EditDataUjiComponent from "@/app/components/radiografi/FormEditData";
 //import EditDataUjiForm from "@/app/components/radiografi/FormEditData";
 import { redirect } from "next/navigation";
 
-interface PageProps {
-  params: { id_parameter: string };
-}
-
 export default async function DaftarPesawatRadiografiPage({
   params,
 }: {

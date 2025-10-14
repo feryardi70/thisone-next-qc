@@ -78,7 +78,8 @@ export default function Dashboard({ email }: { email: string }) {
   const performanceData = dataUji.map(({ Tanggal_uji, Iluminasi }) => ({
     x: new Date(Tanggal_uji).toLocaleDateString("en-CA"),
     y: Iluminasi,
-  }));
+  }))
+  .filter((d) => d.y !== null && d.y !== undefined);
   //console.log(performanceData);
 
   const renderModality = () => {

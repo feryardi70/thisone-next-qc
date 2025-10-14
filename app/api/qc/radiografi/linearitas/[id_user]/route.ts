@@ -33,7 +33,7 @@ export async function GET(request: Request, segmentData: { params: Params }) {
     return NextResponse.json({ error: "bad request: No_Seri is required" }, { status: 400 });
   }
 
-  const response = await fetch(`${externalApiUrl}/qc-data-radiografi/akurasi-kv?id_user=${id_user}&No_Seri=${No_Seri}`);
+  const response = await fetch(`${externalApiUrl}/qc-data-radiografi/linearitas?id_user=${id_user}&No_Seri=${No_Seri}`);
   //console.log(response);
   const qcData = await response.json();
   //console.log(qcData);

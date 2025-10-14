@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import SideBar from "../components/Sidebar";
-import PerformanceChart from "./PerformanceIlumData";
-import { useFetchRadMachineByUserIdnSNNumber } from "../DAL/service/radiografi-service";
-import Header from "./Header";
+import SideBar from "../Sidebar";
+import PerformanceChart from "../PerformanceKebocoranData";
+import Header from "../Header";
 import { Badge } from "@/components/ui/badge";
 import { TriangleAlert, Plus } from "lucide-react";
 import { useState } from "react";
-import SpinnerCss from "./spinner-css";
-import { deleteDataRadByIdSpec } from "../DAL/repository/spec-repository";
+import SpinnerCss from "../spinner-css";
+import { useFetchRadMachineByUserIdnSNNumberForKebocoran } from "@/app/DAL/service/radiografi-service";
+import { deleteDataRadByIdSpec } from "@/app/DAL/repository/spec-repository";
 
 interface DashboardRadProps {
   payloadQueryParams: {
@@ -18,11 +18,12 @@ interface DashboardRadProps {
   };
 }
 
-export default function DashboardRad({
+export default function DashboardRadKebocoran({
   payloadQueryParams,
 }: DashboardRadProps) {
   const { dataUji, allDataUji, isLoading, errorMsg } =
-    useFetchRadMachineByUserIdnSNNumber({ payloadQueryParams });
+    useFetchRadMachineByUserIdnSNNumberForKebocoran({ payloadQueryParams });
+  //console.log(allDataUji);
 
   const identifikasiPesawat = allDataUji.map(
     ({ id_user, jenis_pesawat, id_spesifikasi, Merk, Model, No_Seri }) => ({
@@ -33,7 +34,7 @@ export default function DashboardRad({
       Model,
       No_Seri,
     })
-  );
+  ) ?? [];
   console.log(identifikasiPesawat);
 
   const identifikasiPesawatUnik = identifikasiPesawat.filter(
@@ -48,10 +49,12 @@ export default function DashboardRad({
       )
   );
 
-  const performanceData = dataUji.map(({ Tanggal_uji, Iluminasi }) => ({
-    x: new Date(Tanggal_uji).toLocaleDateString("en-CA"),
-    y: Iluminasi,
-  }))
+  const performanceData = dataUji.map(
+    ({ Tanggal_uji, Kebocoran }) => ({
+      x: new Date(Tanggal_uji).toLocaleDateString("en-CA"),
+      y: Kebocoran,
+    })
+  )
   .filter((d) => d.y !== null && d.y !== undefined);
 
   const renderModality = () => {
@@ -83,9 +86,11 @@ export default function DashboardRad({
     return (
       <div className="flex flex-row gap-1">
         <Link
-          href={dataUji[0]
+          href={
+            dataUji[0]
               ? `/dashboard/radiografi?No_Seri=${dataUji[0].No_Seri}&id=${dataUji[0].id_user}`
-              : "#"}
+              : "#"
+          }
           className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
         >
           <small>Iluminasi</small>
@@ -165,9 +170,7 @@ export default function DashboardRad({
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedSpecId, setSelectedSpecId] = useState<number | null>(
-    null
-  );
+  const [selectedSpecId, setSelectedSpecId] = useState<number | null>(null);
 
   const openModal = (id: number) => {
     setSelectedSpecId(id);
@@ -209,11 +212,7 @@ export default function DashboardRad({
           <td className="hidden">{machine.jenis_pesawat}</td>
           <td className="text-center px-3 py-2">
             <span className="px-2 bg-green-400 rounded-lg hover:bg-green-500 hover:underline">
-              <Link
-                href={`/radiografi/${machine.No_Seri}`}
-              >
-                edit
-              </Link>
+              <Link href={`/radiografi/${machine.No_Seri}`}>edit</Link>
             </span>
             <span className="px-2 bg-red-400 rounded-lg ml-1 hover:bg-red-600 hover:underline">
               <button onClick={() => openModal(machine.id_spesifikasi)}>
@@ -234,7 +233,6 @@ export default function DashboardRad({
   };
 
   const checkDS = allDataUji[0]?.id_spesifikasi != null ? 1 : 0;
-  console.log("checkDS:", checkDS);
 
   return (
     <div>
@@ -288,13 +286,15 @@ export default function DashboardRad({
                   Mammografi
                 </Badge>
               </div>
-              <div className="grid grid-cols-2 gap-1 mb-4">{renderModality()}</div>
+              <div className="grid grid-cols-2 gap-1 mb-4">
+                {renderModality()}
+              </div>
               <div>{renderParameterUji()}</div>
             </div>
 
             {/* Cards */}
             <div className="mt-4 flex flex-col items-center p-8 gap-1">
-              <h1 className="text-2xl font-bold">Iluminasi Tren</h1>
+              <h1 className="text-2xl font-bold">Linearitas Tren</h1>
               <p>
                 <small>
                   {dataUji[0]
@@ -314,32 +314,42 @@ export default function DashboardRad({
                   </div>
                 </div>
 
-                {checkDS ? (<div className="overflow-x-auto w-full">
-                  <table className="my-4 w-full border-collapse">
-                    <thead className="text-lg mb-5 bg-green-100 py-5">
-                      <tr className="py-5 border-b-2 border-green-200">
-                        <th className="text-center w-7 px-3">#</th>
-                        <th className="hidden">Spesification ID</th>
-                        <th className="text-center px-3">Merk</th>
-                        <th className="text-center px-3">Model</th>
-                        <th className="text-center px-3">No Seri</th>
-                        <th className="hidden">Jenis Pesawat</th>
-                        <th className="hidden">Modality ID</th>
-                        <th className="text-center px-3">Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-xl">
-                      {renderDaftarPesawatXRay()}
-                    </tbody>
-                  </table>
-                </div>) : (<div>No data available</div>)}    
-                
+                {checkDS ? (
+                  <div className="overflow-x-auto w-full">
+                    <table className="my-4 w-full border-collapse">
+                      <thead className="text-lg mb-5 bg-green-100 py-5">
+                        <tr className="py-5 border-b-2 border-green-200">
+                          <th className="text-center w-7 px-3">#</th>
+                          <th className="hidden">Spesification ID</th>
+                          <th className="text-center px-3">Merk</th>
+                          <th className="text-center px-3">Model</th>
+                          <th className="text-center px-3">No Seri</th>
+                          <th className="hidden">Jenis Pesawat</th>
+                          <th className="hidden">Modality ID</th>
+                          <th className="text-center px-3">Aksi</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-xl">
+                        {renderDaftarPesawatXRay()}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div>No data available</div>
+                )}
+
                 {isLoading ? <SpinnerCss /> : null}
                 <div className="mt-4 flex justify-center items-center">
-                  <Link className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row" href={allDataUji[0]
-                    ? `/radiografi/add?id_user=${allDataUji[0].id_user}`
-                    : "#"}>
-                    <Plus /><span>Add New Data</span>
+                  <Link
+                    className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row"
+                    href={
+                      allDataUji[0]
+                        ? `/radiografi/add?id_user=${allDataUji[0].id_user}`
+                        : "#"
+                    }
+                  >
+                    <Plus />
+                    <span>Add New Data</span>
                   </Link>
                 </div>
                 {/* Modal */}

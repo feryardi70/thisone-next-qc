@@ -22,12 +22,24 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
     Iluminasi: "",
     Kolimasi_deltaX: "",
     Kolimasi_deltaY: "",
+    Ketegaklurusan: "",
     Akurasi_kV: "",
     Akurasi_waktu: "",
     Linearitas: "",
     Reproduksibilitas: "",
+    Reproduksibilitas_kV: "",
+    Reproduksibilitas_waktu: "",
     HVL: "",
+    HVL_80: "",
     Kebocoran: "",
+    Timer_darurat_mAs: "",
+    Timer_darurat_s: "",
+    Uniformitas_mAs: "",
+    Uniformitas_EI: "",
+    Penjejakan_ketebalan: "",
+    Penjejakan_kV: "",
+    Penjejakan_kombinasi: "",
+    Waktu_respon_min: "",
     Tanggal_uji: "",
     id_parameter: "",
     id_user: "",
@@ -60,8 +72,8 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
     }
 
     return (
-      <div className="flex justify-between">
-        <div className="flex flex-col w-[48%]">
+      <div className="flex justify-between gap-5">
+        <div className="flex flex-col w-[33%]">
           <label htmlFor="Iluminasi" className="mb-1 text-slate-500">
             Iluminasi
           </label>
@@ -118,6 +130,22 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             aria-describedby="Kolimasi_deltaY"
           />
 
+          <label htmlFor="Ketegaklurusan" className="mb-1 text-slate-500">
+            Ketegaklurusan
+          </label>
+          <input
+            type="text"
+            className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+            id="Ketegaklurusan"
+            name="Ketegaklurusan"
+            value={dataUji.Ketegaklurusan || ""}
+            onChange={(e) =>
+              setDataUji({ ...dataUji, Ketegaklurusan: e.target.value })
+            }
+            placeholder="< 1.5"
+            aria-describedby="Ketegaklurusan"
+          />
+
           <label htmlFor="Akurasi_kV" className="mb-1 text-slate-500">
             Akurasi kV
           </label>
@@ -154,9 +182,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             placeholder="10.0"
             aria-describedby="Akurasi_waktu"
           />
-        </div>
 
-        <div className="flex flex-col w-[48%]">
           <label htmlFor="Linearitas" className="mb-1 text-slate-500">
             Linearitas
           </label>
@@ -173,9 +199,11 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             placeholder="0.01"
             aria-describedby="Linearitas"
           />
+        </div>
 
+        <div className="flex flex-col w-[33%]">
           <label htmlFor="Reproduksibilitas" className="mb-1 text-slate-500">
-            Reproduksibilitas
+            Reproduksibilitas Kerma
           </label>
           <input
             type="number"
@@ -194,8 +222,48 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             aria-describedby="Reproduksibilitas"
           />
 
+          <label htmlFor="Reproduksibilitas_kV" className="mb-1 text-slate-500">
+            Reproduksibilitas kV
+          </label>
+          <input
+            type="number"
+            step={0.001}
+            className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+            id="Reproduksibilitas_kV"
+            name="Reproduksibilitas_kV"
+            value={dataUji.Reproduksibilitas_kV || ""}
+            onChange={(e) =>
+              setDataUji({
+                ...dataUji,
+                Reproduksibilitas_kV: e.target.value,
+              })
+            }
+            placeholder="0.000"
+            aria-describedby="Reproduksibilitas_kV"
+          />
+
+          <label htmlFor="Reproduksibilitas_waktu" className="mb-1 text-slate-500">
+            Reproduksibilitas waktu
+          </label>
+          <input
+            type="number"
+            step={0.001}
+            className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+            id="Reproduksibilitas_waktu"
+            name="Reproduksibilitas_waktu"
+            value={dataUji.Reproduksibilitas_waktu || ""}
+            onChange={(e) =>
+              setDataUji({
+                ...dataUji,
+                Reproduksibilitas_waktu: e.target.value,
+              })
+            }
+            placeholder="0.000"
+            aria-describedby="Reproduksibilitas_waktu"
+          />
+
           <label htmlFor="HVL" className="mb-1 text-slate-500">
-            HVL
+            HVL pada 70kV
           </label>
           <input
             type="number"
@@ -205,8 +273,23 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             name="HVL"
             value={dataUji.HVL || ""}
             onChange={(e) => setDataUji({ ...dataUji, HVL: e.target.value })}
-            placeholder="2.10"
+            placeholder="2.1"
             aria-describedby="HVL"
+          />
+
+          <label htmlFor="HVL_80" className="mb-1 text-slate-500">
+            HVL pada 80kV
+          </label>
+          <input
+            type="number"
+            step={0.01}
+            className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+            id="HVL_80"
+            name="HVL_80"
+            value={dataUji.HVL_80 || ""}
+            onChange={(e) => setDataUji({ ...dataUji, HVL_80: e.target.value })}
+            placeholder="2.3"
+            aria-describedby="HVL_80"
           />
 
           <label htmlFor="Kebocoran" className="mb-1 text-slate-500">
@@ -245,6 +328,148 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
           <input type="hidden" name="id_user" value={dataUji.id_user || ""} />
           <input type="hidden" name="id_spesifikasi" value={dataUji.id_spesifikasi || ""} />
         </div>
+
+        <div className="flex flex-col w-[33%]">
+          <label htmlFor="Timer_darurat_mAs" className="mb-1 text-slate-500">
+            AEC - Timer Darurat (mAs)
+          </label>
+          <input
+            type="number"
+            step={0.01}
+            className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+            id="Timer_darurat_mAs"
+            name="Timer_darurat_mAs"
+            value={dataUji.Timer_darurat_mAs || ""}
+            onChange={(e) =>
+              setDataUji({ ...dataUji, Timer_darurat_mAs: e.target.value })
+            }
+            placeholder="600"
+            aria-describedby="Timer_darurat_mAs"
+          />
+
+          <label htmlFor="Timer_darurat_s" className="mb-1 text-slate-500">
+            AEC - Timer Darurat (s)
+          </label>
+          <input
+            type="number"
+            step={0.01}
+            className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+            id="Timer_darurat_s"
+            name="Timer_darurat_s"
+            value={dataUji.Timer_darurat_s || ""}
+            onChange={(e) =>
+              setDataUji({ ...dataUji, Timer_darurat_s: e.target.value })
+            }
+            placeholder="6"
+            aria-describedby="Timer_darurat_s"
+          />
+
+          <label htmlFor="Uniformitas_mAs" className="mb-1 text-slate-500">
+            AEC - Densitas Standar & Uniformitas (Error mAs)
+          </label>
+          <input
+            type="number"
+            step={0.1}
+            className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+            id="Uniformitas_mAs"
+            name="Uniformitas_mAs"
+            value={dataUji.Uniformitas_mAs || ""}
+            onChange={(e) =>
+              setDataUji({
+                ...dataUji,
+                Uniformitas_mAs: e.target.value,
+              })
+            }
+            placeholder="20"
+            aria-describedby="Uniformitas_mAs"
+          />
+
+          <label htmlFor="Uniformitas_EI" className="mb-1 text-slate-500">
+            AEC - Densitas Standar & Uniformitas (Error EI)
+          </label>
+          <input
+            type="number"
+            step={0.1}
+            className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+            id="Uniformitas_EI"
+            name="Uniformitas_EI"
+            value={dataUji.Uniformitas_EI || ""}
+            onChange={(e) =>
+              setDataUji({
+                ...dataUji,
+                Uniformitas_EI: e.target.value,
+              })
+            }
+            placeholder="10"
+            aria-describedby="Uniformitas_EI"
+          />
+
+          <label htmlFor="Penjejakan_ketebalan" className="mb-1 text-slate-500">
+            AEC - Penjejakan Ketebalan
+          </label>
+          <input
+            type="number"
+            step={0.1}
+            className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+            id="Penjejakan_ketebalan"
+            name="Penjejakan_ketebalan"
+            value={dataUji.Penjejakan_ketebalan || ""}
+            onChange={(e) => setDataUji({ ...dataUji, Penjejakan_ketebalan: e.target.value })}
+            placeholder="10"
+            aria-describedby="Penjejakan_ketebalan"
+          />
+
+          <label htmlFor="Penjejakan_kV" className="mb-1 text-slate-500">
+            AEC - Penjejakan kV
+          </label>
+          <input
+            type="number"
+            step={0.1}
+            className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+            id="Penjejakan_kV"
+            name="Penjejakan_kV"
+            value={dataUji.Penjejakan_kV || ""}
+            onChange={(e) => setDataUji({ ...dataUji, Penjejakan_kV: e.target.value })}
+            placeholder="15"
+            aria-describedby="Penjejakan_kV"
+          />
+
+          <label htmlFor="Penjejakan_kombinasi" className="mb-1 text-slate-500">
+            AEC - Penjejakan kombinasi
+          </label>
+          <input
+            type="number"
+            step={0.1}
+            className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+            id="Penjejakan_kombinasi"
+            name="Penjejakan_kombinasi"
+            value={dataUji.Penjejakan_kombinasi || ""}
+            onChange={(e) => setDataUji({ ...dataUji, Penjejakan_kombinasi: e.target.value })}
+            placeholder="20"
+            aria-describedby="Penjejakan_kombinasi"
+          />
+
+          <label htmlFor="Waktu_respon_min" className="mb-1 text-slate-500">
+            AEC - Waktu Respon Minimum
+          </label>
+          <input
+            type="number"
+            step={0.01}
+            className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+            id="Waktu_respon_min"
+            name="Waktu_respon_min"
+            value={dataUji.Waktu_respon_min || ""}
+            onChange={(e) =>
+              setDataUji({ ...dataUji, Waktu_respon_min: e.target.value })
+            }
+            placeholder="3"
+            aria-describedby="Waktu_respon_min"
+          />
+
+          <input type="hidden" name="id_parameter" value={dataUji.id_parameter || ""} />
+          <input type="hidden" name="id_user" value={dataUji.id_user || ""} />
+          <input type="hidden" name="id_spesifikasi" value={dataUji.id_spesifikasi || ""} />
+        </div>
       </div>
     );
   };
@@ -258,12 +483,24 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
       Iluminasi: dataUji.Iluminasi,
       Kolimasi_deltaX: dataUji.Kolimasi_deltaX,
       Kolimasi_deltaY: dataUji.Kolimasi_deltaY,
+      Ketegaklurusan: dataUji.Ketegaklurusan,
       Akurasi_kV: dataUji.Akurasi_kV,
       Akurasi_waktu: dataUji.Akurasi_waktu,
       Linearitas: dataUji.Linearitas,
       Reproduksibilitas: dataUji.Reproduksibilitas,
+      Reproduksibilitas_kV: dataUji.Reproduksibilitas_kV,
+      Reproduksibilitas_waktu: dataUji.Reproduksibilitas_waktu,
       HVL: dataUji.HVL,
+      HVL_80: dataUji.HVL_80,
       Kebocoran: dataUji.Kebocoran,
+      Timer_darurat_mAs: dataUji.Timer_darurat_mAs,
+      Timer_darurat_s: dataUji.Timer_darurat_s,
+      Uniformitas_mAs: dataUji.Uniformitas_mAs,
+      Uniformitas_EI: dataUji.Uniformitas_EI,
+      Penjejakan_ketebalan: dataUji.Penjejakan_ketebalan,
+      Penjejakan_kV: dataUji.Penjejakan_kV,
+      Penjejakan_kombinasi: dataUji.Penjejakan_kombinasi,
+      Waktu_respon_min: dataUji.Waktu_respon_min,
       Tanggal_uji: dataUji.Tanggal_uji,
       id_user: dataUji.id_user,
       id_spesifikasi: dataUji.id_spesifikasi,
@@ -295,7 +532,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
           <Header email={payloadQueryParams.email} />
 
           <main className="mt-3 flex justify-center items-center">
-            <div className="px-5 py-5 shadow-md max-w-xl min-h-screen w-full border-t-4 border-green-500">
+            <div className="px-5 py-5 shadow-md max-w-3xl min-h-screen w-full border-t-4 border-green-500">
               <h2 className="mb-5 text-center text-3xl">Form Edit Data Uji</h2>
 
               <form onSubmit={(e) => handleEdit(e)} className="flex flex-col">

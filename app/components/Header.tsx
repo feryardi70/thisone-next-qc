@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { Radiation, UserRound, CircleUserRound, UserCog, Crown, IdCard } from "lucide-react";
+import { Radiation, UserRound, CircleUserRound, UserCog, Crown } from "lucide-react";
 import { SignOut } from "../components/Signout-button";
 
 export default function Header({ email }: { email: string }) {

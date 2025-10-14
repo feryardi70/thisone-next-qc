@@ -17,9 +17,10 @@ export const useFetchDataUjiByUserEmail = (email: string) => {
   const [dataUji, setDataUji] = useState<Machine[]>([]);
   const [allDataUji, setAllDataUji] = useState<Machine[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>('');
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
-  const fetchDataUji = async () => {
+  useEffect(() => {
+    const fetchDataUji = async () => {
       try {
         setIsLoading(true);
         const data = await getDataRadByUserEmail(email);
@@ -34,13 +35,11 @@ export const useFetchDataUjiByUserEmail = (email: string) => {
       } catch (error) {
         console.log(error);
         setIsLoading(false);
-        setErrorMsg('An error occurred, please try again later!');
+        setErrorMsg("An error occurred, please try again later!");
       }
     };
-  
-    useEffect(() => {
-      fetchDataUji();
-    }, []);
+    fetchDataUji();
+  }, []);
 
-    return { allDataUji, dataUji, isLoading, errorMsg };
+  return { allDataUji, dataUji, isLoading, errorMsg };
 };

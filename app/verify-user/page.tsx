@@ -1,11 +1,5 @@
 import { baseUrl } from "../lib/constant";
 
-interface VerifyUserPageProps {
-  searchParams: {
-    token: string;
-  };
-}
-
 export default async function VerifyUserPage({
   searchParams,
 }: {

@@ -50,3 +50,39 @@ export const getDataRadForCollimationByUserIdnSNNumber = async({ payloadQueryPar
     return data;
 }
 
+export const getDataRadForAkurKVByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
+    const response = await fetch(
+            `${baseUrl}/qc/radiografi/akurasi-kv/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
+          );
+    const data = await response.json();
+
+    return data;
+}
+
+export const getDataRadForAkurWaktuByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
+    const response = await fetch(
+            `${baseUrl}/qc/radiografi/akurasi-waktu/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
+          );
+    const data = await response.json();
+
+    return data;
+}
+
+export const getDataRadForLinearitasByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
+    const response = await fetch(
+            `${baseUrl}/qc/radiografi/linearitas/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
+          );
+    const data = await response.json();
+
+    return data;
+}
+
+export const getDataRadForKebocoranByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
+    const response = await fetch(
+            `${baseUrl}/qc/radiografi/kebocoran/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
+          );
+    const data = await response.json();
+
+    return data;
+}
+
