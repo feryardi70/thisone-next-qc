@@ -4,8 +4,10 @@ import {
   getDataRadForAkurKVByUserIdnSNNumber,
   getDataRadForAkurWaktuByUserIdnSNNumber,
   getDataRadForCollimationByUserIdnSNNumber,
+  getDataRadForHVLByUserIdnSNNumber,
   getDataRadForKebocoranByUserIdnSNNumber,
   getDataRadForLinearitasByUserIdnSNNumber,
+  getDataRadForReproByUserIdnSNNumber,
 } from "../repository/radiografi-repository";
 
 interface DashboardRadProps {
@@ -37,6 +39,7 @@ interface Machine2nd {
   No_Seri: string;
   Kolimasi_deltaX: number;
   Kolimasi_deltaY: number;
+  Ketegaklurusan: string;
   Tanggal_uji: string;
 }
 
@@ -88,6 +91,33 @@ interface Machine6th {
   Tanggal_uji: string;
 }
 
+interface Machine7th {
+  email: string;
+  id_user: number;
+  id_spesifikasi: number;
+  jenis_pesawat: string;
+  Merk: string;
+  Model: string;
+  No_Seri: string;
+  Reproduksibilitas: number;
+  Reproduksibilitas_kV: number;
+  Reproduksibilitas_waktu: number;
+  Tanggal_uji: string;
+}
+
+interface Machine8th {
+  email: string;
+  id_user: number;
+  id_spesifikasi: number;
+  jenis_pesawat: string;
+  Merk: string;
+  Model: string;
+  No_Seri: string;
+  HVL: number;
+  HVL_80: number;
+  Tanggal_uji: string;
+}
+
 export const useFetchRadMachineByUserIdnSNNumber = ({
   payloadQueryParams,
 }: DashboardRadProps) => {
@@ -134,7 +164,7 @@ export const useFetchRadMachineByUserIdnSNNumberForCollimation = ({
         payloadQueryParams,
       });
       //const data = await response.json();
-      console.log(data.data);
+      //console.log(data.data);
       setDataUji(data.selectedData);
       setAllDataUji(data.data);
       setIsLoading(false);
@@ -231,6 +261,70 @@ export const useFetchRadMachineByUserIdnSNNumberForLinearitas = ({
       });
       //const data = await response.json();
       console.log(data.data);
+      setDataUji(data.selectedData);
+      setAllDataUji(data.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      setErrorMsg("An error occurred, please try again later!");
+    }
+  };
+    fetchDataUji();
+  }, []);
+
+  return { dataUji, allDataUji, isLoading, errorMsg };
+};
+
+export const useFetchRadMachineByUserIdnSNNumberForRepro = ({
+  payloadQueryParams,
+}: DashboardRadProps) => {
+  const [dataUji, setDataUji] = useState<Machine7th[]>([]);
+  const [allDataUji, setAllDataUji] = useState<Machine7th[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  useEffect(() => {
+    const fetchDataUji = async () => {
+    try {
+      setIsLoading(true);
+      const data = await getDataRadForReproByUserIdnSNNumber({
+        payloadQueryParams,
+      });
+      //const data = await response.json();
+      //console.log(data.data);
+      setDataUji(data.selectedData);
+      setAllDataUji(data.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      setErrorMsg("An error occurred, please try again later!");
+    }
+  };
+    fetchDataUji();
+  }, []);
+
+  return { dataUji, allDataUji, isLoading, errorMsg };
+};
+
+export const useFetchRadMachineByUserIdnSNNumberForHVL = ({
+  payloadQueryParams,
+}: DashboardRadProps) => {
+  const [dataUji, setDataUji] = useState<Machine8th[]>([]);
+  const [allDataUji, setAllDataUji] = useState<Machine8th[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  useEffect(() => {
+    const fetchDataUji = async () => {
+    try {
+      setIsLoading(true);
+      const data = await getDataRadForHVLByUserIdnSNNumber({
+        payloadQueryParams,
+      });
+      //const data = await response.json();
+      //console.log(data.data);
       setDataUji(data.selectedData);
       setAllDataUji(data.data);
       setIsLoading(false);

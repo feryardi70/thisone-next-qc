@@ -77,6 +77,24 @@ export const getDataRadForLinearitasByUserIdnSNNumber = async({ payloadQueryPara
     return data;
 }
 
+export const getDataRadForReproByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
+    const response = await fetch(
+            `${baseUrl}/qc/radiografi/reproduksibilitas/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
+          );
+    const data = await response.json();
+
+    return data;
+}
+
+export const getDataRadForHVLByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
+    const response = await fetch(
+            `${baseUrl}/qc/radiografi/hvl/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
+          );
+    const data = await response.json();
+
+    return data;
+}
+
 export const getDataRadForKebocoranByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
     const response = await fetch(
             `${baseUrl}/qc/radiografi/kebocoran/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`

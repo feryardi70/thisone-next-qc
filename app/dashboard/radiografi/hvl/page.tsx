@@ -1,8 +1,8 @@
-import DashboardKolim from "@/app/components/radiografi/dashboardKolim";
 import getSession from "@/app/action/session";
 import { redirect } from "next/navigation";
+import DashboardHVL from "@/app/components/radiografi/dashboardHVL";
 
-export default async function DashboardRadKolimPage({
+export default async function DashboardRadHVLPage({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -24,7 +24,7 @@ export default async function DashboardRadKolimPage({
 
   return (
     <div>
-      <DashboardKolim payloadQueryParams={payloadQueryParams} />
+      <DashboardHVL payloadQueryParams={payloadQueryParams} />
     </div>
   );
 }

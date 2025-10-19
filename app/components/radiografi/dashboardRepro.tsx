@@ -2,16 +2,15 @@
 
 import Link from "next/link";
 import SideBar from "../Sidebar";
-//import PerformanceChart from "./PerformanceIlumData";
+import PerformanceChart from "../PerformanceReproWaktuData";
 import Header from "../Header";
 import { Badge } from "@/components/ui/badge";
 import { TriangleAlert, Plus } from "lucide-react";
 import { useState } from "react";
 import SpinnerCss from "../spinner-css";
-import { useFetchRadMachineByUserIdnSNNumberForCollimation } from "@/app/DAL/service/radiografi-service";
+import { useFetchRadMachineByUserIdnSNNumberForRepro } from "@/app/DAL/service/radiografi-service";
 import { deleteDataRadByIdSpec } from "@/app/DAL/repository/spec-repository";
-import DualAxisChart from "../PerformanceKolimData";
-import KetegaklurusanTable from "../PerformanceAlignmentData";
+import DualAxisChart from "../PerformanceReproData";
 
 interface DashboardRadProps {
   payloadQueryParams: {
@@ -20,11 +19,11 @@ interface DashboardRadProps {
   };
 }
 
-export default function DashboardRad({
+export default function DashboardRadRepro({
   payloadQueryParams,
 }: DashboardRadProps) {
   const { dataUji, allDataUji, isLoading, errorMsg } =
-    useFetchRadMachineByUserIdnSNNumberForCollimation({ payloadQueryParams });
+    useFetchRadMachineByUserIdnSNNumberForRepro({ payloadQueryParams });
   //console.log(allDataUji);
 
   const identifikasiPesawat = allDataUji.map(
@@ -52,10 +51,10 @@ export default function DashboardRad({
   );
 
   const performanceData = dataUji.map(
-    ({ Tanggal_uji, Kolimasi_deltaX, Kolimasi_deltaY }) => ({
+    ({ Tanggal_uji, Reproduksibilitas, Reproduksibilitas_kV }) => ({
       x: new Date(Tanggal_uji).toLocaleDateString("en-CA"),
-      y: Kolimasi_deltaX,
-      y1: Kolimasi_deltaY,
+      y: Reproduksibilitas,
+      y1: Reproduksibilitas_kV,
     })
   )
   .filter(
@@ -66,10 +65,10 @@ export default function DashboardRad({
       d.y1 !== undefined
   );
 
-  const performanceDataKetegaklurusan = dataUji.map(
-    ({ Tanggal_uji, Ketegaklurusan }) => ({
+  const performanceDataReproWaktu = dataUji.map(
+    ({ Tanggal_uji, Reproduksibilitas_waktu }) => ({
       x: new Date(Tanggal_uji).toLocaleDateString("en-CA"),
-      y: Ketegaklurusan,
+      y: Reproduksibilitas_waktu,
     })
   )
   .filter(
@@ -317,7 +316,7 @@ export default function DashboardRad({
 
             {/* Cards */}
             <div className="mt-8 flex flex-col items-center p-0 gap-1">
-              <h1 className="text-2xl font-bold">Kolimasi Tren</h1>
+              <h1 className="text-2xl font-bold">Reproduksibilitas Tren</h1>
               <p>
                 <small>
                   {dataUji[0]
@@ -330,7 +329,7 @@ export default function DashboardRad({
 
             {/* Cards */}
             <div className="mt-3 mb-8 flex flex-col items-center p-0 gap-1">
-              <h1 className="text-2xl font-bold">Ketegaklurusan Tren</h1>
+              <h1 className="text-2xl font-bold">Reproduksibilitas Tren</h1>
               <p>
                 <small>
                   {dataUji[0]
@@ -338,7 +337,7 @@ export default function DashboardRad({
                     : "Loading..."}
                 </small>
               </p>
-              <KetegaklurusanTable performanceDataKetegaklurusan={performanceDataKetegaklurusan} />
+              <PerformanceChart dataPoints={performanceDataReproWaktu} />
             </div>
 
             <div className="flex flex-col items-center py-2">

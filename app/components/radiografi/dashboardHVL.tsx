@@ -2,16 +2,14 @@
 
 import Link from "next/link";
 import SideBar from "../Sidebar";
-//import PerformanceChart from "./PerformanceIlumData";
 import Header from "../Header";
 import { Badge } from "@/components/ui/badge";
 import { TriangleAlert, Plus } from "lucide-react";
 import { useState } from "react";
 import SpinnerCss from "../spinner-css";
-import { useFetchRadMachineByUserIdnSNNumberForCollimation } from "@/app/DAL/service/radiografi-service";
+import { useFetchRadMachineByUserIdnSNNumberForHVL } from "@/app/DAL/service/radiografi-service";
 import { deleteDataRadByIdSpec } from "@/app/DAL/repository/spec-repository";
-import DualAxisChart from "../PerformanceKolimData";
-import KetegaklurusanTable from "../PerformanceAlignmentData";
+import DualAxisChart from "../PerformanceHVLData";
 
 interface DashboardRadProps {
   payloadQueryParams: {
@@ -20,11 +18,11 @@ interface DashboardRadProps {
   };
 }
 
-export default function DashboardRad({
+export default function DashboardRadHVL({
   payloadQueryParams,
 }: DashboardRadProps) {
   const { dataUji, allDataUji, isLoading, errorMsg } =
-    useFetchRadMachineByUserIdnSNNumberForCollimation({ payloadQueryParams });
+    useFetchRadMachineByUserIdnSNNumberForHVL({ payloadQueryParams });
   //console.log(allDataUji);
 
   const identifikasiPesawat = allDataUji.map(
@@ -52,10 +50,10 @@ export default function DashboardRad({
   );
 
   const performanceData = dataUji.map(
-    ({ Tanggal_uji, Kolimasi_deltaX, Kolimasi_deltaY }) => ({
+    ({ Tanggal_uji, HVL, HVL_80 }) => ({
       x: new Date(Tanggal_uji).toLocaleDateString("en-CA"),
-      y: Kolimasi_deltaX,
-      y1: Kolimasi_deltaY,
+      y: HVL,
+      y1: HVL_80,
     })
   )
   .filter(
@@ -65,19 +63,6 @@ export default function DashboardRad({
       d.y1 !== null &&
       d.y1 !== undefined
   );
-
-  const performanceDataKetegaklurusan = dataUji.map(
-    ({ Tanggal_uji, Ketegaklurusan }) => ({
-      x: new Date(Tanggal_uji).toLocaleDateString("en-CA"),
-      y: Ketegaklurusan,
-    })
-  )
-  .filter(
-    (d) =>
-      d.y !== null &&
-      d.y !== undefined
-  );
-  //console.log(performanceDataKetegaklurusan);
 
   const renderModality = () => {
     return identifikasiPesawatUnik.map((item, index) => {
@@ -317,7 +302,7 @@ export default function DashboardRad({
 
             {/* Cards */}
             <div className="mt-8 flex flex-col items-center p-0 gap-1">
-              <h1 className="text-2xl font-bold">Kolimasi Tren</h1>
+              <h1 className="text-2xl font-bold">Kualitas Berkas Tren</h1>
               <p>
                 <small>
                   {dataUji[0]
@@ -326,19 +311,6 @@ export default function DashboardRad({
                 </small>
               </p>
               <DualAxisChart data={performanceData} />
-            </div>
-
-            {/* Cards */}
-            <div className="mt-3 mb-8 flex flex-col items-center p-0 gap-1">
-              <h1 className="text-2xl font-bold">Ketegaklurusan Tren</h1>
-              <p>
-                <small>
-                  {dataUji[0]
-                    ? `${dataUji[0].Merk} - ${dataUji[0].Model} - ${dataUji[0].No_Seri}`
-                    : "Loading..."}
-                </small>
-              </p>
-              <KetegaklurusanTable performanceDataKetegaklurusan={performanceDataKetegaklurusan} />
             </div>
 
             <div className="flex flex-col items-center py-2">
