@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-//import getSession from "../action/session";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -16,6 +15,7 @@ import {
   Mail,
 } from "lucide-react";
 import { baseUrl } from "../lib/constant";
+import { checkUserByEmail, getUserByEmail } from "../DAL/repository/user-repository";
 
 export default function SignUp() {
   const router = useRouter();
@@ -59,15 +59,10 @@ export default function SignUp() {
     }
 
     try {
-      const checkUser = await fetch(
-        `${baseUrl}/user?email=${formState.email}`,
-        {
-          method: "GET",
-        }
-      );
+      const checkUser = await checkUserByEmail(formState.email);
       const checkUserResult = await checkUser.json();
-      //console.log(checkUserResult.status);
-      if (checkUserResult.status === 200) {
+      //console.log(checkUser);
+      if (checkUserResult) {
         setError("User already exists");
         setIsLoading(false);
         return;

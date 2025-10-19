@@ -4,6 +4,7 @@
 import Dashboard from "../components/dashboard";
 import getSession from "../action/session";
 import { redirect } from "next/navigation";
+import { getUserByEmailFromExtApi, saveGoogleUserToExtApi } from "../DAL/repository/user-repository";
 
 export default async function DashboardPage() {
   const session = await getSession();
@@ -14,6 +15,21 @@ export default async function DashboardPage() {
   }
 
   const email = session.user.email;
+
+  const user = await getUserByEmailFromExtApi(email);
+  const userData = await user.json();
+  //console.log("User data JSON in DashboardPage:", userData);
+
+  if (userData.data.length === 0) {
+    const payload = {
+      database_userId: "logon via google",
+      email,
+      verification: "yes",
+      role: "user",
+    }
+
+    await saveGoogleUserToExtApi(payload);
+  }
 
   return (
     <div>

@@ -81,12 +81,12 @@ export default function SignIn() {
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
       {/* Background Image */}
-      <div
+      {/* <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
         style={{
           backgroundImage: "url('/img/nias2.jpeg')",
         }}
-      />
+      /> */}
 
       {/* Animated Background Elements */}
       <div className="absolute inset-0">

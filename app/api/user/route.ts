@@ -9,6 +9,7 @@ import { fetchUserByEmail } from "@/app/DAL/service/user-service";
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get("authorization");
+  //console.log("Auth Header:", authHeader);
   const { searchParams } = new URL(request.url);
   const email = searchParams.get("email");
 
