@@ -14,6 +14,7 @@ import {
 } from "chart.js";
 import annotationPlugin from "chartjs-plugin-annotation";
 import "chartjs-adapter-date-fns";
+import { forwardRef } from "react";
 
 ChartJS.register(
   CategoryScale,
@@ -33,7 +34,12 @@ interface DataPoint {
   y1: number;
 }
 
-export default function DualAxisChart({ data }: { data: DataPoint[] }) {
+interface DualAxisChartProps {
+  data: DataPoint[];
+}
+
+const ReproChart = forwardRef<HTMLDivElement, DualAxisChartProps>(
+  ({ data }, ref) => {
   const chartData = {
     labels: data.map((d) => d.x),
     datasets: [
@@ -136,8 +142,12 @@ export default function DualAxisChart({ data }: { data: DataPoint[] }) {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto p-4 bg-white rounded-xl shadow">
+    <div ref={ref} className="w-full max-w-3xl mx-auto p-4 bg-white rounded-xl shadow">
       <Line options={options} data={chartData} />
     </div>
   );
 }
+);
+
+ReproChart.displayName = "ReproChart";
+export default ReproChart;

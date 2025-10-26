@@ -224,6 +224,13 @@ export default function Dashboard({ email }: { email: string }) {
                 manage
               </Link>
             </span>
+            <span className="px-2 bg-gray-400 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
+              <Link
+                href={`/radiografi/report?id_spesifikasi=${machine.id_spesifikasi}`}
+              >
+                report
+              </Link>
+            </span>
           </td>
         </tr>
       );

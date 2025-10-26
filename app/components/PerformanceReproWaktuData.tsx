@@ -1,5 +1,6 @@
 "use client";
 
+import React, { forwardRef } from "react";
 import {
   Chart as ChartJS,
   LineElement,
@@ -34,9 +35,8 @@ interface PerformanceChartProps {
   dataPoints: DataPoint[];
 }
 
-export default function IluminasiChart({
-  dataPoints,
-}: PerformanceChartProps) {
+const ReproWaktuChart = forwardRef<HTMLDivElement, PerformanceChartProps>(
+  ({ dataPoints }, ref) => {
   const data = {
     datasets: [
       {
@@ -96,8 +96,12 @@ export default function IluminasiChart({
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto p-4 bg-white rounded-xl shadow min-h-80">
+    <div ref={ref} className="w-full max-w-3xl mx-auto p-4 bg-white rounded-xl shadow min-h-80">
       <Line data={data} options={options} />
     </div>
   );
 }
+);
+
+ReproWaktuChart.displayName = "ReproWaktuChart";
+export default ReproWaktuChart;

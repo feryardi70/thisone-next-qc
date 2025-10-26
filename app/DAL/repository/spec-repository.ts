@@ -83,6 +83,15 @@ export const readDataRadByIdSpec = async (id_spesifikasi: string) => {
   return dataUji;
 };
 
+export const getDataRadByIdSpec = async (id_spesifikasi: string | number) => {
+  const response = await fetch(
+    `${baseUrl}/qc/radiografi/spesifikasi/pre-report?id_spesifikasi=${id_spesifikasi}`
+  );
+  const data = await response.json();
+
+  return data;
+};
+
 export const editDataRadByIdSpec = async (dataUjiData: DataUji1st) => {
   const editResponse = await fetch(`${baseUrl}/qc/radiografi/spesifikasi`, {
     method: "PATCH",

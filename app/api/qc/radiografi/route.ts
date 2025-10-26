@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { precheck } from "@/app/lib/precheck";
 import { readDataRadByUserEmail } from "@/app/DAL/repository/radiografi-repository";
 import { csrfTokenName, sessionTokenName } from "@/app/lib/constant";
+import { getToken } from "next-auth/jwt";
 
 type Params = Promise<{ id_spesifikasi: string | number }>;
 
@@ -10,15 +11,23 @@ export async function GET(request: Request) {
   const referer = request.headers.get("referer");
   const refererCheck = referer?.includes(process.env.NEXT_PUBLIC_APP_URL!);
   const csrfToken = (await cookies()).get(csrfTokenName)?.value;
-  const token = (await cookies()).get(sessionTokenName)?.value;
+  const sessionToken = (await cookies()).get(sessionTokenName)?.value;
 
-  const preCheckResult = precheck(refererCheck, csrfToken, token);
+  const preCheckResult = precheck(refererCheck, csrfToken, sessionToken);
 
   if (preCheckResult.status !== 200) {
     return NextResponse.json(preCheckResult.body, {
       status: preCheckResult.status,
     });
   }
+
+  const secret = process.env.AUTH_SECRET!;
+  const token = await getToken({ req: request, secret });
+  //console.log("Token from NextAuth:", token);
+    
+    if (!token) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
   const { searchParams } = new URL(request.url);
   const email = searchParams.get("email");

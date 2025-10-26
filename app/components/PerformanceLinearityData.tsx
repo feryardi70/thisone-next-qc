@@ -1,5 +1,6 @@
 "use client";
 
+import React, { forwardRef } from "react";
 import {
   Chart as ChartJS,
   LineElement,
@@ -34,9 +35,8 @@ interface PerformanceChartProps {
   dataPoints: DataPoint[];
 }
 
-export default function IluminasiChart({
-  dataPoints,
-}: PerformanceChartProps) {
+const LinearitasChart = forwardRef<HTMLDivElement, PerformanceChartProps>(
+  ({ dataPoints }, ref) => {
   const data = {
     datasets: [
       {
@@ -96,8 +96,12 @@ export default function IluminasiChart({
   };
 
   return (
-    <div className="bg-white shadow-md rounded-xl p-4 w-[90%] min-h-96">
+    <div ref={ref} className="bg-white shadow-md rounded-xl p-4 w-[90%] min-h-96">
       <Line data={data} options={options} />
     </div>
   );
 }
+);
+
+LinearitasChart.displayName = "LinearitasChart";
+export default LinearitasChart;

@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { randstr } from "./randstr";
 
 const SECRET_KEY = process.env.JWT_SECRET_KEY;
-const AUTH_SECRET = process.env.AUTH_SECRET;
+const AUTH_SECRET = process.env.AUTH_SECRET!;
 const randId = randstr();
 
 export function generateToken() {
@@ -22,7 +22,7 @@ export function verifyToken(token: string) {
 
 export function verifyAuthToken(token: string) {
   try {
-    return jwt.verify(token, AUTH_SECRET!);
+    return jwt.verify(token, AUTH_SECRET);
   } catch (error) {
     console.log(error);
     return null;

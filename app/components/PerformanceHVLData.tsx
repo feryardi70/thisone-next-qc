@@ -1,5 +1,6 @@
 "use client";
 
+import React, { forwardRef } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -33,7 +34,12 @@ interface DataPoint {
   y1: number;
 }
 
-export default function DualAxisChart({ data }: { data: DataPoint[] }) {
+interface DualAxisChartProps {
+  data: DataPoint[];
+}
+
+const HVLChart = forwardRef<HTMLDivElement, DualAxisChartProps>(
+  ({ data }, ref) => {
   const chartData = {
     labels: data.map((d) => d.x),
     datasets: [
@@ -136,8 +142,14 @@ export default function DualAxisChart({ data }: { data: DataPoint[] }) {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto p-4 bg-white rounded-xl shadow">
+    <div ref={ref} className="w-full max-w-3xl mx-auto p-4 bg-white rounded-xl shadow">
       <Line options={options} data={chartData} />
     </div>
   );
 }
+);
+
+HVLChart.displayName = "HVLChart";
+export default HVLChart;
+
+
