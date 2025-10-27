@@ -30,13 +30,13 @@ export async function GET(request: Request) {
     });
   }
 
-  const secret = process.env.AUTH_SECRET!;
-  const token = await getToken({ req: request, secret });
-  //console.log("Token from NextAuth:", token);
+  // const secret = process.env.AUTH_SECRET!;
+  // const token = await getToken({ req: request, secret });
+  // //console.log("Token from NextAuth:", token);
     
-    if (!token) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+  //   if (!token) {
+  //     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  //   }
 
   const { searchParams } = new URL(request.url);
   const email = searchParams.get("email");
