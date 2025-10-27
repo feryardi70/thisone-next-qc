@@ -22,6 +22,7 @@ export async function GET(request: Request) {
   });
 
   const preCheckResult = precheck(Boolean(refererCheck), csrfToken, sessionToken);
+  console.log("Precheck result:", preCheckResult);
 
   if (preCheckResult.status !== 200) {
     return NextResponse.json(preCheckResult.body, {
