@@ -12,7 +12,14 @@ export async function GET(request: Request) {
   const refererCheck = referer?.includes(process.env.NEXT_PUBLIC_APP_URL!);
   const csrfToken = (await cookies()).get(csrfTokenName)?.value;
   const sessionToken = (await cookies()).get(sessionTokenName)?.value;
-  console.log(refererCheck, csrfToken, sessionToken);
+  console.log({
+    refererCheck,
+    csrfRaw: (await cookies()).get(csrfTokenName),
+    sessionRaw: (await cookies()).get(sessionTokenName),
+    csrfToken,
+    sessionToken,
+    runtime: process.env.NEXT_RUNTIME,
+  });
 
   const preCheckResult = precheck(refererCheck, csrfToken, sessionToken);
 
