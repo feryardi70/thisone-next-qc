@@ -15,7 +15,7 @@ import {
   Mail,
 } from "lucide-react";
 import { baseUrl } from "../lib/constant";
-import { checkUserByEmail, getUserByEmail } from "../DAL/repository/user-repository";
+import { checkUserByEmail } from "../DAL/repository/user-repository";
 
 export default function SignUp() {
   const router = useRouter();

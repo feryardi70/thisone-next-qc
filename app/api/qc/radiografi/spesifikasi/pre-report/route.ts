@@ -4,7 +4,7 @@ import {
 } from "@/app/DAL/repository/spec-repository";
 import { precheck } from "@/app/lib/precheck";
 import { cookies } from "next/headers";
-import { csrfTokenName, externalApiUrl, sessionTokenName } from "@/app/lib/constant";
+import { csrfTokenName, sessionTokenName } from "@/app/lib/constant";
 import { readReportDataFromExtApi } from "@/app/DAL/repository/report-repository";
 
 export async function GET(request: Request) {
