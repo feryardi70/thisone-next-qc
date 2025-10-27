@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     runtime: process.env.NEXT_RUNTIME,
   });
 
-  const preCheckResult = precheck(refererCheck, csrfToken, sessionToken);
+  const preCheckResult = precheck(Boolean(refererCheck), csrfToken, sessionToken);
 
   if (preCheckResult.status !== 200) {
     return NextResponse.json(preCheckResult.body, {
