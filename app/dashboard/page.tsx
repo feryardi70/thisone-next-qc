@@ -16,11 +16,11 @@ export default async function DashboardPage() {
 
   const email = session.user.email;
 
-  const user = await getUserByEmailFromExtApi(email);
-  const userData = await user.json();
-  //console.log("User data JSON in DashboardPage:", userData);
+  try {
+    const user = await getUserByEmailFromExtApi(email);
+    const userData = await user.json();
 
-  if (userData.data.length === 0) {
+    if (userData.data.length === 0) {
     const payload = {
       database_userId: "logon via google",
       email,
@@ -30,6 +30,10 @@ export default async function DashboardPage() {
 
     await saveGoogleUserToExtApi(payload);
   }
+  } catch (error) {
+    console.error("Error fetching data");
+  }
+  //console.log("User data JSON in DashboardPage:", userData);
 
   return (
     <div>

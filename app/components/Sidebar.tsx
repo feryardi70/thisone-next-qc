@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Aperture,
   LayoutDashboard,
@@ -17,9 +17,25 @@ import {
 export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
 
+  useEffect(() => {
+    // Fungsi untuk cek ukuran layar
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        // Layar sedang atau kecil (di bawah breakpoint lg)
+        setCollapsed(true);
+      } else {
+        // Layar besar
+        setCollapsed(false);
+      }
+    };
+
+    // Jalankan sekali saat mount
+    handleResize();
+  }, []);
+
   return (
     <div
-      className={`rounded-4xl transition-all duration-300 ${
+      className={`hidden md:inline rounded-4xl transition-all duration-300 ${
         collapsed ? "w-20" : "w-64"
       } bg-gradient-to-b from-green-700 to-green-300 text-white p-5 relative`}
     >

@@ -1,9 +1,9 @@
 export const precheck = (refererCheck: boolean | undefined, csrfToken: string | undefined, token: string | undefined) => {
-    console.log("precheck types:", {
-      refererCheckType: typeof refererCheck,
-      csrfTokenType: typeof csrfToken,
-      tokenType: typeof token,
-    });
+    // console.log("precheck types:", {
+    //   refererCheckType: typeof refererCheck,
+    //   csrfTokenType: typeof csrfToken,
+    //   tokenType: typeof token,
+    // });
     
     if (!refererCheck || !csrfToken?.length || !token?.length) {
       return {

@@ -57,7 +57,7 @@ export default function DataUjiPesawatRad({ payloadQueryParams }: RadProps) {
   const renderDataUji = () => {
     return dataUji.map((d, i) => {
       return (
-        <tr key={d.id_parameter}>
+        <tr key={d.id_parameter} className="odd:bg-green-50 even:bg-green-100">
           <td className="text-center w-7 px-3 py-2">{++i}</td>
           <td className="hidden">{d.id_parameter}</td>
           <td className="text-center px-3 py-2">{d.Iluminasi}</td>

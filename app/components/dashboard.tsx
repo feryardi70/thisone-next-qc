@@ -12,6 +12,7 @@ import { useState } from "react";
 import Header from "./Header";
 import { TriangleAlert, Plus } from "lucide-react";
 import { deleteDataRadByIdSpec } from "../DAL/repository/spec-repository";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export default function Dashboard({ email }: { email: string }) {
   //const { currentEmail } = useAuth();
@@ -22,6 +23,12 @@ export default function Dashboard({ email }: { email: string }) {
   const [selectedSpecId, setSelectedSpecId] = useState<number | null>(
     null
   );
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const currentId = searchParams.get("id");
+  const currentNoSeri = searchParams.get("No_Seri");
+  console.log(currentId, currentNoSeri);
 
   const identifikasiPesawat = allDataUji.map(
     ({ id_user, jenis_pesawat, id_spesifikasi, Merk, Model, No_Seri }) => ({
@@ -45,6 +52,22 @@ export default function Dashboard({ email }: { email: string }) {
           t.No_Seri === value.No_Seri
       )
   );
+
+  const current = identifikasiPesawatUnik[0];
+  const baseParams = current
+    ? `?id_user=${current.id_user}&No_Seri=${current.No_Seri}`
+    : "";
+  
+  const items = [
+    { label: "Iluminasi", href: "/dashboard" },
+    { label: "Kolimasi", href: `/dashboard/radiografi/kolimasi/${baseParams}` },
+    { label: "Akurasi kVp", href: `/dashboard/radiografi/akurasi-kvp/${baseParams}` },
+    { label: "Akurasi Waktu", href: `/dashboard/radiografi/akurasi-waktu/${baseParams}` },
+    { label: "Linearitas", href: `/dashboard/radiografi/linearitas/${baseParams}` },
+    { label: "Reproduksibilitas", href: `/dashboard/radiografi/reproduksibilitas/${baseParams}` },
+    { label: "HVL", href: `/dashboard/radiografi/hvl/${baseParams}` },
+    { label: "Kebocoran Tabung", href: `/dashboard/radiografi/kebocoran-tabung/${baseParams}` },
+  ];  
 
   const openModal = (id: number) => {
     setSelectedSpecId(id);
@@ -83,116 +106,76 @@ export default function Dashboard({ email }: { email: string }) {
   //console.log(performanceData);
 
   const renderModality = () => {
-    return identifikasiPesawatUnik.map((item, index) => {
-      const href =
-        index === 0
-          ? `/dashboard`
-          : `/dashboard/radiografi?No_Seri=${item.No_Seri}&id=${item.id_user}`;
+    return (
+    <div className="flex flex-wrap md:justify-center gap-1 mb-4">
+      {identifikasiPesawatUnik.map((item, index) => {
+        const href =
+          index === 0
+            ? `/dashboard`
+            : `/dashboard/radiografi?No_Seri=${item.No_Seri}&id=${item.id_user}`;
 
-      return (
-        <div
-          key={index}
-          className="w-full min-w-0 relative p-2.5 rounded-[35px] bg-[#e8e8e8] shadow-[rgba(50,50,93,0.25)_0px_50px_100px_-20px,rgba(0,0,0,0.3)_0px_30px_60px_-30px,rgba(10,37,64,0.35)_0px_-2px_6px_0px_inset]"
-        >
-          <Link href={href}>
+        // Tentukan apakah item ini aktif:
+        const isActive =
+          // jika sedang di halaman /dashboard (untuk item pertama)
+          (index === 0 && pathname === "/dashboard") ||
+          // atau sedang di halaman radiografi dan query-nya cocok
+          (pathname.startsWith("/dashboard/radiografi") &&
+            currentId === String(item.id_user) &&
+            currentNoSeri === String(item.No_Seri));
+
+        return (
+          <div key={index} className="w-1/2 md:w-2/3 lg:w-[45%]">
+            {/* Card tetap ukuran penuh di dalam wrapper */}
             <div
-              className="flex flex-col justify-center items-center
-                      w-full max-w-[300px] h-[254px]
-                      rounded-[30px] bg-[#e2e0e0]
-                      overflow-hidden text-center
-                      font-mono font-black space-y-1
-                      text-green-700 hover:text-green-900"
+              className={`relative p-2.5 rounded-[35px]
+            bg-[#e8e8e8]
+            shadow-[rgba(50,50,93,0.25)_0px_50px_100px_-20px,rgba(0,0,0,0.3)_0px_30px_60px_-30px,rgba(10,37,64,0.35)_0px_-2px_6px_0px_inset]
+            transition-all duration-200`}
             >
-              <span className="text-7xl">{item.Merk}</span>
-              <span className="mt-1 text-base">
-                {item.Model} - {item.No_Seri}
-              </span>
+              <Link href={href}>
+                <div
+                  className={`flex flex-col justify-center items-center
+                h-[254px] rounded-[30px] overflow-hidden text-center
+                font-mono font-black space-y-1 bg-[#e2e0e0]
+                ${
+                  isActive
+                    ? "text-teal-800"
+                    : "text-gray-400 hover:text-green-900"
+                }`}
+                >
+                  <span className="sm:text-base md:text-7xl">{item.Merk}</span>
+                  <span className="mt-1 text-base">
+                    {item.Model} - {item.No_Seri}
+                  </span>
+                </div>
+              </Link>
             </div>
-          </Link>
-        </div>
-      );
-    });
+          </div>
+        );
+      })}
+    </div>
+  );
   };
 
   const renderParameterUji = () => {
     return (
-      <div className="flex flex-row gap-1">
-        <Link
-          href={`/dashboard`}
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Iluminasi</small>
-        </Link>
-        <Link
-          href={
-            identifikasiPesawatUnik[0]
-              ? `/dashboard/radiografi/kolimasi/?id_user=${identifikasiPesawatUnik[0].id_user}&No_Seri=${identifikasiPesawatUnik[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Kolimasi</small>
-        </Link>
-        <Link
-          href={
-            identifikasiPesawatUnik[0]
-              ? `/dashboard/radiografi/akurasi-kvp/?id_user=${identifikasiPesawatUnik[0].id_user}&No_Seri=${identifikasiPesawatUnik[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Akurasi kVp</small>
-        </Link>
-        <Link
-          href={
-            identifikasiPesawatUnik[0]
-              ? `/dashboard/radiografi/akurasi-waktu/?id_user=${identifikasiPesawatUnik[0].id_user}&No_Seri=${identifikasiPesawatUnik[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Akurasi Waktu</small>
-        </Link>
-        <Link
-          href={
-            identifikasiPesawatUnik[0]
-              ? `/dashboard/radiografi/linearitas/?id_user=${identifikasiPesawatUnik[0].id_user}&No_Seri=${identifikasiPesawatUnik[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Linearitas</small>
-        </Link>
-        <Link
-          href={
-            identifikasiPesawatUnik[0]
-              ? `/dashboard/radiografi/reproduksibilitas/?id_user=${identifikasiPesawatUnik[0].id_user}&No_Seri=${identifikasiPesawatUnik[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Reproduksibilitas</small>
-        </Link>
-        <Link
-          href={
-            identifikasiPesawatUnik[0]
-              ? `/dashboard/radiografi/hvl/?id_user=${identifikasiPesawatUnik[0].id_user}&No_Seri=${identifikasiPesawatUnik[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>HVL</small>
-        </Link>
-        <Link
-          href={
-            identifikasiPesawatUnik[0]
-              ? `/dashboard/radiografi/kebocoran-tabung/?id_user=${identifikasiPesawatUnik[0].id_user}&No_Seri=${identifikasiPesawatUnik[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Kebocoran Tabung</small>
-        </Link>
+      <div className="flex flex-row flex-wrap gap-1 w-[100%] justify-center">
+        {items.map((item) => {
+          const isActive = pathname.startsWith(item.href.split("?")[0]);
+          return (
+            <Link
+              key={item.label}
+              href={item.href}
+              className={`rounded-lg border text-sm transition-all ${
+                isActive
+                  ? "px-3 py-1 bg-green-700 text-white border-green-700 shadow-lg shadow-green-300"
+                  : "px-2 py-1 bg-gray-100 text-gray-400 border-green-700 hover:text-green-800 hover:underline"
+              }`}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
       </div>
     );
   };
@@ -200,7 +183,10 @@ export default function Dashboard({ email }: { email: string }) {
   const renderDaftarPesawatXRay = () => {
     return identifikasiPesawatUnik.map((machine, i) => {
       return (
-        <tr key={machine.id_spesifikasi}>
+        <tr
+          key={machine.id_spesifikasi}
+          className="odd:bg-green-50 even:bg-green-100"
+        >
           <td className="text-center w-7 px-3 py-2">{++i}</td>
           <td className="hidden">{machine.id_spesifikasi}</td>
           <td className="text-center px-3 py-2">{machine.Merk}</td>
@@ -209,26 +195,28 @@ export default function Dashboard({ email }: { email: string }) {
           <td className="hidden">{machine.id_user}</td>
           <td className="hidden">{machine.jenis_pesawat}</td>
           <td className="text-center px-3 py-2">
-            <span className="px-2 bg-green-400 rounded-lg hover:bg-green-500 hover:underline">
-              <Link href={`/radiografi/${machine.No_Seri}`}>edit</Link>
+            <span className="px-2 bg-green-300 rounded-lg hover:bg-gray-300 hover:underline">
+              <Link href={`/radiografi/${machine.No_Seri}`}>
+                <small>Edit</small>
+              </Link>
             </span>
-            <span className="px-2 bg-red-400 rounded-lg ml-1 hover:bg-red-600 hover:underline">
-              <button onClick={() => openModal(machine.id_spesifikasi)}>
-                Delete
+            <span className="px-2 bg-red-500 rounded-lg ml-1 hover:bg-rose-300">
+              <button className="hover:underline" onClick={() => openModal(machine.id_spesifikasi)}>
+                <small>Delete</small>
               </button>
             </span>
-            <span className="px-2 bg-gray-400 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
+            <span className="px-2 bg-green-500 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
               <Link
                 href={`/radiografi/parameter-uji?id_spesifikasi=${machine.id_spesifikasi}&id_user=${machine.id_user}`}
               >
-                manage
+                <small>manage</small>
               </Link>
             </span>
-            <span className="px-2 bg-gray-400 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
+            <span className="px-2 bg-lime-400 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
               <Link
                 href={`/radiografi/report?id_spesifikasi=${machine.id_spesifikasi}`}
               >
-                report
+                <small>report</small>
               </Link>
             </span>
           </td>
@@ -263,38 +251,82 @@ export default function Dashboard({ email }: { email: string }) {
                   <div className="inline ml-1 text-xl">{errorMsg}</div>
                 </div>
               )}
-              <div className="mt-2 flex flex-row gap-2 mb-4">
+
+              {/* 📱 Versi layar kecil: 3 kolom */}
+              <div className="mt-2 flex flex-wrap gap-1 mb-4 md:hidden">
+                <div className="2/5">
+                  <Badge
+                    variant="secondary"
+                    className="w-[100%] text-center text-green-700 border-green-700 hover:text-green-800 hover:underline"
+                  >
+                    Radiografi Umum/Mobile
+                  </Badge>
+                </div>
+
+                <div className="2/5">
+                  <Badge className="w-[85%] text-center bg-emerald-900 text-emerald-50 hover:text-lime-200 hover:underline">
+                    Fluroskopi
+                  </Badge>
+                </div>
+
+                <div className="2/5">
+                  <Badge className="w-[80%] text-center bg-emerald-600 text-green-50 hover:text-green-900 hover:underline">
+                    CT Scan
+                  </Badge>
+                </div>
+
+                <div className="2/5">
+                  <Badge className="w-[80%] text-center bg-green-100 border-green-700 text-emerald-700 hover:text-rose-400 hover:underline">
+                    Dental
+                  </Badge>
+                </div>
+
+                <div className="2/5">
+                  <Badge className="w-[90%] text-center bg-emerald-600 text-green-50 border-green-700 hover:text-fuchsia-300 hover:underline">
+                    Mammografi
+                  </Badge>
+                </div>
+
+                <div className="w-2/5">
+                  <Badge className="w-[100%] text-center bg-emerald-900 text-emerald-50 hover:text-lime-200 hover:underline">
+                    Fluroskopi Dual Mode
+                  </Badge>
+                </div>
+              </div>
+
+              {/* 💻 Versi layar sedang & besar: 6 kolom */}
+              <div className="hidden md:mt-2 md:flex md:gap-2 md:mb-4">
+                {" "}
                 <Badge
                   variant="secondary"
                   className="text-green-700 border-green-700 hover:text-green-800 hover:underline"
                 >
-                  Radiografi Umum/Mobile
-                </Badge>
-                <Badge className=" bg-green-800 text-yellow-200 hover:text-yellow-300 hover:underline">
-                  Fluroskopi
-                </Badge>
-                <Badge
-                  variant="secondary"
-                  className="bg-blue-500 text-white dark:bg-blue-600 hover:text-gray-200 hover:underline"
-                >
-                  CT Scan
-                </Badge>
-                <Badge
-                  variant="destructive"
-                  className="text-orange-100 hover:text-orange-200 hover:underline"
-                >
-                  Dental
-                </Badge>
-                <Badge
-                  variant="default"
-                  className="text-fuchsia-300 hover:text-fuchsia-400 hover:underline"
-                >
-                  Mammografi
-                </Badge>
+                  {" "}
+                  Radiografi Umum/Mobile{" "}
+                </Badge>{" "}
+                <Badge className=" bg-emerald-900 text-emerald-50 hover:text-lime-200 hover:underline">
+                  {" "}
+                  Fluroskopi{" "}
+                </Badge>{" "}
+                <Badge className="bg-emerald-600 text-green-50 hover:text-green-900 hover:underline">
+                  {" "}
+                  CT Scan{" "}
+                </Badge>{" "}
+                <Badge className="bg-green-100 border-green-700 text-emerald-700 hover:text-rose-400 hover:underline">
+                  {" "}
+                  Dental{" "}
+                </Badge>{" "}
+                <Badge className="bg-emerald-600 text-green-50 border-green-700 hover:text-fuchsia-300 hover:underline">
+                  {" "}
+                  Mammografi{" "}
+                </Badge>{" "}
+                <Badge className=" bg-emerald-900 text-emerald-50 hover:text-lime-200 hover:underline">
+                  {" "}
+                  Fluroskopi Dual Mode{" "}
+                </Badge>{" "}
               </div>
-              <div className="grid grid-cols-2 gap-1 mb-4">
-                {renderModality()}
-              </div>
+
+              <div className="w-[75%]">{renderModality()}</div>
               <div>{renderParameterUji()}</div>
             </div>
 
@@ -307,11 +339,17 @@ export default function Dashboard({ email }: { email: string }) {
                     : "Loading..."}
                 </small>
               </p>
-              <IluminasiChart dataPoints={performanceData} />
+              <div className="md:hidden">Unsupported Chart</div>
+              <IluminasiChart dataPoints={performanceData} />  
             </div>
 
             {/* Cards */}
-            <div className="flex flex-col items-center ">
+            <div className="flex flex-col justify-center items-center mb-4">
+              <div className="md:hidden">Unsupported Table</div>
+              <div className="italic md:hidden">gunakan pc/tablet untuk melihat tabel</div>
+            </div>
+            
+            <div className="hidden md:flex flex-col items-center overflow-x-auto w-full">
               <div className="w-[85%] shadow-md rounded-xl p-4 bg-white  px-10 py-10 border border-green-700">
                 <div>
                   <div className="text-xl mb-3">
@@ -320,31 +358,34 @@ export default function Dashboard({ email }: { email: string }) {
                   </div>
                 </div>
 
-                {checkDS ? (<div className="overflow-x-auto w-full">
-                  <table className="my-4 w-full border-collapse">
-                    <thead className="text-lg mb-5 bg-green-100 py-5">
-                      <tr className="py-5 border-b-2 border-green-200">
-                        <th className="text-center w-7 px-3">#</th>
-                        <th className="hidden">Spesification ID</th>
-                        <th className="text-center px-3">Merk</th>
-                        <th className="text-center px-3">Model</th>
-                        <th className="text-center px-3">No Seri</th>
-                        <th className="hidden">Jenis Pesawat</th>
-                        <th className="hidden">Modality ID</th>
-                        <th className="text-center px-3">Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-xl">
-                      {renderDaftarPesawatXRay()}
-                    </tbody>
-                  </table>
-                </div>) : (<div>No data available</div>)}
+                {checkDS ? (
+                  <div className="overflow-x-auto w-full">
+                    <table className="my-4 w-full border-collapse">
+                      <thead className="text-lg mb-5 bg-green-100 py-5">
+                        <tr className="py-5 border-b-2 border-green-200">
+                          <th className="text-center w-7 px-3">#</th>
+                          <th className="hidden">Spesification ID</th>
+                          <th className="text-center px-3">Merk</th>
+                          <th className="text-center px-3">Model</th>
+                          <th className="text-center px-3">No Seri</th>
+                          <th className="hidden">Jenis Pesawat</th>
+                          <th className="hidden">Modality ID</th>
+                          <th className="text-center px-3">Aksi</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-xl">
+                        {renderDaftarPesawatXRay()}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div>No data available</div>
+                )}
 
-                
                 {isLoading ? <SpinnerCss /> : null}
                 <div className="mt-4 flex justify-center items-center">
                   <Link
-                    className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row"
+                    className="bg-green-200 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row"
                     href={
                       allDataUji[0]
                         ? `/radiografi/add?id_user=${allDataUji[0].id_user}`
@@ -362,16 +403,16 @@ export default function Dashboard({ email }: { email: string }) {
                       <h3 className="text-lg font-semibold mb-4">
                         Are you sure you want to delete this data?
                       </h3>
-                      <div className="flex justify-end space-x-4">
+                      <div className="flex justify-end space-x-2">
                         <button
                           onClick={handleDelete}
-                          className="bg-fuchsia-500 text-white px-4 py-2 rounded"
+                          className="bg-green-600 hover:bg-red-500 text-white px-4 py-2 rounded"
                         >
                           Yes
                         </button>
                         <button
                           onClick={closeModal}
-                          className="bg-gray-300 px-4 py-2 rounded"
+                          className="bg-gray-400 hover:bg-gray-300 px-4 py-2 rounded"
                         >
                           No
                         </button>

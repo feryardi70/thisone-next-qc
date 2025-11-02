@@ -10,6 +10,7 @@ import { TriangleAlert, Plus } from "lucide-react";
 import { useState } from "react";
 import SpinnerCss from "./spinner-css";
 import { deleteDataRadByIdSpec } from "../DAL/repository/spec-repository";
+import { useSearchParams } from "next/navigation";
 
 interface DashboardRadProps {
   payloadQueryParams: {
@@ -24,6 +25,12 @@ export default function DashboardRad({
   const { dataUji, allDataUji, isLoading, errorMsg } =
     useFetchRadMachineByUserIdnSNNumber({ payloadQueryParams });
 
+  const searchParams = useSearchParams();
+
+  const currentId = searchParams.get("id");
+  const currentNoSeri = searchParams.get("No_Seri");
+  console.log(currentId, currentNoSeri);
+
   const identifikasiPesawat = allDataUji.map(
     ({ id_user, jenis_pesawat, id_spesifikasi, Merk, Model, No_Seri }) => ({
       id_user,
@@ -34,7 +41,7 @@ export default function DashboardRad({
       No_Seri,
     })
   );
-  console.log(identifikasiPesawat);
+  //console.log(identifikasiPesawat);
 
   const identifikasiPesawatUnik = identifikasiPesawat.filter(
     (value, index, self) =>
@@ -234,7 +241,7 @@ export default function DashboardRad({
   };
 
   const checkDS = allDataUji[0]?.id_spesifikasi != null ? 1 : 0;
-  console.log("checkDS:", checkDS);
+  //console.log("checkDS:", checkDS);
 
   return (
     <div>
