@@ -77,28 +77,28 @@ export default function SideBar() {
           className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer"
         >
           <AudioWaveform size={20} />
-          {!collapsed && <span className="text-lime-200">Fluoroskopi</span>}
+          {!collapsed && <span>Fluoroskopi</span>}
         </Link>
         <Link
           href="/dashboard"
           className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer"
         >
           <Brain size={20} />
-          {!collapsed && <span className="text-amber-800">CT Scan</span>}
+          {!collapsed && <span>CT Scan</span>}
         </Link>
         <Link
           href="/dashboard"
           className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer"
         >
           <Disc2 size={20} />
-          {!collapsed && <span className="text-emerald-950">Dental</span>}
+          {!collapsed && <span>Dental</span>}
         </Link>
         <Link
           href="/dashboard"
           className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer"
         >
           <Caravan size={20} />
-          {!collapsed && <span className="text-fuchsia-800">Mammografi</span>}
+          {!collapsed && <span>Mammografi</span>}
         </Link>
         <Link
           href="/dashboard"
@@ -106,7 +106,7 @@ export default function SideBar() {
         >
           <Aperture size={20} />
           {!collapsed && (
-            <span className="text-lime-900">Fluroskopi Dual Mode</span>
+            <span>Fluroskopi Dual Mode</span>
           )}
         </Link>
       </div>

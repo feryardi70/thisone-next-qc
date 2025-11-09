@@ -107,7 +107,7 @@ export default function Dashboard({ email }: { email: string }) {
 
   const renderModality = () => {
     return (
-    <div className="flex flex-wrap md:justify-center gap-1 mb-4">
+    <div className="flex flex-wrap justify-center gap-1 mb-4">
       {identifikasiPesawatUnik.map((item, index) => {
         const href =
           index === 0
@@ -124,7 +124,7 @@ export default function Dashboard({ email }: { email: string }) {
             currentNoSeri === String(item.No_Seri));
 
         return (
-          <div key={index} className="w-1/2 md:w-2/3 lg:w-[45%]">
+          <div key={index} className="w-3/4 md:w-2/3 lg:w-[45%]">
             {/* Card tetap ukuran penuh di dalam wrapper */}
             <div
               className={`relative p-2.5 rounded-[35px]
@@ -143,7 +143,7 @@ export default function Dashboard({ email }: { email: string }) {
                     : "text-gray-400 hover:text-green-900"
                 }`}
                 >
-                  <span className="sm:text-base md:text-7xl">{item.Merk}</span>
+                  <span className="text-4xl md:text-6xl lg:text-7xl">{item.Merk}</span>
                   <span className="mt-1 text-base">
                     {item.Model} - {item.No_Seri}
                   </span>
@@ -195,24 +195,24 @@ export default function Dashboard({ email }: { email: string }) {
           <td className="hidden">{machine.id_user}</td>
           <td className="hidden">{machine.jenis_pesawat}</td>
           <td className="text-center px-3 py-2">
-            <span className="px-2 bg-green-300 rounded-lg hover:bg-gray-300 hover:underline">
+            <span className="px-2 pb-1 bg-green-300 rounded-lg hover:bg-gray-300 hover:underline">
               <Link href={`/radiografi/${machine.No_Seri}`}>
                 <small>Edit</small>
               </Link>
             </span>
-            <span className="px-2 bg-red-500 rounded-lg ml-1 hover:bg-rose-300">
+            <span className="px-2 pb-1 bg-red-500 rounded-lg ml-1 hover:bg-rose-300">
               <button className="hover:underline" onClick={() => openModal(machine.id_spesifikasi)}>
                 <small>Delete</small>
               </button>
             </span>
-            <span className="px-2 bg-green-500 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
+            <span className="px-2 pb-1 bg-green-500 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
               <Link
                 href={`/radiografi/parameter-uji?id_spesifikasi=${machine.id_spesifikasi}&id_user=${machine.id_user}`}
               >
                 <small>manage</small>
               </Link>
             </span>
-            <span className="px-2 bg-lime-400 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
+            <span className="px-2 pb-1 bg-lime-400 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
               <Link
                 href={`/radiografi/report?id_spesifikasi=${machine.id_spesifikasi}`}
               >
@@ -254,76 +254,72 @@ export default function Dashboard({ email }: { email: string }) {
 
               {/* 📱 Versi layar kecil: 3 kolom */}
               <div className="mt-2 flex flex-wrap gap-1 mb-4 md:hidden">
-                <div className="2/5">
+                <div className="w-2/5">
                   <Badge
-                    variant="secondary"
-                    className="w-[100%] text-center text-green-700 border-green-700 hover:text-green-800 hover:underline"
+                    className="w-[100%] text-center bg-green-700 text-green-50 border-green-700 shadow-lg shadow-green-300 underline hover:text-green-100 hover:underline"
                   >
                     Radiografi Umum/Mobile
                   </Badge>
                 </div>
 
-                <div className="2/5">
-                  <Badge className="w-[85%] text-center bg-emerald-900 text-emerald-50 hover:text-lime-200 hover:underline">
+                <div className="w-2/5">            
+                  <Badge variant="secondary" className="w-[85%] text-center text-gray-400 border-green-700 hover:text-lime-200 hover:underline">
                     Fluroskopi
                   </Badge>
                 </div>
 
-                <div className="2/5">
-                  <Badge className="w-[80%] text-center bg-emerald-600 text-green-50 hover:text-green-900 hover:underline">
+                <div className="w-2/5">              
+                  <Badge variant="secondary" className="w-[100%] text-center text-gray-400 border-green-700 hover:text-green-900 hover:underline">
                     CT Scan
                   </Badge>
                 </div>
 
-                <div className="2/5">
-                  <Badge className="w-[80%] text-center bg-green-100 border-green-700 text-emerald-700 hover:text-rose-400 hover:underline">
+                <div className="w-2/5">               
+                  <Badge variant="secondary" className="w-[80%] text-center border-green-700 text-gray-400 hover:text-rose-400 hover:underline">
                     Dental
                   </Badge>
                 </div>
 
-                <div className="2/5">
-                  <Badge className="w-[90%] text-center bg-emerald-600 text-green-50 border-green-700 hover:text-fuchsia-300 hover:underline">
+                <div className="w-2/5">              
+                  <Badge variant="secondary" className="w-[100%] text-center text-gray-400 border-green-700 hover:text-fuchsia-300 hover:underline">
                     Mammografi
                   </Badge>
                 </div>
 
-                <div className="w-2/5">
-                  <Badge className="w-[100%] text-center bg-emerald-900 text-emerald-50 hover:text-lime-200 hover:underline">
+                <div className="w-w-2/5">             
+                  <Badge variant="secondary" className="w-[100%] text-center text-gray-400 border-green-700 hover:text-lime-200 hover:underline">
                     Fluroskopi Dual Mode
                   </Badge>
                 </div>
               </div>
 
               {/* 💻 Versi layar sedang & besar: 6 kolom */}
-              <div className="hidden md:mt-2 md:flex md:gap-2 md:mb-4">
-                {" "}
+              <div className="hidden md:mt-2 md:flex md:gap-1 md:mb-4">       
                 <Badge
-                  variant="secondary"
-                  className="text-green-700 border-green-700 hover:text-green-800 hover:underline"
-                >
-                  {" "}
-                  Radiografi Umum/Mobile{" "}
-                </Badge>{" "}
-                <Badge className=" bg-emerald-900 text-emerald-50 hover:text-lime-200 hover:underline">
-                  {" "}
-                  Fluroskopi{" "}
-                </Badge>{" "}
-                <Badge className="bg-emerald-600 text-green-50 hover:text-green-900 hover:underline">
-                  {" "}
-                  CT Scan{" "}
-                </Badge>{" "}
-                <Badge className="bg-green-100 border-green-700 text-emerald-700 hover:text-rose-400 hover:underline">
-                  {" "}
-                  Dental{" "}
-                </Badge>{" "}
-                <Badge className="bg-emerald-600 text-green-50 border-green-700 hover:text-fuchsia-300 hover:underline">
-                  {" "}
-                  Mammografi{" "}
-                </Badge>{" "}
-                <Badge className=" bg-emerald-900 text-emerald-50 hover:text-lime-200 hover:underline">
-                  {" "}
-                  Fluroskopi Dual Mode{" "}
-                </Badge>{" "}
+                  className="bg-green-700 text-green-50 border-green-700 shadow-lg shadow-green-300 underline hover:text-green-100 hover:underline"
+                >          
+                  Radiografi Umum/Mobile
+                </Badge>
+
+                <Badge variant="secondary" className="text-gray-400 border-green-700 hover:text-green-600 hover:underline">      
+                  Fluroskopi
+                </Badge>
+
+                <Badge variant="secondary" className="text-gray-400 border-green-700 hover:text-fuchsia-600 hover:underline">    
+                  CT Scan
+                </Badge>
+
+                <Badge variant="secondary" className="border-green-700 text-gray-400 hover:text-rose-400 hover:underline">      
+                  Dental
+                </Badge>
+
+                <Badge variant="secondary" className="text-gray-400 border-green-700 hover:text-black hover:underline">  
+                  Mammografi
+                </Badge>
+
+                <Badge variant="secondary" className="text-gray-400 border-green-700 hover:text-green-600 hover:underline"> 
+                  Fluroskopi Dual Mode
+                </Badge>
               </div>
 
               <div className="w-[75%]">{renderModality()}</div>

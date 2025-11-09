@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { Radiation, UserRound, CircleUserRound, UserCog, Crown } from "lucide-react";
+import { UserRound, CircleUserRound, UserCog, Crown } from "lucide-react";
 import { LogOut } from "lucide-react";
 import { useState } from "react";
 import {
@@ -20,7 +20,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
+  // AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { signOut } from "next-auth/react";
 
@@ -88,6 +88,7 @@ export default function Header({ email }: { email: string }) {
               </button>
             </DropdownMenuItem>
           </div>
+          {loading ? <div className="italic text-2xl text-gray-500">Signing Out... Please wait</div> : null}
         </DropdownMenuContent>
       </DropdownMenu>
 
