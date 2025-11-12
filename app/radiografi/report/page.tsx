@@ -14,7 +14,7 @@ export default async function ReportingPage({
     redirect("/login");
   }
 
-  const { id_spesifikasi, id_user } = await searchParams;
+  const { id_spesifikasi } = await searchParams;
   const payloadQueryParams = {
     spesifikasiId: parseInt(id_spesifikasi as string, 10),
     email: session.user?.email as string,

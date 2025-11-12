@@ -6,13 +6,14 @@ import SideBar from "../components/Sidebar";
 import IluminasiChart from "./PerformanceIlumData";
 //import { useAuth } from "../components/auth-layer";
 import { useFetchDataUjiByUserEmail } from "../DAL/service/fetch-data-uji-by-userEmail";
-import { Badge } from "@/components/ui/badge";
 import SpinnerCss from "./spinner-css";
 import { useState } from "react";
 import Header from "./Header";
 import { TriangleAlert, Plus } from "lucide-react";
 import { deleteDataRadByIdSpec } from "../DAL/repository/spec-repository";
 import { usePathname, useSearchParams } from "next/navigation";
+import HeadingMobileView from "./mobile-view/Heading";
+import Heading from "./Heading";
 
 export default function Dashboard({ email }: { email: string }) {
   //const { currentEmail } = useAuth();
@@ -28,7 +29,6 @@ export default function Dashboard({ email }: { email: string }) {
 
   const currentId = searchParams.get("id");
   const currentNoSeri = searchParams.get("No_Seri");
-  console.log(currentId, currentNoSeri);
 
   const identifikasiPesawat = allDataUji.map(
     ({ id_user, jenis_pesawat, id_spesifikasi, Merk, Model, No_Seri }) => ({
@@ -253,74 +253,10 @@ export default function Dashboard({ email }: { email: string }) {
               )}
 
               {/* 📱 Versi layar kecil: 3 kolom */}
-              <div className="mt-2 flex flex-wrap gap-1 mb-4 md:hidden">
-                <div className="w-2/5">
-                  <Badge
-                    className="w-[100%] text-center bg-green-700 text-green-50 border-green-700 shadow-lg shadow-green-300 underline hover:text-green-100 hover:underline"
-                  >
-                    Radiografi Umum/Mobile
-                  </Badge>
-                </div>
-
-                <div className="w-2/5">            
-                  <Badge variant="secondary" className="w-[85%] text-center text-gray-400 border-green-700 hover:text-lime-200 hover:underline">
-                    Fluroskopi
-                  </Badge>
-                </div>
-
-                <div className="w-2/5">              
-                  <Badge variant="secondary" className="w-[100%] text-center text-gray-400 border-green-700 hover:text-green-900 hover:underline">
-                    CT Scan
-                  </Badge>
-                </div>
-
-                <div className="w-2/5">               
-                  <Badge variant="secondary" className="w-[80%] text-center border-green-700 text-gray-400 hover:text-rose-400 hover:underline">
-                    Dental
-                  </Badge>
-                </div>
-
-                <div className="w-2/5">              
-                  <Badge variant="secondary" className="w-[100%] text-center text-gray-400 border-green-700 hover:text-fuchsia-300 hover:underline">
-                    Mammografi
-                  </Badge>
-                </div>
-
-                <div className="w-w-2/5">             
-                  <Badge variant="secondary" className="w-[100%] text-center text-gray-400 border-green-700 hover:text-lime-200 hover:underline">
-                    Fluroskopi Dual Mode
-                  </Badge>
-                </div>
-              </div>
+              <HeadingMobileView />
 
               {/* 💻 Versi layar sedang & besar: 6 kolom */}
-              <div className="hidden md:mt-2 md:flex md:gap-1 md:mb-4">       
-                <Badge
-                  className="bg-green-700 text-green-50 border-green-700 shadow-lg shadow-green-300 underline hover:text-green-100 hover:underline"
-                >          
-                  Radiografi Umum/Mobile
-                </Badge>
-
-                <Badge variant="secondary" className="text-gray-400 border-green-700 hover:text-green-600 hover:underline">      
-                  Fluroskopi
-                </Badge>
-
-                <Badge variant="secondary" className="text-gray-400 border-green-700 hover:text-fuchsia-600 hover:underline">    
-                  CT Scan
-                </Badge>
-
-                <Badge variant="secondary" className="border-green-700 text-gray-400 hover:text-rose-400 hover:underline">      
-                  Dental
-                </Badge>
-
-                <Badge variant="secondary" className="text-gray-400 border-green-700 hover:text-black hover:underline">  
-                  Mammografi
-                </Badge>
-
-                <Badge variant="secondary" className="text-gray-400 border-green-700 hover:text-green-600 hover:underline"> 
-                  Fluroskopi Dual Mode
-                </Badge>
-              </div>
+              <Heading />
 
               <div className="w-[75%]">{renderModality()}</div>
               <div>{renderParameterUji()}</div>

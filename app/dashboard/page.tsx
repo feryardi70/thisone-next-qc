@@ -31,7 +31,7 @@ export default async function DashboardPage() {
     await saveGoogleUserToExtApi(payload);
   }
   } catch (error) {
-    console.error("Error fetching data");
+    console.error(error ? "Error fetching data" : "Unknown Error");
   }
   //console.log("User data JSON in DashboardPage:", userData);
 

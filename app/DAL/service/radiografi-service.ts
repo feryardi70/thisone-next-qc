@@ -196,7 +196,7 @@ export const useFetchRadMachineByUserIdnSNNumberForAkurKV = ({
         payloadQueryParams,
       });
       //const data = await response.json();
-      console.log(data.data);
+      //console.log(data.data);
       setDataUji(data.selectedData);
       setAllDataUji(data.data);
       setIsLoading(false);
