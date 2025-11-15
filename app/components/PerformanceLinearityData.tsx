@@ -96,7 +96,7 @@ const LinearitasChart = forwardRef<HTMLDivElement, PerformanceChartProps>(
   };
 
   return (
-    <div ref={ref} className="bg-white shadow-md rounded-xl p-4 w-[90%] min-h-96">
+    <div ref={ref} className="bg-white shadow-md rounded-xl p-4 w-[88%] min-h-96 border border-green-700">
       <Line data={data} options={options} />
     </div>
   );

@@ -58,7 +58,7 @@ export default function DashboardRad({
       )
   );
 
-  const current = identifikasiPesawatUnik[0];
+  const current = dataUji[0];
   const baseParams = current
     ? `?id_user=${current.id_user}&No_Seri=${current.No_Seri}`
     : "";
@@ -72,6 +72,10 @@ export default function DashboardRad({
     { label: "Reproduksibilitas", href: `/dashboard/radiografi/reproduksibilitas/${baseParams}` },
     { label: "HVL", href: `/dashboard/radiografi/hvl/${baseParams}` },
     { label: "Kebocoran Tabung", href: `/dashboard/radiografi/kebocoran-tabung/${baseParams}` },
+    { label: "AEC - Timer Darurat", href: `/dashboard/radiografi/timer-darurat/${baseParams}` },
+    { label: "AEC - Densitas Standar dan Uniformitas", href: `/dashboard/radiografi/uniformitas/${baseParams}` },
+    { label: "AEC - Penjejakan", href: `/dashboard/radiografi/penjejakan/${baseParams}` },
+    { label: "AEC - Waktu Respon Minimum", href: `/dashboard/radiografi/trespon-min/${baseParams}` },
   ];
 
   const performanceData = dataUji.map(
@@ -237,14 +241,14 @@ export default function DashboardRad({
             </span>
             <span className="px-2 pb-1 bg-green-500 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
               <Link
-                href={`/radiografi/parameter-uji?id_spesifikasi=${machine.id_spesifikasi}&id_user=${machine.id_user}`}
+                href={`/radiografi/parameter-uji?id_spesifikasi=${machine.id_spesifikasi}&id_user=${machine.id_user}`} target="blank"
               >
                 <small>manage</small>
               </Link>
             </span>
             <span className="px-2 pb-1 bg-lime-400 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
               <Link
-                href={`/radiografi/report?id_spesifikasi=${machine.id_spesifikasi}`}
+                href={`/radiografi/report?id_spesifikasi=${machine.id_spesifikasi}`} target="blank"
               >
                 <small>report</small>
               </Link>
@@ -302,6 +306,7 @@ export default function DashboardRad({
                     : "Loading..."}
                 </small>
               </p>
+              <div className="md:hidden">Unsupported Chart</div>
               <DualAxisChart data={performanceData} />
             </div>
 
@@ -320,7 +325,14 @@ export default function DashboardRad({
               />
             </div>
 
-            <div className="flex flex-col items-center py-2">
+            {/* Cards */}
+            <div className="flex flex-col justify-center items-center mb-4">
+              <div className="md:hidden">Unsupported Table</div>
+              <div className="italic md:hidden">gunakan pc/tablet untuk melihat tabel</div>
+              <div className="italic md:hidden">atau ubah tampilan menjadi desktop view</div>
+            </div>
+
+            <div className="hidden md:flex flex-col items-center py-2">
               <div className="w-[85%] shadow-md rounded-xl p-4 bg-white  px-10 py-10 border border-green-700">
                 <div>
                   <div className="text-xl mb-3">

@@ -4,12 +4,14 @@ import Link from "next/link";
 import SideBar from "../Sidebar";
 import PerformanceChart from "../PerformanceLinearityData";
 import Header from "../Header";
-import { Badge } from "@/components/ui/badge";
 import { TriangleAlert, Plus } from "lucide-react";
 import { useState } from "react";
 import SpinnerCss from "../spinner-css";
 import { useFetchRadMachineByUserIdnSNNumberForLinearitas } from "@/app/DAL/service/radiografi-service";
 import { deleteDataRadByIdSpec } from "@/app/DAL/repository/spec-repository";
+import HeadingMobileView from "../mobile-view/Heading";
+import Heading from "../Heading";
+import { usePathname, useSearchParams } from "next/navigation";
 
 interface DashboardRadProps {
   payloadQueryParams: {
@@ -24,6 +26,11 @@ export default function DashboardRadLinearitas({
   const { dataUji, allDataUji, isLoading, errorMsg } =
     useFetchRadMachineByUserIdnSNNumberForLinearitas({ payloadQueryParams });
   //console.log(allDataUji);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const currentId = searchParams.get("id_user");
+  const currentNoSeri = searchParams.get("No_Seri");
 
   const identifikasiPesawat = allDataUji.map(
     ({ id_user, jenis_pesawat, id_spesifikasi, Merk, Model, No_Seri }) => ({
@@ -35,7 +42,6 @@ export default function DashboardRadLinearitas({
       No_Seri,
     })
   ) ?? [];
-  console.log(identifikasiPesawat);
 
   const identifikasiPesawatUnik = identifikasiPesawat.filter(
     (value, index, self) =>
@@ -49,6 +55,26 @@ export default function DashboardRadLinearitas({
       )
   );
 
+  const current = dataUji[0];
+  const baseParams = current
+    ? `?id_user=${current.id_user}&No_Seri=${current.No_Seri}`
+    : "";
+  
+  const items = [
+    { label: "Iluminasi", href: "/dashboard" },
+    { label: "Kolimasi", href: `/dashboard/radiografi/kolimasi/${baseParams}` },
+    { label: "Akurasi kVp", href: `/dashboard/radiografi/akurasi-kvp/${baseParams}` },
+    { label: "Akurasi Waktu", href: `/dashboard/radiografi/akurasi-waktu/${baseParams}` },
+    { label: "Linearitas", href: `/dashboard/radiografi/linearitas/${baseParams}` },
+    { label: "Reproduksibilitas", href: `/dashboard/radiografi/reproduksibilitas/${baseParams}` },
+    { label: "HVL", href: `/dashboard/radiografi/hvl/${baseParams}` },
+    { label: "Kebocoran Tabung", href: `/dashboard/radiografi/kebocoran-tabung/${baseParams}` },
+    { label: "AEC - Timer Darurat", href: `/dashboard/radiografi/timer-darurat/${baseParams}` },
+    { label: "AEC - Densitas Standar dan Uniformitas", href: `/dashboard/radiografi/uniformitas/${baseParams}` },
+    { label: "AEC - Penjejakan", href: `/dashboard/radiografi/penjejakan/${baseParams}` },
+    { label: "AEC - Waktu Respon Minimum", href: `/dashboard/radiografi/trespon-min/${baseParams}` },
+  ];
+
   const performanceData = dataUji.map(
     ({ Tanggal_uji, Linearitas }) => ({
       x: new Date(Tanggal_uji).toLocaleDateString("en-CA"),
@@ -58,113 +84,79 @@ export default function DashboardRadLinearitas({
   .filter((d) => d.y !== null && d.y !== undefined);
 
   const renderModality = () => {
-    return identifikasiPesawatUnik.map((item, index) => {
-      const href =
-        index === 0
-          ? `/dashboard`
-          : `/dashboard/radiografi?No_Seri=${item.No_Seri}&id=${item.id_user}`;
+    return (
+    <div className="flex flex-wrap justify-center gap-1 mb-4">
+      {identifikasiPesawatUnik.map((item, index) => {
+        const href =
+          index === 0
+            ? `/dashboard`
+            : `/dashboard/radiografi?No_Seri=${item.No_Seri}&id=${item.id_user}`;
 
-      return (
-        <div
-          key={index}
-          className="w-full min-w-0 relative p-2.5 rounded-[35px] bg-[#e8e8e8] shadow-[rgba(50,50,93,0.25)_0px_50px_100px_-20px,rgba(0,0,0,0.3)_0px_30px_60px_-30px,rgba(10,37,64,0.35)_0px_-2px_6px_0px_inset]"
-        >
-          <Link href={href}>
-            <div className="flex flex-col justify-center items-center w-full min-w-[300px] h-[254px] rounded-[30px] bg-[#e2e0e0] overflow-hidden text-center font-mono font-black space-y-1 text-green-700 hover:text-green-900">
-              <span className="text-7xl">{item.Merk}</span>
-              <span className="mt-1 text-base">
-                {item.Model} - {item.No_Seri}
-              </span>
+        // Tentukan apakah item ini aktif:
+        const isActive =
+          // jika sedang di halaman /dashboard (untuk item pertama)
+          (index === 0 && pathname === "/dashboard") ||
+          // atau sedang di halaman radiografi dan query-nya cocok
+          (pathname.startsWith("/dashboard/radiografi/linearitas") &&
+            currentId === String(item.id_user) &&
+            currentNoSeri === String(item.No_Seri));
+
+        return (
+          <div key={index} className="w-3/4 md:w-2/3 lg:w-[45%]">
+            {/* Card tetap ukuran penuh di dalam wrapper */}
+            <div
+              className={`relative p-2.5 rounded-[35px]
+            bg-[#e8e8e8]
+            shadow-[rgba(50,50,93,0.25)_0px_50px_100px_-20px,rgba(0,0,0,0.3)_0px_30px_60px_-30px,rgba(10,37,64,0.35)_0px_-2px_6px_0px_inset]
+            transition-all duration-200`}
+            >
+              <Link href={href}>
+                <div
+                  className={`flex flex-col justify-center items-center
+                h-[254px] rounded-[30px] overflow-hidden text-center
+                font-mono font-black space-y-1 bg-[#e2e0e0]
+                ${
+                  isActive
+                    ? "text-teal-800"
+                    : "text-gray-400 hover:text-green-900"
+                }`}
+                >
+                  <span className="text-4xl md:text-6xl lg:text-7xl">{item.Merk}</span>
+                  <span className="mt-1 text-base">
+                    {item.Model} - {item.No_Seri}
+                  </span>
+                </div>
+              </Link>
             </div>
-          </Link>
-        </div>
-      );
-    });
+          </div>
+        );
+      })}
+    </div>
+  );
   };
 
   const renderParameterUji = () => {
     return (
-      <div className="flex flex-row gap-1">
-        <Link
-          href={
-            dataUji[0]
-              ? `/dashboard/radiografi?No_Seri=${dataUji[0].No_Seri}&id=${dataUji[0].id_user}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Iluminasi</small>
-        </Link>
-        <Link
-          href={
-            dataUji[0]
-              ? `/dashboard/radiografi/kolimasi/?id_user=${dataUji[0].id_user}&No_Seri=${dataUji[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Kolimasi</small>
-        </Link>
-        <Link
-          href={
-            dataUji[0]
-              ? `/dashboard/radiografi/akurasi-kvp/?id_user=${dataUji[0].id_user}&No_Seri=${dataUji[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Akurasi kVp</small>
-        </Link>
-        <Link
-          href={
-            dataUji[0]
-              ? `/dashboard/radiografi/akurasi-waktu/?id_user=${dataUji[0].id_user}&No_Seri=${dataUji[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Akurasi Waktu</small>
-        </Link>
-        <Link
-          href={
-            dataUji[0]
-              ? `/dashboard/radiografi/linearitas/?id_user=${dataUji[0].id_user}&No_Seri=${dataUji[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Linearitas</small>
-        </Link>
-        <Link
-          href={
-            dataUji[0]
-              ? `/dashboard/radiografi/reproduksibilitas/?id_user=${dataUji[0].id_user}&No_Seri=${dataUji[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Reproduksibilitas</small>
-        </Link>
-        <Link
-          href={
-            dataUji[0]
-              ? `/dashboard/radiografi/hvl/?id_user=${dataUji[0].id_user}&No_Seri=${dataUji[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>HVL</small>
-        </Link>
-        <Link
-          href={
-            dataUji[0]
-              ? `/dashboard/radiografi/kebocoran-tabung/?id_user=${dataUji[0].id_user}&No_Seri=${dataUji[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Kebocoran Tabung</small>
-        </Link>
+      <div className="flex flex-row flex-wrap gap-1 w-[100%] justify-center">
+        {items.map((item) => {
+          const baseHref = item.href.split("?")[0].replace(/\/$/, "");
+          const currentPath = pathname.replace(/\/$/, "");
+          const isActive = currentPath === baseHref;
+          
+          return (
+            <Link
+              key={item.label}
+              href={item.href}
+              className={`rounded-lg border text-sm transition-all ${
+                isActive
+                  ? "px-3 py-1 bg-green-700 text-white border-green-700 shadow-lg shadow-green-300"
+                  : "px-2 py-1 bg-gray-100 text-gray-400 border-green-700 hover:text-green-800 hover:underline"
+              }`}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
       </div>
     );
   };
@@ -202,7 +194,10 @@ export default function DashboardRadLinearitas({
   const renderDaftarPesawatXRay = () => {
     return identifikasiPesawatUnik.map((machine, i) => {
       return (
-        <tr key={machine.id_spesifikasi}>
+        <tr
+          key={machine.id_spesifikasi}
+          className="odd:bg-green-50 even:bg-green-100"
+        >
           <td className="text-center w-7 px-3 py-2">{++i}</td>
           <td className="hidden">{machine.id_spesifikasi}</td>
           <td className="text-center px-3 py-2">{machine.Merk}</td>
@@ -211,19 +206,28 @@ export default function DashboardRadLinearitas({
           <td className="hidden">{machine.id_user}</td>
           <td className="hidden">{machine.jenis_pesawat}</td>
           <td className="text-center px-3 py-2">
-            <span className="px-2 bg-green-400 rounded-lg hover:bg-green-500 hover:underline">
-              <Link href={`/radiografi/${machine.No_Seri}`}>edit</Link>
+            <span className="px-2 pb-1 bg-green-300 rounded-lg hover:bg-gray-300 hover:underline">
+              <Link href={`/radiografi/${machine.No_Seri}`}>
+                <small>Edit</small>
+              </Link>
             </span>
-            <span className="px-2 bg-red-400 rounded-lg ml-1 hover:bg-red-600 hover:underline">
-              <button onClick={() => openModal(machine.id_spesifikasi)}>
-                Delete
+            <span className="px-2 pb-1 bg-red-500 rounded-lg ml-1 hover:bg-rose-300">
+              <button className="hover:underline" onClick={() => openModal(machine.id_spesifikasi)}>
+                <small>Delete</small>
               </button>
             </span>
-            <span className="px-2 bg-gray-400 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
+            <span className="px-2 pb-1 bg-green-500 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
               <Link
-                href={`/radiografi/parameter-uji?id_spesifikasi=${machine.id_spesifikasi}&id_user=${machine.id_user}`}
+                href={`/radiografi/parameter-uji?id_spesifikasi=${machine.id_spesifikasi}&id_user=${machine.id_user}`} target="blank"
               >
-                manage
+                <small>manage</small>
+              </Link>
+            </span>
+            <span className="px-2 pb-1 bg-lime-400 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
+              <Link
+                href={`/radiografi/report?id_spesifikasi=${machine.id_spesifikasi}`} target="blank"
+              >
+                <small>report</small>
               </Link>
             </span>
           </td>
@@ -257,38 +261,14 @@ export default function DashboardRadLinearitas({
                   <div className="inline ml-1 text-xl">{errorMsg}</div>
                 </div>
               )}
-              <div className="mt-2 flex flex-row gap-2 mb-4">
-                <Badge
-                  variant="secondary"
-                  className="text-green-700 border-green-700 hover:text-green-800 hover:underline"
-                >
-                  Radiografi Umum/Mobile
-                </Badge>
-                <Badge className=" bg-green-800 text-yellow-200 hover:text-yellow-300 hover:underline">
-                  Fluroskopi
-                </Badge>
-                <Badge
-                  variant="secondary"
-                  className="bg-blue-500 text-white dark:bg-blue-600 hover:text-gray-200 hover:underline"
-                >
-                  CT Scan
-                </Badge>
-                <Badge
-                  variant="destructive"
-                  className="text-orange-100 hover:text-orange-200 hover:underline"
-                >
-                  Dental
-                </Badge>
-                <Badge
-                  variant="default"
-                  className="text-fuchsia-300 hover:text-fuchsia-400 hover:underline"
-                >
-                  Mammografi
-                </Badge>
-              </div>
-              <div className="grid grid-cols-2 gap-1 mb-4">
-                {renderModality()}
-              </div>
+              
+              {/* 📱 Versi layar kecil: 3 kolom */}
+              <HeadingMobileView />
+
+              {/* 💻 Versi layar sedang & besar: 6 kolom */}
+              <Heading />
+
+              <div className="w-[75%]">{renderModality()}</div>
               <div>{renderParameterUji()}</div>
             </div>
 
@@ -302,10 +282,18 @@ export default function DashboardRadLinearitas({
                     : "Loading..."}
                 </small>
               </p>
+              <div className="md:hidden">Unsupported Chart</div>
               <PerformanceChart dataPoints={performanceData} />
             </div>
 
-            <div className="flex flex-col items-center ">
+            {/* Cards */}
+            <div className="flex flex-col justify-center items-center mb-4">
+              <div className="md:hidden">Unsupported Table</div>
+              <div className="italic md:hidden">gunakan pc/tablet untuk melihat tabel</div>
+              <div className="italic md:hidden">atau ubah tampilan menjadi desktop view</div>
+            </div>
+
+            <div className="hidden md:flex flex-col items-center">
               <div className="w-[85%] shadow-md rounded-xl p-4 bg-white  px-10 py-10 border border-green-700">
                 <div>
                   <div className="text-xl mb-3">

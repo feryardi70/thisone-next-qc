@@ -16,9 +16,9 @@ export const getDataRadByUserIdnSNNumber = async({ payloadQueryParams }: Dashboa
     return data;
 }
 
-export const getDataRadByUserEmail = async(email: string) => {
+export const getDataRadByUserEmail = async(email: string, signal: AbortSignal) => {
     const response = await fetch(
-          `${baseUrl}/qc/radiografi?email=${email}`
+          `${baseUrl}/qc/radiografi?email=${email}`, { signal }
         );
     const data = await response.json();
 

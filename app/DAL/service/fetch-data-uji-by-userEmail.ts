@@ -20,10 +20,13 @@ export const useFetchDataUjiByUserEmail = (email: string) => {
   const [errorMsg, setErrorMsg] = useState<string>("");
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     const fetchDataUji = async () => {
       try {
         setIsLoading(true);
-        const data = await getDataRadByUserEmail(email);
+        const data = await getDataRadByUserEmail(email, signal);
         //const data = await response.json();
         //console.log(data);
         const allDataUji = await data.data;
@@ -32,14 +35,19 @@ export const useFetchDataUjiByUserEmail = (email: string) => {
         //console.log(dataUji);
         setDataUji(dataUji || []);
         setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
+      } catch (error) { 
+        const err = error as Error;
+        if (err.name !== "AbortError") {
         setErrorMsg("An error occurred, please try again later!");
+        }
+        setIsLoading(false);
       }
     };
+    
     fetchDataUji();
-  }, []);
+
+    return () => controller.abort();
+  }, [email]);
 
   return { allDataUji, dataUji, isLoading, errorMsg };
 };
