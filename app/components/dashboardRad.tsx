@@ -57,6 +57,26 @@ export default function DashboardRad({
       )
   );
 
+  const current = dataUji[0];
+  const baseParams = current
+    ? `?id_user=${current.id_user}&No_Seri=${current.No_Seri}`
+    : "";
+  
+  const items = [
+    { label: "Iluminasi", href: `/dashboard?No_Seri=${currentNoSeri}&id=${currentId}` },
+    { label: "Kolimasi", href: `/dashboard/radiografi/kolimasi/${baseParams}` },
+    { label: "Akurasi kVp", href: `/dashboard/radiografi/akurasi-kvp/${baseParams}` },
+    { label: "Akurasi Waktu", href: `/dashboard/radiografi/akurasi-waktu/${baseParams}` },
+    { label: "Linearitas", href: `/dashboard/radiografi/linearitas/${baseParams}` },
+    { label: "Reproduksibilitas", href: `/dashboard/radiografi/reproduksibilitas/${baseParams}` },
+    { label: "HVL", href: `/dashboard/radiografi/hvl/${baseParams}` },
+    { label: "Kebocoran Tabung", href: `/dashboard/radiografi/kebocoran-tabung/${baseParams}` },
+    { label: "AEC - Timer Darurat", href: `/dashboard/radiografi/timer-darurat/${baseParams}` },
+    { label: "AEC - Densitas Standar dan Uniformitas", href: `/dashboard/radiografi/uniformitas/${baseParams}` },
+    { label: "AEC - Penjejakan", href: `/dashboard/radiografi/penjejakan/${baseParams}` },
+    { label: "AEC - Waktu Respon Minimum", href: `/dashboard/radiografi/trespon-min/${baseParams}` },
+  ];
+
   const performanceData = dataUji.map(({ Tanggal_uji, Iluminasi }) => ({
     x: new Date(Tanggal_uji).toLocaleDateString("en-CA"),
     y: Iluminasi,
@@ -117,85 +137,23 @@ export default function DashboardRad({
 
   const renderParameterUji = () => {
     return (
-      <div className="flex flex-row gap-1">
-        <Link
-          href={dataUji[0]
-              ? `/dashboard/radiografi?No_Seri=${dataUji[0].No_Seri}&id=${dataUji[0].id_user}`
-              : "#"}
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Iluminasi</small>
-        </Link>
-        <Link
-          href={
-            dataUji[0]
-              ? `/dashboard/radiografi/kolimasi/?id_user=${dataUji[0].id_user}&No_Seri=${dataUji[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Kolimasi</small>
-        </Link>
-        <Link
-          href={
-            dataUji[0]
-              ? `/dashboard/radiografi/akurasi-kvp/?id_user=${dataUji[0].id_user}&No_Seri=${dataUji[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Akurasi kVp</small>
-        </Link>
-        <Link
-          href={
-            dataUji[0]
-              ? `/dashboard/radiografi/akurasi-waktu/?id_user=${dataUji[0].id_user}&No_Seri=${dataUji[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Akurasi Waktu</small>
-        </Link>
-        <Link
-          href={
-            dataUji[0]
-              ? `/dashboard/radiografi/linearitas/?id_user=${dataUji[0].id_user}&No_Seri=${dataUji[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Linearitas</small>
-        </Link>
-        <Link
-          href={
-            dataUji[0]
-              ? `/dashboard/radiografi/reproduksibilitas/?id_user=${dataUji[0].id_user}&No_Seri=${dataUji[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Reproduksibilitas</small>
-        </Link>
-        <Link
-          href={
-            dataUji[0]
-              ? `/dashboard/radiografi/hvl/?id_user=${dataUji[0].id_user}&No_Seri=${dataUji[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>HVL</small>
-        </Link>
-        <Link
-          href={
-            dataUji[0]
-              ? `/dashboard/radiografi/kebocoran-tabung/?id_user=${dataUji[0].id_user}&No_Seri=${dataUji[0].No_Seri}`
-              : "#"
-          }
-          className="py-1 px-2 rounded-lg bg-gray-100 text-green-700 border border-green-700 hover:text-green-800 hover:underline"
-        >
-          <small>Kebocoran Tabung</small>
-        </Link>
+      <div className="flex flex-row flex-wrap gap-1 w-[100%] justify-center">
+        {items.map((item) => {
+          const isActive = pathname.startsWith(item.href.split("?")[0]);
+          return (
+            <Link
+              key={item.label}
+              href={item.href}
+              className={`rounded-lg border text-sm transition-all ${
+                isActive
+                  ? "px-3 py-1 bg-green-700 text-white border-green-700 shadow-lg shadow-green-300"
+                  : "px-2 py-1 bg-gray-100 text-gray-400 border-green-700 hover:text-green-800 hover:underline"
+              }`}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
       </div>
     );
   };
@@ -232,10 +190,13 @@ export default function DashboardRad({
     }, 500);
   };
 
-  const renderDaftarPesawatXRay = () => {
+ const renderDaftarPesawatXRay = () => {
     return identifikasiPesawatUnik.map((machine, i) => {
       return (
-        <tr key={machine.id_spesifikasi}>
+        <tr
+          key={machine.id_spesifikasi}
+          className="odd:bg-green-50 even:bg-green-100"
+        >
           <td className="text-center w-7 px-3 py-2">{++i}</td>
           <td className="hidden">{machine.id_spesifikasi}</td>
           <td className="text-center px-3 py-2">{machine.Merk}</td>
@@ -244,23 +205,28 @@ export default function DashboardRad({
           <td className="hidden">{machine.id_user}</td>
           <td className="hidden">{machine.jenis_pesawat}</td>
           <td className="text-center px-3 py-2">
-            <span className="px-2 bg-green-400 rounded-lg hover:bg-green-500 hover:underline">
-              <Link
-                href={`/radiografi/${machine.No_Seri}`}
-              >
-                edit
+            <span className="px-2 pb-1 bg-green-300 rounded-lg hover:bg-gray-300 hover:underline">
+              <Link href={`/radiografi/${machine.No_Seri}`}>
+                <small>Edit</small>
               </Link>
             </span>
-            <span className="px-2 bg-red-400 rounded-lg ml-1 hover:bg-red-600 hover:underline">
-              <button onClick={() => openModal(machine.id_spesifikasi)}>
-                Delete
+            <span className="px-2 pb-1 bg-red-500 rounded-lg ml-1 hover:bg-rose-300">
+              <button className="hover:underline" onClick={() => openModal(machine.id_spesifikasi)}>
+                <small>Delete</small>
               </button>
             </span>
-            <span className="px-2 bg-gray-400 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
+            <span className="px-2 pb-1 bg-green-500 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
               <Link
-                href={`/radiografi/parameter-uji?id_spesifikasi=${machine.id_spesifikasi}&id_user=${machine.id_user}`}
+                href={`/radiografi/parameter-uji?id_spesifikasi=${machine.id_spesifikasi}&id_user=${machine.id_user}`} target="blank"
               >
-                manage
+                <small>manage</small>
+              </Link>
+            </span>
+            <span className="px-2 pb-1 bg-lime-400 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
+              <Link
+                href={`/radiografi/report?id_spesifikasi=${machine.id_spesifikasi}`} target="blank"
+              >
+                <small>report</small>
               </Link>
             </span>
           </td>
@@ -316,10 +282,17 @@ export default function DashboardRad({
                     : "Loading..."}
                 </small>
               </p>
+              <div className="md:hidden">Unsupported Chart</div>
               <PerformanceChart dataPoints={performanceData} />
             </div>
 
-            <div className="flex flex-col items-center ">
+            <div className="flex flex-col justify-center items-center mb-4">
+              <div className="md:hidden">Unsupported Table</div>
+              <div className="italic md:hidden">gunakan pc/tablet untuk melihat tabel</div>
+              <div className="italic md:hidden">atau ubah tampilan menjadi desktop view</div>
+            </div>
+
+            <div className="hidden md:flex flex-col items-center">
               <div className="w-[85%] shadow-md rounded-xl p-4 bg-white  px-10 py-10 border border-green-700">
                 <div>
                   <div className="text-xl mb-3">

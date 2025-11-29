@@ -59,9 +59,13 @@ export default function DashboardRadLinearitas({
   const baseParams = current
     ? `?id_user=${current.id_user}&No_Seri=${current.No_Seri}`
     : "";
+
+  const IluminasiHref = current?.No_Seri == identifikasiPesawatUnik[0]?.No_Seri
+    ? `/dashboard`
+    : `/dashboard/radiografi?No_Seri=${current?.No_Seri}&id=${current?.id_user}`;
   
   const items = [
-    { label: "Iluminasi", href: "/dashboard" },
+    { label: "Iluminasi", href: `${IluminasiHref}` },
     { label: "Kolimasi", href: `/dashboard/radiografi/kolimasi/${baseParams}` },
     { label: "Akurasi kVp", href: `/dashboard/radiografi/akurasi-kvp/${baseParams}` },
     { label: "Akurasi Waktu", href: `/dashboard/radiografi/akurasi-waktu/${baseParams}` },

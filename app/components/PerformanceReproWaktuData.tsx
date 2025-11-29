@@ -96,7 +96,7 @@ const ReproWaktuChart = forwardRef<HTMLDivElement, PerformanceChartProps>(
   };
 
   return (
-    <div ref={ref} className="w-full max-w-3xl mx-auto p-4 bg-white rounded-xl shadow min-h-80">
+    <div ref={ref} className="bg-white shadow-md rounded-xl p-4 w-[85%] min-h-96 border border-green-700">
       <Line data={data} options={options} />
     </div>
   );

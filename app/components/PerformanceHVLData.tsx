@@ -62,6 +62,7 @@ const HVLChart = forwardRef<HTMLDivElement, DualAxisChartProps>(
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     interaction: {
       mode: "index" as const,
       intersect: false,
@@ -107,7 +108,7 @@ const HVLChart = forwardRef<HTMLDivElement, DualAxisChartProps>(
               display: true,
               content: "NLU (2.3 mmAl)",
               position: "end" as const, 
-              backgroundColor: "rgba(0,255,0,0.8)",
+              backgroundColor: "rgba(0,255,0,1)",
               color: "white",
               padding: 4,
               font: { size: 12, weight: "bold" as const },
@@ -142,7 +143,7 @@ const HVLChart = forwardRef<HTMLDivElement, DualAxisChartProps>(
   };
 
   return (
-    <div ref={ref} className="w-full max-w-3xl mx-auto p-4 bg-white rounded-xl shadow">
+    <div ref={ref} className="bg-white shadow-md rounded-xl p-4 w-[88%] min-h-96 border border-green-700">
       <Line options={options} data={chartData} />
     </div>
   );
