@@ -280,7 +280,7 @@ export default function DashboardRadKebocoran({
 
             {/* Cards */}
             <div className="mt-4 flex flex-col items-center p-8 gap-1">
-              <h1 className="text-2xl font-bold">Linearitas Tren</h1>
+              <h1 className="text-2xl font-bold">Kebocoran Tabung Tren</h1>
               <p>
                 <small>
                   {dataUji[0]

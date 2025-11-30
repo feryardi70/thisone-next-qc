@@ -8,6 +8,10 @@ import {
   getDataRadForKebocoranByUserIdnSNNumber,
   getDataRadForLinearitasByUserIdnSNNumber,
   getDataRadForReproByUserIdnSNNumber,
+  getDataRadForTimerDaruratByUserIdnSNNumber,
+  getDataRadForAECUniformitasByUserIdnSNNumber,
+  getDataRadForPenjejakanByUserIdnSNNumber,
+  getDataRadForWaktuResponMinByUserIdnSNNumber,
 } from "../repository/radiografi-repository";
 
 interface DashboardRadProps {
@@ -118,6 +122,58 @@ interface Machine8th {
   Tanggal_uji: string;
 }
 
+interface Machine9th {
+  email: string;
+  id_user: number;
+  id_spesifikasi: number;
+  jenis_pesawat: string;
+  Merk: string;
+  Model: string;
+  No_Seri: string;
+  Timer_darurat_mAs: number;
+  Timer_darurat_s: number;
+  Tanggal_uji: string;
+}
+
+interface Machine10th {
+  email: string;
+  id_user: number;
+  id_spesifikasi: number;
+  jenis_pesawat: string;
+  Merk: string;
+  Model: string;
+  No_Seri: string;
+  Uniformitas_mAs: number;
+  Uniformitas_EI: number;
+  Tanggal_uji: string;
+}
+
+interface Machine11th {
+  email: string;
+  id_user: number;
+  id_spesifikasi: number;
+  jenis_pesawat: string;
+  Merk: string;
+  Model: string;
+  No_Seri: string;
+  penjejakan_ketebalan: number;
+  penjejakan_kV: number;
+  penjejakan_kombinasi: number;
+  Tanggal_uji: string;
+}
+
+interface Machine12th {
+  email: string;
+  id_user: number;
+  id_spesifikasi: number;
+  jenis_pesawat: string;
+  Merk: string;
+  Model: string;
+  No_Seri: string;
+  waktu_respon_min: number;
+  Tanggal_uji: string;
+}
+
 export const useFetchRadMachineByUserIdnSNNumber = ({
   payloadQueryParams,
 }: DashboardRadProps) => {
@@ -132,7 +188,7 @@ export const useFetchRadMachineByUserIdnSNNumber = ({
         setIsLoading(true);
         const data = await getDataRadByUserIdnSNNumber({ payloadQueryParams });
         //const data = await response.json();
-        //console.log(data.data);
+        console.log(data.data);
         setDataUji(data.selectedData);
         setAllDataUji(data.data);
         setIsLoading(false);
@@ -353,6 +409,134 @@ export const useFetchRadMachineByUserIdnSNNumberForKebocoran = ({
     try {
       setIsLoading(true);
       const data = await getDataRadForKebocoranByUserIdnSNNumber({
+        payloadQueryParams,
+      });
+      //const data = await response.json();
+      //console.log(data.data);
+      setDataUji(data.selectedData);
+      setAllDataUji(data.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      setErrorMsg("An error occurred, please try again later!");
+    }
+  };
+    fetchDataUji();
+  }, []);
+
+  return { dataUji, allDataUji, isLoading, errorMsg };
+};
+
+export const useFetchRadMachineByUserIdnSNNumberForTimerDarurat = ({
+  payloadQueryParams,
+}: DashboardRadProps) => {
+  const [dataUji, setDataUji] = useState<Machine9th[]>([]);
+  const [allDataUji, setAllDataUji] = useState<Machine9th[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  useEffect(() => {
+    const fetchDataUji = async () => {
+    try {
+      setIsLoading(true);
+      const data = await getDataRadForTimerDaruratByUserIdnSNNumber({
+        payloadQueryParams,
+      });
+      //const data = await response.json();
+      //console.log(data.data);
+      setDataUji(data.selectedData);
+      setAllDataUji(data.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      setErrorMsg("An error occurred, please try again later!");
+    }
+  };
+    fetchDataUji();
+  }, []);
+
+  return { dataUji, allDataUji, isLoading, errorMsg };
+};
+
+export const useFetchRadMachineByUserIdnSNNumberForAECUniformitas = ({
+  payloadQueryParams,
+}: DashboardRadProps) => {
+  const [dataUji, setDataUji] = useState<Machine10th[]>([]);
+  const [allDataUji, setAllDataUji] = useState<Machine10th[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  useEffect(() => {
+    const fetchDataUji = async () => {
+    try {
+      setIsLoading(true);
+      const data = await getDataRadForAECUniformitasByUserIdnSNNumber({
+        payloadQueryParams,
+      });
+      //const data = await response.json();
+      //console.log(data.data);
+      setDataUji(data.selectedData);
+      setAllDataUji(data.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      setErrorMsg("An error occurred, please try again later!");
+    }
+  };
+    fetchDataUji();
+  }, []);
+
+  return { dataUji, allDataUji, isLoading, errorMsg };
+};
+
+export const useFetchRadMachineByUserIdnSNNumberForPenjejakan = ({
+  payloadQueryParams,
+}: DashboardRadProps) => {
+  const [dataUji, setDataUji] = useState<Machine11th[]>([]);
+  const [allDataUji, setAllDataUji] = useState<Machine11th[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  useEffect(() => {
+    const fetchDataUji = async () => {
+    try {
+      setIsLoading(true);
+      const data = await getDataRadForPenjejakanByUserIdnSNNumber({
+        payloadQueryParams,
+      });
+      //const data = await response.json();
+      //console.log(data.data);
+      setDataUji(data.selectedData);
+      setAllDataUji(data.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      setErrorMsg("An error occurred, please try again later!");
+    }
+  };
+    fetchDataUji();
+  }, []);
+
+  return { dataUji, allDataUji, isLoading, errorMsg };
+};
+
+export const useFetchRadMachineByUserIdnSNNumberForWaktuResponMin = ({
+  payloadQueryParams,
+}: DashboardRadProps) => {
+  const [dataUji, setDataUji] = useState<Machine12th[]>([]);
+  const [allDataUji, setAllDataUji] = useState<Machine12th[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  useEffect(() => {
+    const fetchDataUji = async () => {
+    try {
+      setIsLoading(true);
+      const data = await getDataRadForWaktuResponMinByUserIdnSNNumber({
         payloadQueryParams,
       });
       //const data = await response.json();

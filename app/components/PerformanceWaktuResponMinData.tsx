@@ -34,13 +34,13 @@ interface PerformanceChartProps {
   dataPoints: DataPoint[];
 }
 
-export default function IluminasiChart({
+export default function WaktuResponMinChart({
   dataPoints,
 }: PerformanceChartProps) {
   const data = {
     datasets: [
       {
-        label: "kebocoran (mGy/jam)",
+        label: "Waktu Respon Minimum",
         data: dataPoints,
         borderColor: "rgb(37, 99, 235)", // blue-600
         backgroundColor: "rgba(37, 99, 235, 0.3)",
@@ -63,7 +63,7 @@ export default function IluminasiChart({
       },
       y: {
         beginAtZero: false,
-        title: { display: true, text: "Kebocoran" },
+        title: { display: true, text: "Waktu Respon Minimum" },
         grid: { color: "#e5e7eb" },
       },
     },
@@ -72,14 +72,14 @@ export default function IluminasiChart({
         annotations: {
           upperLimit: {
             type: "line" as const,
-            yMin: 1,
-            yMax: 1,
+            yMin: 3,
+            yMax: 3,
             borderColor: "red",
             borderWidth: 2,
             borderDash: [6, 6],
             label: {
               display: true, // ✅ wajib supaya muncul
-              content: ["NLU (1 mGy/jam)"], // bisa array untuk multiline
+              content: ["NLU (3 ms)"], // bisa array untuk multiline
               position: "end" as const, // pindah ke ujung kanan
               backgroundColor: "rgba(255,0,0,0.8)",
               color: "white",

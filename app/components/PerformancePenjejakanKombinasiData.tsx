@@ -1,5 +1,6 @@
 "use client";
 
+import React, { forwardRef } from "react";
 import {
   Chart as ChartJS,
   LineElement,
@@ -34,15 +35,14 @@ interface PerformanceChartProps {
   dataPoints: DataPoint[];
 }
 
-export default function IluminasiChart({
-  dataPoints,
-}: PerformanceChartProps) {
+const PenjejakanKombinasiChart = forwardRef<HTMLDivElement, PerformanceChartProps>(
+  ({ dataPoints }, ref) => {
   const data = {
     datasets: [
       {
-        label: "kebocoran (mGy/jam)",
+        label: "Penjejakan Kombinasi",
         data: dataPoints,
-        borderColor: "rgb(37, 99, 235)", // blue-600
+        borderColor: "rgb(34, 199, 94)", // blue-600
         backgroundColor: "rgba(37, 99, 235, 0.3)",
         fill: false,
         tension: 0.3,
@@ -63,7 +63,7 @@ export default function IluminasiChart({
       },
       y: {
         beginAtZero: false,
-        title: { display: true, text: "Kebocoran" },
+        title: { display: true, text: "Penjejakan Kombinasi" },
         grid: { color: "#e5e7eb" },
       },
     },
@@ -72,14 +72,14 @@ export default function IluminasiChart({
         annotations: {
           upperLimit: {
             type: "line" as const,
-            yMin: 1,
-            yMax: 1,
+            yMin: 20,
+            yMax: 20,
             borderColor: "red",
             borderWidth: 2,
             borderDash: [6, 6],
             label: {
               display: true, // ✅ wajib supaya muncul
-              content: ["NLU (1 mGy/jam)"], // bisa array untuk multiline
+              content: ["NLU (20%)"], // bisa array untuk multiline
               position: "end" as const, // pindah ke ujung kanan
               backgroundColor: "rgba(255,0,0,0.8)",
               color: "white",
@@ -96,8 +96,12 @@ export default function IluminasiChart({
   };
 
   return (
-    <div className="bg-white shadow-md rounded-xl p-4 w-[88%] min-h-96 border border-green-700">
+    <div ref={ref} className="bg-white shadow-md rounded-xl p-4 w-[85%] min-h-96 border border-green-700">
       <Line data={data} options={options} />
     </div>
   );
 }
+);
+
+PenjejakanKombinasiChart.displayName = "PenjejakanKombinasiChart";
+export default PenjejakanKombinasiChart;

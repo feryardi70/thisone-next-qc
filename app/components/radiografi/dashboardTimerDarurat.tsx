@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import SideBar from "../Sidebar";
+import PerformanceChart from "../PerformanceTimerDaruratData";
 import Header from "../Header";
 import { TriangleAlert, Plus } from "lucide-react";
 import { useState } from "react";
 import SpinnerCss from "../spinner-css";
-import { useFetchRadMachineByUserIdnSNNumberForHVL } from "@/app/DAL/service/radiografi-service";
+import { useFetchRadMachineByUserIdnSNNumberForTimerDarurat } from "@/app/DAL/service/radiografi-service";
 import { deleteDataRadByIdSpec } from "@/app/DAL/repository/spec-repository";
-import DualAxisChart from "../PerformanceHVLData";
 import HeadingMobileView from "../mobile-view/Heading";
 import Heading from "../Heading";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -20,11 +20,11 @@ interface DashboardRadProps {
   };
 }
 
-export default function DashboardRadHVL({
+export default function DashboardRadTimerDarurat({
   payloadQueryParams,
 }: DashboardRadProps) {
   const { dataUji, allDataUji, isLoading, errorMsg } =
-    useFetchRadMachineByUserIdnSNNumberForHVL({ payloadQueryParams });
+    useFetchRadMachineByUserIdnSNNumberForTimerDarurat({ payloadQueryParams });
   //console.log(allDataUji);
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -42,7 +42,6 @@ export default function DashboardRadHVL({
       No_Seri,
     })
   ) ?? [];
-  //console.log(identifikasiPesawat);
 
   const identifikasiPesawatUnik = identifikasiPesawat.filter(
     (value, index, self) =>
@@ -81,10 +80,10 @@ export default function DashboardRadHVL({
   ];
 
   const performanceData = dataUji.map(
-    ({ Tanggal_uji, HVL, HVL_80 }) => ({
+    ({ Tanggal_uji, Timer_darurat_mAs, Timer_darurat_s }) => ({
       x: new Date(Tanggal_uji).toLocaleDateString("en-CA"),
-      y: HVL,
-      y1: HVL_80,
+      y: Timer_darurat_mAs,
+      y1: Timer_darurat_s,
     })
   )
   .filter(
@@ -109,7 +108,7 @@ export default function DashboardRadHVL({
           // jika sedang di halaman /dashboard (untuk item pertama)
           (index === 0 && pathname === "/dashboard") ||
           // atau sedang di halaman radiografi dan query-nya cocok
-          (pathname.startsWith("/dashboard/radiografi/hvl") &&
+          (pathname.startsWith("/dashboard/radiografi/timer-darurat") &&
             currentId === String(item.id_user) &&
             currentNoSeri === String(item.No_Seri));
 
@@ -249,7 +248,6 @@ export default function DashboardRadHVL({
   };
 
   const checkDS = allDataUji[0]?.id_spesifikasi != null ? 1 : 0;
-  //console.log("checkDS:", checkDS);
 
   return (
     <div>
@@ -287,8 +285,8 @@ export default function DashboardRadHVL({
             </div>
 
             {/* Cards */}
-            <div className="mt-8 flex flex-col items-center p-0 gap-1">
-              <h1 className="text-2xl font-bold">Kualitas Berkas Tren</h1>
+            <div className="mt-4 flex flex-col items-center p-8 gap-1">
+              <h1 className="text-2xl font-bold">AEC - Timer Darurat Tren</h1>
               <p>
                 <small>
                   {dataUji[0]
@@ -297,7 +295,7 @@ export default function DashboardRadHVL({
                 </small>
               </p>
               <div className="md:hidden">Unsupported Chart</div>
-              <DualAxisChart data={performanceData} />
+              <PerformanceChart data={performanceData} />
             </div>
 
             {/* Cards */}
@@ -307,7 +305,7 @@ export default function DashboardRadHVL({
               <div className="italic md:hidden">atau ubah tampilan menjadi desktop view</div>
             </div>
 
-            <div className="hidden md:flex flex-col items-center py-2">
+            <div className="hidden md:flex flex-col items-center">
               <div className="w-[85%] shadow-md rounded-xl p-4 bg-white  px-10 py-10 border border-green-700">
                 <div>
                   <div className="text-xl mb-3">

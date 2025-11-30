@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import SideBar from "../Sidebar";
+import PerformanceChart from "../PerformancePenjejakanKombinasiData";
 import Header from "../Header";
 import { TriangleAlert, Plus } from "lucide-react";
 import { useState } from "react";
 import SpinnerCss from "../spinner-css";
-import { useFetchRadMachineByUserIdnSNNumberForHVL } from "@/app/DAL/service/radiografi-service";
+import { useFetchRadMachineByUserIdnSNNumberForPenjejakan } from "@/app/DAL/service/radiografi-service";
 import { deleteDataRadByIdSpec } from "@/app/DAL/repository/spec-repository";
-import DualAxisChart from "../PerformanceHVLData";
+import DualAxisChart from "../PerformancePenjejakanData";
 import HeadingMobileView from "../mobile-view/Heading";
 import Heading from "../Heading";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -20,11 +21,11 @@ interface DashboardRadProps {
   };
 }
 
-export default function DashboardRadHVL({
+export default function DashboardRadPenjejakan({
   payloadQueryParams,
 }: DashboardRadProps) {
   const { dataUji, allDataUji, isLoading, errorMsg } =
-    useFetchRadMachineByUserIdnSNNumberForHVL({ payloadQueryParams });
+    useFetchRadMachineByUserIdnSNNumberForPenjejakan({ payloadQueryParams });
   //console.log(allDataUji);
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -81,10 +82,10 @@ export default function DashboardRadHVL({
   ];
 
   const performanceData = dataUji.map(
-    ({ Tanggal_uji, HVL, HVL_80 }) => ({
+    ({ Tanggal_uji, penjejakan_ketebalan, penjejakan_kV }) => ({
       x: new Date(Tanggal_uji).toLocaleDateString("en-CA"),
-      y: HVL,
-      y1: HVL_80,
+      y: penjejakan_ketebalan,
+      y1: penjejakan_kV,
     })
   )
   .filter(
@@ -94,6 +95,19 @@ export default function DashboardRadHVL({
       d.y1 !== null &&
       d.y1 !== undefined
   );
+
+  const performanceDataPenjejakanKombinasi = dataUji.map(
+    ({ Tanggal_uji, penjejakan_kombinasi }) => ({
+      x: new Date(Tanggal_uji).toLocaleDateString("en-CA"),
+      y: penjejakan_kombinasi,
+    })
+  )
+  .filter(
+    (d) =>
+      d.y !== null &&
+      d.y !== undefined
+  );
+  //console.log(performanceDataKetegaklurusan);
 
   const renderModality = () => {
     return (
@@ -109,7 +123,7 @@ export default function DashboardRadHVL({
           // jika sedang di halaman /dashboard (untuk item pertama)
           (index === 0 && pathname === "/dashboard") ||
           // atau sedang di halaman radiografi dan query-nya cocok
-          (pathname.startsWith("/dashboard/radiografi/hvl") &&
+          (pathname.startsWith("/dashboard/radiografi/penjejakan") &&
             currentId === String(item.id_user) &&
             currentNoSeri === String(item.No_Seri));
 
@@ -282,13 +296,12 @@ export default function DashboardRadHVL({
               <Heading />
 
               <div className="w-[75%]">{renderModality()}</div>
-
               <div>{renderParameterUji()}</div>
             </div>
 
             {/* Cards */}
             <div className="mt-8 flex flex-col items-center p-0 gap-1">
-              <h1 className="text-2xl font-bold">Kualitas Berkas Tren</h1>
+              <h1 className="text-2xl font-bold">Penjejakan Tren</h1>
               <p>
                 <small>
                   {dataUji[0]
@@ -301,7 +314,21 @@ export default function DashboardRadHVL({
             </div>
 
             {/* Cards */}
-            <div className="flex flex-col justify-center items-center mb-4 mt-8">
+            <div className="mt-3 mb-8 flex flex-col items-center p-0 gap-1">
+              <h1 className="text-2xl font-bold">Penjejakan Kombinasi Tren</h1>
+              <p>
+                <small>
+                  {dataUji[0]
+                    ? `${dataUji[0].Merk} - ${dataUji[0].Model} - ${dataUji[0].No_Seri}`
+                    : "Loading..."}
+                </small>
+              </p>
+              <div className="md:hidden">Unsupported Chart</div>
+              <PerformanceChart dataPoints={performanceDataPenjejakanKombinasi} />
+            </div>
+
+            {/* Cards */}
+            <div className="flex flex-col justify-center items-center mb-4">
               <div className="md:hidden">Unsupported Table</div>
               <div className="italic md:hidden">gunakan pc/tablet untuk melihat tabel</div>
               <div className="italic md:hidden">atau ubah tampilan menjadi desktop view</div>
