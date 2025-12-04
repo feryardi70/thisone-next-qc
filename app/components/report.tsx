@@ -289,7 +289,7 @@ export default function ReportPerMachine({ payloadQueryParams }: RadProps) {
           {/* Content */}
           <main
             className="flex-1 p-3 mt-2 overflow-y-auto"
-            style={{ backgroundColor: "#f9fafb" }}
+            // style={{ backgroundColor: "#f9fafb" }}
           >
             {/* Cards */}
             <div className="flex flex-col items-center">
@@ -303,7 +303,9 @@ export default function ReportPerMachine({ payloadQueryParams }: RadProps) {
               )}
               <div className="mb-2 text-center">
                 <h1 className="text-3xl font-semibold">Reporting Page</h1>
-                <div className="text-sm italic text-gray-600">please select a date range</div>
+                <div className="text-sm italic text-gray-600">
+                  please select a date range
+                </div>
               </div>
               <div className="flex flex-row gap-10 items-end">
                 <div className="flex flex-col gap-1">
@@ -329,101 +331,118 @@ export default function ReportPerMachine({ payloadQueryParams }: RadProps) {
                 </div>
               </div>
 
-              {isLoading ? <SpinnerCss /> : (<button
-                onClick={handleGenerate}
-                className="bg-green-600 hover:bg-fuchsia-600 text-white mt-2 px-8 py-2 rounded"
-              >
-                Start generating
-              </button>)}
+              {isLoading ? (
+                <SpinnerCss />
+              ) : (
+                <button
+                  onClick={handleGenerate}
+                  className="bg-green-600 hover:bg-fuchsia-600 text-white mt-2 px-8 py-2 rounded"
+                >
+                  Start generating
+                </button>
+              )}
 
-              <div className="mt-2 text-sm italic text-gray-600">{dataReady}</div>
-              <div
-                ref={chartRefs.iluminasi}
-                style={{ backgroundColor: "#fff" }}
-                className="mt-4 p-4 border rounded-xl shadow w-[90%]"
-              >
-                <h2 className="font-semibold text-lg mb-2 text-gray-700">
-                  Iluminasi
-                </h2>
-                <PerformanceIlumChart dataPoints={performanceIlumData} />
+              <div className="mt-2 text-sm italic text-gray-600">
+                {dataReady}
               </div>
+              {dataReady && (
+                <div className="w-full">
+                <div
+                  ref={chartRefs.iluminasi}
+                  style={{ backgroundColor: "#fff" }}
+                  className="mt-4 p-4 border rounded-xl shadow w-[90%]"
+                >
+                  <h2 className="font-semibold text-lg mb-2 text-gray-700">
+                    Iluminasi
+                  </h2>
+                  <PerformanceIlumChart dataPoints={performanceIlumData} />
+                </div>
 
-              <div
-                ref={chartRefs.kolimasi}
-                style={{ backgroundColor: "#fff" }}
-                className="p-4 border rounded-xl shadow w-[90%]"
-              >
-                <h2 className="font-semibold text-lg mb-2 text-gray-700">
-                  Kolimasi
-                </h2>
-                <PerformanceKolimChart data={performanceKolimData} />
-              </div>
+                <div
+                  ref={chartRefs.kolimasi}
+                  style={{ backgroundColor: "#fff" }}
+                  className="p-4 border rounded-xl shadow w-[90%]"
+                >
+                  <h2 className="font-semibold text-lg mb-2 text-gray-700">
+                    Kolimasi
+                  </h2>
+                  <PerformanceKolimChart data={performanceKolimData} />
+                </div>
 
-              <div
-                ref={chartRefs.akurasiKV}
-                style={{ backgroundColor: "#fff" }}
-                className="p-4 border rounded-xl shadow w-[90%]"
-              >
-                <h2 className="font-semibold text-lg mb-2 text-gray-700">
-                  Akurasi kV
-                </h2>
-                <PerformanceAkurkVChart dataPoints={performanceAkurkVData} />
-              </div>
+                <div
+                  ref={chartRefs.akurasiKV}
+                  style={{ backgroundColor: "#fff" }}
+                  className="p-4 border rounded-xl shadow w-[90%]"
+                >
+                  <h2 className="font-semibold text-lg mb-2 text-gray-700">
+                    Akurasi kV
+                  </h2>
+                  <PerformanceAkurkVChart dataPoints={performanceAkurkVData} />
+                </div>
 
-              <div
-                ref={chartRefs.akurasiWaktu}
-                style={{ backgroundColor: "#fff" }}
-                className="p-4 border rounded-xl shadow w-[90%]"
-              >
-                <h2 className="font-semibold text-lg mb-2 text-gray-700">
-                  Akurasi Waktu
-                </h2>
-                <PerformanceAkurWaktuChart
-                  dataPoints={performanceAkurwaktuData}
-                />
-              </div>
+                <div
+                  ref={chartRefs.akurasiWaktu}
+                  style={{ backgroundColor: "#fff" }}
+                  className="p-4 border rounded-xl shadow w-[90%]"
+                >
+                  <h2 className="font-semibold text-lg mb-2 text-gray-700">
+                    Akurasi Waktu
+                  </h2>
+                  <PerformanceAkurWaktuChart
+                    dataPoints={performanceAkurwaktuData}
+                  />
+                </div>
 
-              <div
-                ref={chartRefs.linearitas}
-                style={{ backgroundColor: "#fff" }}
-                className="p-4 border rounded-xl shadow w-[90%]"
-              >
-                <h2 className="font-semibold text-lg mb-2 text-gray-700">
-                  Linearitas
-                </h2>
-                <PerformanceLinearitasChart
-                  dataPoints={performanceLinearitasData}
-                />
-              </div>
+                <div
+                  ref={chartRefs.linearitas}
+                  style={{ backgroundColor: "#fff" }}
+                  className="p-4 border rounded-xl shadow w-[90%]"
+                >
+                  <h2 className="font-semibold text-lg mb-2 text-gray-700">
+                    Linearitas
+                  </h2>
+                  <PerformanceLinearitasChart
+                    dataPoints={performanceLinearitasData}
+                  />
+                </div>
 
-              <div
-                ref={chartRefs.reproduksibilitas}
-                style={{ backgroundColor: "#fff" }}
-                className="p-4 border rounded-xl shadow w-[90%]"
-              >
-                <h2 className="font-semibold text-lg mb-2 text-gray-700">
-                  Reproduksibilitas
-                </h2>
-                <PerformanceReproChart
-                  data={performanceReproData}
-                />
-                 <PerformanceReproWaktuChart
-                  dataPoints={performanceReproWaktuData}
-                />
-              </div>
+                <div
+                  ref={chartRefs.reproduksibilitas}
+                  style={{ backgroundColor: "#fff" }}
+                  className="p-4 border rounded-xl shadow w-[90%]"
+                >
+                  <h2 className="font-semibold text-lg mb-2 text-gray-700">
+                    Reproduksibilitas
+                  </h2>
+                  <PerformanceReproChart data={performanceReproData} />
+                  <PerformanceReproWaktuChart
+                    dataPoints={performanceReproWaktuData}
+                  />
+                </div>
 
-              <div
-                ref={chartRefs.HVL}
-                style={{ backgroundColor: "#fff" }}
-                className="p-4 border rounded-xl shadow w-[90%]"
-              >
-                <h2 className="font-semibold text-lg mb-2 text-gray-700">
-                  HVL
-                </h2>
-                <PerformanceHVLChart data={performanceHVLData} />
+                <div
+                  ref={chartRefs.HVL}
+                  style={{ backgroundColor: "#fff" }}
+                  className="p-4 border rounded-xl shadow w-[90%]"
+                >
+                  <h2 className="font-semibold text-lg mb-2 text-gray-700">
+                    HVL
+                  </h2>
+                  <PerformanceHVLChart data={performanceHVLData} />
+                </div>
+
+                {loading ? (
+                  <SpinnerCss />
+                ) : (
+                  <button
+                    onClick={handleExportPDF}
+                    className="mt-2 bg-green-600 hover:bg-fuchsia-600 text-white px-8 py-2 rounded"
+                  >
+                    Download PDF
+                  </button>
+                )}
               </div>
-              
-              {loading ? <SpinnerCss /> : (<button onClick={handleExportPDF} className="mt-2 bg-green-600 hover:bg-fuchsia-600 text-white px-8 py-2 rounded">Download PDF</button>)}
+              )}
               
             </div>
           </main>
