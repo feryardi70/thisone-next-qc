@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import EditDataRadForm from "@/app/feature/components/FormEditDataRad";
 
@@ -10,7 +10,5 @@ interface RadProps {
 }
 
 export default function EditDataRadComponent({ payloadQueryParams }: RadProps) {
-  return(
-    <EditDataRadForm payloadQueryParams={payloadQueryParams}/>
-  )
+  return <EditDataRadForm payloadQueryParams={payloadQueryParams} />;
 }

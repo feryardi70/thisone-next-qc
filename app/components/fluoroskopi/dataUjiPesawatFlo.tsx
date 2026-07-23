@@ -6,7 +6,7 @@ import SpinnerCss from "../spinner-css";
 import { useState } from "react";
 import Link from "next/link";
 import Header from "../Header";
-import { useFetchDataUjiByUserIdnSpecId } from "@/app/DAL/service/parameter-uji-client-service";
+import { useFetchDataUjiByUserIdnSpecIdforFlo } from "@/app/DAL/service/parameter-uji-client-service";
 import { deleteDataUjiByIdParameter } from "@/app/DAL/repository/parameter-uji-repository";
 import { toast } from "sonner";
 
@@ -17,12 +17,11 @@ interface RadProps {
   };
 }
 
-export default function DataUjiPesawatRad({ payloadQueryParams }: RadProps) {
-  //console.log(payloadQueryParams);
+export default function DataUjiPesawatFlo({ payloadQueryParams }: RadProps) {
   const [selectedParameterId, setSelectedParameterId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { dataUji, isLoading, errorMsg } = useFetchDataUjiByUserIdnSpecId({ payloadQueryParams });
+  const { dataUji, isLoading, errorMsg } = useFetchDataUjiByUserIdnSpecIdforFlo({ payloadQueryParams });
 
   const openModal = (id: number) => {
     setSelectedParameterId(id);
@@ -110,19 +109,6 @@ export default function DataUjiPesawatRad({ payloadQueryParams }: RadProps) {
 
           {/* Content */}
           <main className="flex-1 p-3 mt-2 overflow-y-auto text-black">
-            {/* <div>Email: {currentEmail}</div> */}
-
-            {/* <div className="mt-0 flex flex-col items-center p-1 gap-1">
-              <h1 className="text-2xl font-bold">Data Pengujian</h1>
-              <p>
-                <small>
-                  {dataUji[0]
-                    ? `${dataUji[0].Merk} - ${dataUji[0].Model} - ${dataUji[0].No_Seri}`
-                    : "Loading..."}
-                </small>
-              </p>
-            </div> */}
-
             {/* Cards */}
             <div className="flex flex-col items-center">
               {errorMsg.length == 0 ? null : (
@@ -182,7 +168,7 @@ export default function DataUjiPesawatRad({ payloadQueryParams }: RadProps) {
 
                 {isLoading ? <SpinnerCss /> : null}
                 <div className="mt-4 flex justify-center items-center">
-                  <Link className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row" href={dataUji[0] ? `/radiografi/parameter-uji/add?id_user=${dataUji[0].id_user}&id_spesifikasi=${dataUji[0].id_spesifikasi}` : "#"}>
+                  <Link className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row" href={dataUji[0] ? `/fluoroskopi/parameter-uji/add?id_user=${dataUji[0].id_user}&id_spesifikasi=${dataUji[0].id_spesifikasi}` : "#"}>
                     <Plus />
                     <span>Add New Data</span>
                   </Link>

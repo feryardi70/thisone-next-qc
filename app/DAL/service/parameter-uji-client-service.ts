@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getDataUjiByUserIdnSpecId } from "../repository/spec-repository";
+import { getDataUjiByUserIdnSpecId } from "../repository/fluoroskopi-spec-repository";
 
 interface Machine {
   id_parameter: number;
@@ -41,9 +41,7 @@ interface RadProps {
   };
 }
 
-export const useFetchDataUjiByUserIdnSpecId = ({
-  payloadQueryParams,
-}: RadProps) => {
+export const useFetchDataUjiByUserIdnSpecId = ({ payloadQueryParams }: RadProps) => {
   const [dataUji, setDataUji] = useState<Machine[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
@@ -55,6 +53,30 @@ export const useFetchDataUjiByUserIdnSpecId = ({
         const data = await getDataUjiByUserIdnSpecId({ payloadQueryParams });
         //const data = await response.json();
         //console.log(data.data);
+        setDataUji(data.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+        setErrorMsg("An error occurred, please try again later!");
+      }
+    };
+    fetchDataUji();
+  }, []);
+
+  return { dataUji, isLoading, errorMsg };
+};
+
+export const useFetchDataUjiByUserIdnSpecIdforFlo = ({ payloadQueryParams }: RadProps) => {
+  const [dataUji, setDataUji] = useState<Machine[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  useEffect(() => {
+    const fetchDataUji = async () => {
+      try {
+        setIsLoading(true);
+        const data = await getDataUjiByUserIdnSpecId({ payloadQueryParams });
         setDataUji(data.data);
         setIsLoading(false);
       } catch (error) {

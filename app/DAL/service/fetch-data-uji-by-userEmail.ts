@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getDataRadByUserEmail } from "../repository/radiografi-repository";
+import { getDataFloByUserEmail } from "../repository/fluoroskopi-repository";
 
 interface Machine {
   email: string;
@@ -35,15 +36,54 @@ export const useFetchDataUjiByUserEmail = (email: string) => {
         //console.log(dataUji);
         setDataUji(dataUji || []);
         setIsLoading(false);
-      } catch (error) { 
+      } catch (error) {
         const err = error as Error;
         if (err.name !== "AbortError") {
-        setErrorMsg("An error occurred, please try again later!");
+          setErrorMsg("An error occurred, please try again later!");
         }
         setIsLoading(false);
       }
     };
-    
+
+    fetchDataUji();
+
+    return () => controller.abort();
+  }, [email]);
+
+  return { allDataUji, dataUji, isLoading, errorMsg };
+};
+
+export const useFetchDataUjiFloByUserEmail = (email: string) => {
+  const [dataUji, setDataUji] = useState<Machine[]>([]);
+  const [allDataUji, setAllDataUji] = useState<Machine[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    const fetchDataUji = async () => {
+      try {
+        setIsLoading(true);
+        const data = await getDataFloByUserEmail(email, signal);
+        //const data = await response.json();
+        //console.log(data);
+        const allDataUji = await data.data;
+        const dataUji = await data.selectedData;
+        setAllDataUji(allDataUji || []);
+        //console.log(dataUji);
+        setDataUji(dataUji || []);
+        setIsLoading(false);
+      } catch (error) {
+        const err = error as Error;
+        if (err.name !== "AbortError") {
+          setErrorMsg("An error occurred, please try again later!");
+        }
+        setIsLoading(false);
+      }
+    };
+
     fetchDataUji();
 
     return () => controller.abort();

@@ -1,13 +1,6 @@
 import { NextResponse } from "next/server";
-import {
-  readDataRadByIdSpec,
-  readDataUjiByUserIdnSpecIdFromExtApi,
-  removeDataRadByIdSpec,
-} from "@/app/DAL/repository/spec-repository";
-import {
-  editDataRadByIdSpec,
-  insertDataRad,
-} from "@/app/DAL/service/spec-service";
+import { readDataRadByIdSpec, readDataUjiByUserIdnSpecIdFromExtApi, removeDataRadByIdSpec } from "@/app/DAL/repository/spec-repository";
+import { editDataRadByIdSpec, insertDataRad } from "@/app/DAL/service/spec-service";
 import { precheck } from "@/app/lib/precheck";
 import { cookies } from "next/headers";
 import { csrfTokenName, sessionTokenName } from "@/app/lib/constant";
@@ -22,23 +15,14 @@ export async function GET(request: Request) {
   //console.log("userId", id_user);
 
   if (!id_spesifikasi) {
-    return NextResponse.json(
-      { error: "bad request: id_user is required" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "bad request: id_user is required" }, { status: 400 });
   }
 
   if (!id_user) {
-    return NextResponse.json(
-      { error: "bad request: id_user is required" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "bad request: id_user is required" }, { status: 400 });
   }
 
-  const qcData = await readDataUjiByUserIdnSpecIdFromExtApi(
-    id_user,
-    id_spesifikasi
-  );
+  const qcData = await readDataUjiByUserIdnSpecIdFromExtApi(id_user, id_spesifikasi);
   //console.log(qcData);
 
   return NextResponse.json(qcData, { status: 200 });
@@ -57,9 +41,8 @@ export async function PATCH(request: Request) {
       status: preCheckResult.status,
     });
   }
-  
-  const { id_spesifikasi, Merk, Model, No_Seri, jenis_pesawat, id_user } =
-    await request.json();
+
+  const { id_spesifikasi, Merk, Model, No_Seri, jenis_pesawat, id_user } = await request.json();
   //console.log('body.1value', id_user);
 
   const callbackData = {
@@ -67,23 +50,13 @@ export async function PATCH(request: Request) {
     id_user,
   };
 
-  const updateResponse = await editDataRadByIdSpec(
-    Merk,
-    Model,
-    No_Seri,
-    jenis_pesawat,
-    id_user,
-    id_spesifikasi
-  );
+  const updateResponse = await editDataRadByIdSpec(Merk, Model, No_Seri, jenis_pesawat, id_user, id_spesifikasi);
 
   if (updateResponse.success !== true) {
     return NextResponse.json({ error: "unexpected error" }, { status: 500 });
   }
 
-  return NextResponse.json(
-    { data: callbackData, msg: "successfully edit data" },
-    { status: 200 }
-  );
+  return NextResponse.json({ data: callbackData, msg: "successfully edit data" }, { status: 200 });
 }
 
 export async function POST(request: Request) {
@@ -107,22 +80,13 @@ export async function POST(request: Request) {
     id_user,
   };
 
-  const result = await insertDataRad(
-    jenis_pesawat,
-    Merk,
-    Model,
-    No_Seri,
-    id_user
-  );
+  const result = await insertDataRad(jenis_pesawat, Merk, Model, No_Seri, id_user);
 
   if (result.success !== true) {
     return NextResponse.json({ error: "unexpected error" }, { status: 500 });
   }
 
-  return NextResponse.json(
-    { data: callbackData, msg: "successfully adding data" },
-    { status: 200 }
-  );
+  return NextResponse.json({ data: callbackData, msg: "successfully adding data" }, { status: 200 });
 }
 
 export async function DELETE(request: Request) {
@@ -144,10 +108,7 @@ export async function DELETE(request: Request) {
   console.log("specsId", id_spesifikasi);
 
   if (!id_spesifikasi) {
-    return NextResponse.json(
-      { error: "bad request: id is required" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "bad request: id is required" }, { status: 400 });
   }
 
   const dataUji = await readDataRadByIdSpec(id_spesifikasi);
@@ -155,10 +116,7 @@ export async function DELETE(request: Request) {
   console.log("data = ", dataUji);
 
   if (dataUji.data.length == 0) {
-    return NextResponse.json(
-      { error: "bad request: data uji tidak ditemukan" },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: "bad request: data uji tidak ditemukan" }, { status: 404 });
   }
 
   const deletedData = await removeDataRadByIdSpec(id_spesifikasi);
