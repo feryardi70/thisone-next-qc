@@ -1,5 +1,4 @@
 import getSession from "@/app/action/session";
-//import AddNewDataUjiForm from "@/app/components/radiografi/FormAddData";
 import AddNewDataUjiFloForm from "@/app/components/fluoroskopi/FormAddDataUjiFlo";
 import { redirect } from "next/navigation";
 

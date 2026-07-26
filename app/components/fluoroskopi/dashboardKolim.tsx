@@ -28,6 +28,10 @@ export default function Dashboard({ email }: { email: string }) {
   const [selectedSpecId, setSelectedSpecId] = useState<number | null>(null);
   const pathname = usePathname();
 
+  const dataLength = allDataUji.length;
+  const tanggalUji = allDataUji[dataLength - 1]?.Tanggal_uji;
+  //console.log("Tanggal Uji Terakhir:", tanggalUji);
+
   const identifikasiPesawat = allDataUji.map(({ id_user, jenis_pesawat, id_spesifikasi, Merk, Model, No_Seri }) => ({
     id_user,
     jenis_pesawat,
@@ -36,9 +40,9 @@ export default function Dashboard({ email }: { email: string }) {
     Model,
     No_Seri,
   }));
-  const sortedIdentifikasiPesawat = [...identifikasiPesawat].sort((a, b) => b.id_spesifikasi - a.id_spesifikasi);
+  //const sortedIdentifikasiPesawat = [...identifikasiPesawat].sort((a, b) => b.id_spesifikasi - a.id_spesifikasi);
 
-  const identifikasiPesawatUnik = sortedIdentifikasiPesawat.filter((value, index, self) => index === self.findIndex((t) => t.id_user === value.id_user && t.Merk === value.Merk && t.Model === value.Model && t.No_Seri === value.No_Seri));
+  const identifikasiPesawatUnik = identifikasiPesawat.filter((value, index, self) => index === self.findIndex((t) => t.id_user === value.id_user && t.Merk === value.Merk && t.Model === value.Model && t.No_Seri === value.No_Seri));
   //console.log("Unique Machines:", identifikasiPesawatUnik);
 
   const current = dataUji[0];
@@ -96,7 +100,7 @@ export default function Dashboard({ email }: { email: string }) {
     return (
       <div className="flex flex-wrap justify-center gap-1 mb-4">
         {identifikasiPesawatUnik.map((item, index) => {
-          const href = index === 0 ? `/dashboard/fluoroskopi/kolimasi` : `/dashboard/fluoroskopi/kolimasi?No_Seri=${item.No_Seri}&id=${item.id_user}`;
+          const href = tanggalUji == null ? "#" : index === 0 ? `/dashboard/fluoroskopi/kolimasi` : `/dashboard/fluoroskopi/kolimasi?No_Seri=${item.No_Seri}&id=${item.id_user}`;
 
           // Tentukan apakah item ini aktif:
           const isDefault = currentId === null && currentNoSeri === null;

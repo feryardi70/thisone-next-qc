@@ -10,14 +10,14 @@ import { useFetchDataUjiByUserIdnSpecIdforFlo } from "@/app/DAL/service/paramete
 import { deleteDataUjiByIdParameter } from "@/app/DAL/repository/parameter-uji-repository";
 import { toast } from "sonner";
 
-interface RadProps {
+interface FloProps {
   payloadQueryParams: {
     spesifikasiId: number;
     userId: number;
   };
 }
 
-export default function DataUjiPesawatFlo({ payloadQueryParams }: RadProps) {
+export default function DataUjiPesawatFlo({ payloadQueryParams }: FloProps) {
   const [selectedParameterId, setSelectedParameterId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 

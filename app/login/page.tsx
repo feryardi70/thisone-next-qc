@@ -8,14 +8,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Eye,
-  EyeOff,
-  Lock,
-  AlertCircle,
-  KeySquare,
-  Mail,
-} from "lucide-react";
+import { Eye, EyeOff, Lock, AlertCircle, KeySquare, Mail } from "lucide-react";
 import { SignInGoogle } from "../components/signin-google";
 
 export default function SignIn() {
@@ -53,9 +46,7 @@ export default function SignIn() {
       //console.log("Response from signInCredentials:", result);
 
       if (result === "Invalid email or password.") {
-        setError(
-          "Authentication failed, wrong username and password combination"
-        );
+        setError("Authentication failed, wrong username and password combination");
       } else if (typeof result == "string") {
         setError("An error occurred during login");
       } else {
@@ -79,14 +70,14 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-green-900 via-lime-900 to-green-950">
       {/* Background Image */}
-      {/* <div
+      <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
         style={{
-          backgroundImage: "url('/img/nias2.jpeg')",
+          backgroundImage: "url('1785032946842.jpg')",
         }}
-      /> */}
+      />
 
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
@@ -102,7 +93,7 @@ export default function SignIn() {
           <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl p-8 shadow-2xl">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl mb-4 shadow-lg">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-emerald-500 to-green-500 rounded-2xl mb-4 shadow-lg">
                 <Lock className="w-8 h-8 text-white" />
               </div>
               <div className="flex flex-row items-center justify-center gap-2">
@@ -151,10 +142,7 @@ export default function SignIn() {
 
               {/* Password Field */}
               <div className="space-y-2">
-                <Label
-                  htmlFor="password"
-                  className="text-yellow-300 font-medium"
-                >
+                <Label htmlFor="password" className="text-yellow-300 font-medium">
                   Password
                 </Label>
                 <div className="relative">
@@ -169,16 +157,8 @@ export default function SignIn() {
                     className="pl-12 pr-12 h-12 bg-white/10 border-white/20 text-black placeholder:text-white/50 rounded-xl backdrop-blur-sm focus:bg-white/20 focus:border-white/40 transition-all duration-300"
                     required
                   />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-white/80 transition-colors"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="w-5 h-5" />
-                    ) : (
-                      <Eye className="w-5 h-5" />
-                    )}
+                  <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-white/80 transition-colors">
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
                 </div>
               </div>
@@ -192,10 +172,7 @@ export default function SignIn() {
                   />
                   <span className="text-white/70 text-sm">Remember me</span>
                 </label> */}
-                <Link
-                  href="/forgot"
-                  className="text-purple-300 hover:text-yellow-300 text-sm font-medium transition-colors"
-                >
+                <Link href="/forgot" className="text-purple-300 hover:text-yellow-300 text-sm font-medium transition-colors">
                   Forgot password?
                 </Link>
               </div>
@@ -204,7 +181,7 @@ export default function SignIn() {
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-12 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                className="w-full h-12 bg-gradient-to-r from-emerald-700 to-green-700 hover:from-emerald-600 hover:to-green-600 text-white text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
                 {isLoading ? (
                   <div className="flex items-center gap-2">
@@ -235,7 +212,7 @@ export default function SignIn() {
             </div>
 
             {/* Social Login Buttons */}
-            <div className="flex justify-center items-center mt-2">
+            <div className="flex justify-center items-center mt-2 hover:scale-[1.05] transition-transform duration-300">
               <SignInGoogle />
             </div>
 
@@ -243,10 +220,7 @@ export default function SignIn() {
             <div className="mt-3 text-center">
               <p className="text-white/70">
                 {"Don't have an account? "}
-                <Link
-                  href="/register"
-                  className="text-yellow-300 hover:text-white font-medium transition-colors"
-                >
+                <Link href="/register" className="text-yellow-300 hover:text-white font-medium transition-colors">
                   Sign up here
                 </Link>
               </p>

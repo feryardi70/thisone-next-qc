@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-//import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import SideBar from "../Sidebar";
 import Header from "../Header";
-//import { toast } from "sonner";
-//import { addDataUji } from "@/app/DAL/repository/parameter-uji-repository";
+import { toast } from "sonner";
+import { addDataUjiFlo } from "@/app/DAL/repository/parameter-uji-flo-repository";
 
 interface RadProps {
   payloadQueryParams: {
@@ -16,7 +16,7 @@ interface RadProps {
 }
 
 export default function AddNewDataUjiFloForm({ payloadQueryParams }: RadProps) {
-  //   const router = useRouter();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [dataUji, setDataUji] = useState({
     Kolimasi_deltaX: "",
@@ -46,53 +46,53 @@ export default function AddNewDataUjiFloForm({ payloadQueryParams }: RadProps) {
     e.preventDefault();
     setLoading(true);
     // Handle form submission logic
-    // const dataUjiData = {
-    //   Kolimasi_deltaX: dataUji.Kolimasi_deltaX,
-    //   Kolimasi_deltaY: dataUji.Kolimasi_deltaY,
-    //   Titik_pusat: dataUji.Titik_pusat,
-    //   Akurasi_kV: dataUji.Akurasi_kV,
-    //   Waktu_Fluoroskopik: dataUji.Waktu_Fluoroskopik,
-    //   HVL: dataUji.HVL,
-    //   HVL_80: dataUji.HVL_80,
-    //   Esd: dataUji.Esd,
-    //   Dmax: dataUji.Dmax,
-    //   Dmax_high: dataUji.Dmax_high,
-    //   Input_II_a: dataUji.Input_II_a,
-    //   Input_II_b: dataUji.Input_II_b,
-    //   Input_II_c: dataUji.Input_II_c,
-    //   Low_contrast: dataUji.Low_contrast,
-    //   High_contrast_d1: dataUji.High_contrast_d1,
-    //   High_contrast_d2: dataUji.High_contrast_d2,
-    //   High_contrast_d3: dataUji.High_contrast_d3,
-    //   High_contrast_d4: dataUji.High_contrast_d4,
-    //   High_contrast_d5: dataUji.High_contrast_d5,
-    //   High_contrast_d6: dataUji.High_contrast_d6,
-    //   Tanggal_uji: dataUji.Tanggal_uji,
-    //   id_user: payloadQueryParams.userId,
-    //   id_spesifikasi: payloadQueryParams.spesifikasiId,
-    // };
+    const dataUjiData = {
+      Kolimasi_deltaX: dataUji.Kolimasi_deltaX,
+      Kolimasi_deltaY: dataUji.Kolimasi_deltaY,
+      Titik_pusat: dataUji.Titik_pusat,
+      Akurasi_kV: dataUji.Akurasi_kV,
+      Waktu_Fluoroskopik: dataUji.Waktu_Fluoroskopik,
+      HVL: dataUji.HVL,
+      HVL_80: dataUji.HVL_80,
+      Esd: dataUji.Esd,
+      Dmax: dataUji.Dmax,
+      Dmax_high: dataUji.Dmax_high,
+      Input_II_a: dataUji.Input_II_a,
+      Input_II_b: dataUji.Input_II_b,
+      Input_II_c: dataUji.Input_II_c,
+      Low_contrast: dataUji.Low_contrast,
+      High_contrast_d1: dataUji.High_contrast_d1,
+      High_contrast_d2: dataUji.High_contrast_d2,
+      High_contrast_d3: dataUji.High_contrast_d3,
+      High_contrast_d4: dataUji.High_contrast_d4,
+      High_contrast_d5: dataUji.High_contrast_d5,
+      High_contrast_d6: dataUji.High_contrast_d6,
+      Tanggal_uji: dataUji.Tanggal_uji,
+      id_user: payloadQueryParams.userId,
+      id_spesifikasi: payloadQueryParams.spesifikasiId,
+    };
 
-    // try {
-    //   const { saveResponse, response } = await addDataUji(dataUjiData);
+    try {
+      const { saveResponse, response } = await addDataUjiFlo(dataUjiData);
 
-    //   if (saveResponse.status !== 200) {
-    //     setLoading(false);
-    //     // alert("successfully Adding New Data Uji!");
-    //     toast("Failed to add data");
-    //     return;
-    //   }
+      if (saveResponse.status !== 200) {
+        setLoading(false);
+        // alert("successfully Adding New Data Uji!");
+        toast("Failed to add data");
+        return;
+      }
 
-    //   setLoading(false);
-    //   alert("successfully Adding New Data Uji!");
+      setLoading(false);
+      alert("successfully Adding New Data Uji!");
 
-    //   router.push(`/radiografi/parameter-uji?id_spesifikasi=${response.data.id_spesifikasi}&id_user=${response.data.id_user}`);
-    // } catch (error) {
-    //   console.error(error);
-    //   setLoading(false);
-    //   toast("Failed to add data", {
-    //     className: "bg-red-400 text-black",
-    //   });
-    // }
+      router.push(`/fluoroskopi/parameter-uji?id_spesifikasi=${response.data.id_spesifikasi}&id_user=${response.data.id_user}`);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+      toast("Failed to add data", {
+        className: "bg-red-400 text-black",
+      });
+    }
   };
 
   return (
@@ -243,7 +243,7 @@ export default function AddNewDataUjiFloForm({ payloadQueryParams }: RadProps) {
                     </label>
                     <input
                       type="number"
-                      step={0.1}
+                      step={0.01}
                       className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
                       id="Esd"
                       name="Esd"
@@ -254,7 +254,7 @@ export default function AddNewDataUjiFloForm({ payloadQueryParams }: RadProps) {
                           Esd: e.target.value,
                         })
                       }
-                      placeholder="0.000"
+                      placeholder="17"
                       aria-describedby="Esd"
                     />
 
@@ -263,7 +263,7 @@ export default function AddNewDataUjiFloForm({ payloadQueryParams }: RadProps) {
                     </label>
                     <input
                       type="number"
-                      step={0.001}
+                      step={0.01}
                       className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
                       id="Dmax"
                       name="Dmax"
@@ -274,7 +274,7 @@ export default function AddNewDataUjiFloForm({ payloadQueryParams }: RadProps) {
                           Dmax: e.target.value,
                         })
                       }
-                      placeholder="0.000"
+                      placeholder="50"
                       aria-describedby="Dmax"
                     />
 
@@ -283,7 +283,7 @@ export default function AddNewDataUjiFloForm({ payloadQueryParams }: RadProps) {
                     </label>
                     <input
                       type="number"
-                      step={0.001}
+                      step={0.01}
                       className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
                       id="Dmax_high"
                       name="Dmax_high"
@@ -294,7 +294,7 @@ export default function AddNewDataUjiFloForm({ payloadQueryParams }: RadProps) {
                           Dmax_high: e.target.value,
                         })
                       }
-                      placeholder="0.000"
+                      placeholder="100"
                       aria-describedby="Dmax_high"
                     />
 
@@ -309,7 +309,7 @@ export default function AddNewDataUjiFloForm({ payloadQueryParams }: RadProps) {
                       name="Input_II_a"
                       value={dataUji.Input_II_a || ""}
                       onChange={(e) => setDataUji({ ...dataUji, Input_II_a: e.target.value })}
-                      placeholder="2.1"
+                      placeholder="120"
                       aria-describedby="Input_II_a"
                     />
 
@@ -324,12 +324,12 @@ export default function AddNewDataUjiFloForm({ payloadQueryParams }: RadProps) {
                       name="Input_II_b"
                       value={dataUji.Input_II_b || ""}
                       onChange={(e) => setDataUji({ ...dataUji, Input_II_b: e.target.value })}
-                      placeholder="2.3"
+                      placeholder="90"
                       aria-describedby="Input_II_b"
                     />
 
                     <label htmlFor="Input_II_c" className="mb-1 text-slate-500">
-                      Laju Dosis di Permukaan Reseptor Laju Dosis di Permukaan Reseptor &#40;image receptor ≥ 23 cm&#41;
+                      Laju Dosis di Permukaan Reseptor Laju Dosis di Permukaan Reseptor &#40;image receptor &ge; 23 cm&#41;
                     </label>
                     <input
                       type="number"
@@ -339,7 +339,7 @@ export default function AddNewDataUjiFloForm({ payloadQueryParams }: RadProps) {
                       name="Input_II_c"
                       value={dataUji.Input_II_c || ""}
                       onChange={(e) => setDataUji({ ...dataUji, Input_II_c: e.target.value })}
-                      placeholder="2.3"
+                      placeholder="60"
                       aria-describedby="Input_II_c"
                     />
 
@@ -358,122 +358,144 @@ export default function AddNewDataUjiFloForm({ payloadQueryParams }: RadProps) {
                   </div>
 
                   <div className="flex flex-col w-[33%]">
-                    <label htmlFor="Esd" className="mb-1 text-slate-500">
-                      Laju Dosis Tipikal (ESD)
+                    <label htmlFor="Low_contrast" className="mb-1 text-slate-500">
+                      Ambang kontras rendah (Low Contrast 10mm)
                     </label>
                     <input
                       type="number"
                       step={0.1}
                       className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
-                      id="Esd"
-                      name="Esd"
-                      value={dataUji.Esd || ""}
+                      id="Low_contrast"
+                      name="Low_contrast"
+                      value={dataUji.Low_contrast || ""}
                       onChange={(e) =>
                         setDataUji({
                           ...dataUji,
-                          Esd: e.target.value,
+                          Low_contrast: e.target.value,
                         })
                       }
-                      placeholder="0.000"
-                      aria-describedby="Esd"
+                      placeholder="5"
+                      aria-describedby="Low_contrast"
                     />
 
-                    <label htmlFor="Dmax" className="mb-1 text-slate-500">
-                      Laju Dosis Maksimum di Udara mode Normal
+                    <label htmlFor="High_contrast_d1" className="mb-1 text-slate-500">
+                      Ambang kontras tinggi/Resolusi Spasial FoV 36-40 cm
                     </label>
                     <input
                       type="number"
-                      step={0.001}
+                      step={0.1}
                       className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
-                      id="Dmax"
-                      name="Dmax"
-                      value={dataUji.Dmax || ""}
+                      id="High_contrast_d1"
+                      name="High_contrast_d1"
+                      value={dataUji.High_contrast_d1 || ""}
                       onChange={(e) =>
                         setDataUji({
                           ...dataUji,
-                          Dmax: e.target.value,
+                          High_contrast_d1: e.target.value,
                         })
                       }
-                      placeholder="0.000"
-                      aria-describedby="Dmax"
+                      placeholder="0.7"
+                      aria-describedby="High_contrast_d1"
                     />
 
-                    <label htmlFor="Dmax_high" className="mb-1 text-slate-500">
-                      Laju Dosis Maksimum di Udara mode High
+                    <label htmlFor="High_contrast_d2" className="mb-1 text-slate-500">
+                      Ambang kontras tinggi/Resolusi Spasial FoV 30-35 cm
                     </label>
                     <input
                       type="number"
-                      step={0.001}
+                      step={0.1}
                       className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
-                      id="Dmax_high"
-                      name="Dmax_high"
-                      value={dataUji.Dmax_high || ""}
+                      id="High_contrast_d2"
+                      name="High_contrast_d2"
+                      value={dataUji.High_contrast_d2 || ""}
                       onChange={(e) =>
                         setDataUji({
                           ...dataUji,
-                          Dmax_high: e.target.value,
+                          High_contrast_d2: e.target.value,
                         })
                       }
-                      placeholder="0.000"
-                      aria-describedby="Dmax_high"
+                      placeholder="0.8"
+                      aria-describedby="High_contrast_d2"
                     />
 
-                    <label htmlFor="Input_II_a" className="mb-1 text-slate-500">
-                      Laju Dosis di Permukaan Reseptor Laju Dosis di Permukaan Reseptor &#40;11 cm &le; diameter image receptor &lt; 14 cm&#41;
+                    <label htmlFor="High_contrast_d3" className="mb-1 text-slate-500">
+                      Ambang kontras tinggi/Resolusi Spasial FoV 25-29 cm
+                    </label>
+                    <input
+                      type="number"
+                      step={0.1}
+                      className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+                      id="High_contrast_d3"
+                      name="High_contrast_d3"
+                      value={dataUji.High_contrast_d3 || ""}
+                      onChange={(e) =>
+                        setDataUji({
+                          ...dataUji,
+                          High_contrast_d3: e.target.value,
+                        })
+                      }
+                      placeholder="0.9"
+                      aria-describedby="High_contrast_d3"
+                    />
+
+                    <label htmlFor="High_contrast_d4" className="mb-1 text-slate-500">
+                      Ambang kontras tinggi/Resolusi Spasial FoV 20-24 cm
+                    </label>
+                    <input
+                      type="number"
+                      step={0.1}
+                      className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+                      id="High_contrast_d4"
+                      name="High_contrast_d4"
+                      value={dataUji.High_contrast_d4 || ""}
+                      onChange={(e) =>
+                        setDataUji({
+                          ...dataUji,
+                          High_contrast_d4: e.target.value,
+                        })
+                      }
+                      placeholder="1.0"
+                      aria-describedby="High_contrast_d4"
+                    />
+
+                    <label htmlFor="High_contrast_d5" className="mb-1 text-slate-500">
+                      Ambang kontras tinggi/Resolusi Spasial FoV 15-18 cm
                     </label>
                     <input
                       type="number"
                       step={0.01}
                       className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
-                      id="Input_II_a"
-                      name="Input_II_a"
-                      value={dataUji.Input_II_a || ""}
-                      onChange={(e) => setDataUji({ ...dataUji, Input_II_a: e.target.value })}
-                      placeholder="2.1"
-                      aria-describedby="Input_II_a"
+                      id="High_contrast_d5"
+                      name="High_contrast_d5"
+                      value={dataUji.High_contrast_d5 || ""}
+                      onChange={(e) =>
+                        setDataUji({
+                          ...dataUji,
+                          High_contrast_d5: e.target.value,
+                        })
+                      }
+                      placeholder="1.25"
+                      aria-describedby="High_contrast_d5"
                     />
 
-                    <label htmlFor="Input_II_b" className="mb-1 text-slate-500">
-                      Laju Dosis di Permukaan Reseptor Laju Dosis di Permukaan Reseptor &#40;14 cm &le; diameter image receptor &lt; 23 cm&#41;
+                    <label htmlFor="High_contrast_d6" className="mb-1 text-slate-500">
+                      Ambang kontras tinggi/Resolusi Spasial FoV &le; 14 cm
                     </label>
                     <input
                       type="number"
-                      step={0.01}
+                      step={0.1}
                       className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
-                      id="Input_II_b"
-                      name="Input_II_b"
-                      value={dataUji.Input_II_b || ""}
-                      onChange={(e) => setDataUji({ ...dataUji, Input_II_b: e.target.value })}
-                      placeholder="2.3"
-                      aria-describedby="Input_II_b"
-                    />
-
-                    <label htmlFor="Input_II_c" className="mb-1 text-slate-500">
-                      Laju Dosis di Permukaan Reseptor Laju Dosis di Permukaan Reseptor &#40;image receptor ≥ 23 cm&#41;
-                    </label>
-                    <input
-                      type="number"
-                      step={0.01}
-                      className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
-                      id="Input_II_c"
-                      name="Input_II_c"
-                      value={dataUji.Input_II_c || ""}
-                      onChange={(e) => setDataUji({ ...dataUji, Input_II_c: e.target.value })}
-                      placeholder="2.3"
-                      aria-describedby="Input_II_c"
-                    />
-
-                    <label htmlFor="Tanggal_uji" className="mb-1 text-slate-500">
-                      Tanggal Uji
-                    </label>
-                    <input
-                      type="date"
-                      className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
-                      id="Tanggal_uji"
-                      name="Tanggal_uji"
-                      value={dataUji.Tanggal_uji || ""}
-                      onChange={(e) => setDataUji({ ...dataUji, Tanggal_uji: e.target.value })}
-                      aria-describedby="Tanggal_uji"
+                      id="High_contrast_d6"
+                      name="High_contrast_d6"
+                      value={dataUji.High_contrast_d6 || ""}
+                      onChange={(e) =>
+                        setDataUji({
+                          ...dataUji,
+                          High_contrast_d6: e.target.value,
+                        })
+                      }
+                      placeholder="1.6"
+                      aria-describedby="High_contrast_d6"
                     />
                   </div>
                 </div>

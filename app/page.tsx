@@ -4,7 +4,7 @@ import { ArrowRight, Activity, TrendingUp, ShieldCheck, Zap } from "lucide-react
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-700 to-green-400 text-white selection:bg-emerald-500/30 font-sans overflow-hidden">
+    <div className="min-h-screen bg-green-950 text-white selection:bg-emerald-500/30 font-sans overflow-hidden">
       {/* Background glowing orb */}
       <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[600px] h-[500px] bg-emerald-600/30 blur-[140px] rounded-full pointer-events-none" />
 
