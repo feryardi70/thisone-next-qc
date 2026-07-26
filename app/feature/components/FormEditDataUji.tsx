@@ -64,17 +64,17 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
     const raw = dataUji?.Tanggal_uji;
     //console.log(typeof raw);
     let dateOnly;
-    
-    if(raw.length == 0){
-      dateOnly = '';
-    } else{
+
+    if (raw.length == 0) {
+      dateOnly = "";
+    } else {
       dateOnly = new Date(raw).toLocaleDateString("en-CA");
     }
 
     return (
       <div className="flex justify-between gap-5">
         <div className="flex flex-col w-[33%]">
-          <label htmlFor="Iluminasi" className="mb-1 text-slate-500">
+          <label htmlFor="Iluminasi" className="mb-1 text-slate-950">
             Iluminasi
           </label>
           <input
@@ -83,14 +83,12 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             id="Iluminasi"
             name="Iluminasi"
             value={dataUji.Iluminasi || ""}
-            onChange={(e) =>
-              setDataUji({ ...dataUji, Iluminasi: e.target.value })
-            }
+            onChange={(e) => setDataUji({ ...dataUji, Iluminasi: e.target.value })}
             placeholder="100"
             aria-describedby="Iluminasi"
           />
 
-          <label htmlFor="Kolimasi_deltaX" className="mb-1 text-slate-500">
+          <label htmlFor="Kolimasi_deltaX" className="mb-1 text-slate-950">
             Kolimasi ΔX
           </label>
           <input
@@ -110,7 +108,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             aria-describedby="Kolimasi_deltaX"
           />
 
-          <label htmlFor="Kolimasi_deltaY" className="mb-1 text-slate-500">
+          <label htmlFor="Kolimasi_deltaY" className="mb-1 text-slate-950">
             Kolimasi ΔY
           </label>
           <input
@@ -130,7 +128,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             aria-describedby="Kolimasi_deltaY"
           />
 
-          <label htmlFor="Ketegaklurusan" className="mb-1 text-slate-500">
+          <label htmlFor="Ketegaklurusan" className="mb-1 text-slate-950">
             Ketegaklurusan
           </label>
           <input
@@ -139,14 +137,12 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             id="Ketegaklurusan"
             name="Ketegaklurusan"
             value={dataUji.Ketegaklurusan || ""}
-            onChange={(e) =>
-              setDataUji({ ...dataUji, Ketegaklurusan: e.target.value })
-            }
+            onChange={(e) => setDataUji({ ...dataUji, Ketegaklurusan: e.target.value })}
             placeholder="< 1.5"
             aria-describedby="Ketegaklurusan"
           />
 
-          <label htmlFor="Akurasi_kV" className="mb-1 text-slate-500">
+          <label htmlFor="Akurasi_kV" className="mb-1 text-slate-950">
             Akurasi kV
           </label>
           <input
@@ -156,14 +152,12 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             id="Akurasi_kV"
             name="Akurasi_kV"
             value={dataUji.Akurasi_kV || ""}
-            onChange={(e) =>
-              setDataUji({ ...dataUji, Akurasi_kV: e.target.value })
-            }
+            onChange={(e) => setDataUji({ ...dataUji, Akurasi_kV: e.target.value })}
             placeholder="10.0"
             aria-describedby="Akurasi_kV"
           />
 
-          <label htmlFor="Akurasi_waktu" className="mb-1 text-slate-500">
+          <label htmlFor="Akurasi_waktu" className="mb-1 text-slate-950">
             Akurasi waktu
           </label>
           <input
@@ -183,7 +177,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             aria-describedby="Akurasi_waktu"
           />
 
-          <label htmlFor="Linearitas" className="mb-1 text-slate-500">
+          <label htmlFor="Linearitas" className="mb-1 text-slate-950">
             Linearitas
           </label>
           <input
@@ -193,16 +187,14 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             id="Linearitas"
             name="Linearitas"
             value={dataUji.Linearitas || ""}
-            onChange={(e) =>
-              setDataUji({ ...dataUji, Linearitas: e.target.value })
-            }
+            onChange={(e) => setDataUji({ ...dataUji, Linearitas: e.target.value })}
             placeholder="0.01"
             aria-describedby="Linearitas"
           />
         </div>
 
         <div className="flex flex-col w-[33%]">
-          <label htmlFor="Reproduksibilitas" className="mb-1 text-slate-500">
+          <label htmlFor="Reproduksibilitas" className="mb-1 text-slate-950">
             Reproduksibilitas Kerma
           </label>
           <input
@@ -222,7 +214,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             aria-describedby="Reproduksibilitas"
           />
 
-          <label htmlFor="Reproduksibilitas_kV" className="mb-1 text-slate-500">
+          <label htmlFor="Reproduksibilitas_kV" className="mb-1 text-slate-950">
             Reproduksibilitas kV
           </label>
           <input
@@ -242,7 +234,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             aria-describedby="Reproduksibilitas_kV"
           />
 
-          <label htmlFor="Reproduksibilitas_waktu" className="mb-1 text-slate-500">
+          <label htmlFor="Reproduksibilitas_waktu" className="mb-1 text-slate-950">
             Reproduksibilitas waktu
           </label>
           <input
@@ -262,7 +254,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             aria-describedby="Reproduksibilitas_waktu"
           />
 
-          <label htmlFor="HVL" className="mb-1 text-slate-500">
+          <label htmlFor="HVL" className="mb-1 text-slate-950">
             HVL pada 70kV
           </label>
           <input
@@ -277,7 +269,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             aria-describedby="HVL"
           />
 
-          <label htmlFor="HVL_80" className="mb-1 text-slate-500">
+          <label htmlFor="HVL_80" className="mb-1 text-slate-950">
             HVL pada 80kV
           </label>
           <input
@@ -292,7 +284,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             aria-describedby="HVL_80"
           />
 
-          <label htmlFor="Kebocoran" className="mb-1 text-slate-500">
+          <label htmlFor="Kebocoran" className="mb-1 text-slate-950">
             Kebocoran
           </label>
           <input
@@ -302,14 +294,12 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             id="Kebocoran"
             name="Kebocoran"
             value={dataUji.Kebocoran || ""}
-            onChange={(e) =>
-              setDataUji({ ...dataUji, Kebocoran: e.target.value })
-            }
+            onChange={(e) => setDataUji({ ...dataUji, Kebocoran: e.target.value })}
             placeholder="0.01"
             aria-describedby="Kebocoran"
           />
 
-          <label htmlFor="Tanggal_uji" className="mb-1 text-slate-500">
+          <label htmlFor="Tanggal_uji" className="mb-1 text-slate-950">
             Tanggal Uji
           </label>
           <input
@@ -318,9 +308,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             id="Tanggal_uji"
             name="Tanggal_uji"
             value={dateOnly}
-            onChange={(e) =>
-              setDataUji({ ...dataUji, Tanggal_uji: e.target.value })
-            }
+            onChange={(e) => setDataUji({ ...dataUji, Tanggal_uji: e.target.value })}
             aria-describedby="Tanggal_uji"
           />
 
@@ -330,7 +318,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
         </div>
 
         <div className="flex flex-col w-[33%]">
-          <label htmlFor="Timer_darurat_mAs" className="mb-1 text-slate-500">
+          <label htmlFor="Timer_darurat_mAs" className="mb-1 text-slate-950">
             AEC - Timer Darurat (mAs)
           </label>
           <input
@@ -340,14 +328,12 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             id="Timer_darurat_mAs"
             name="Timer_darurat_mAs"
             value={dataUji.Timer_darurat_mAs || ""}
-            onChange={(e) =>
-              setDataUji({ ...dataUji, Timer_darurat_mAs: e.target.value })
-            }
+            onChange={(e) => setDataUji({ ...dataUji, Timer_darurat_mAs: e.target.value })}
             placeholder="600"
             aria-describedby="Timer_darurat_mAs"
           />
 
-          <label htmlFor="Timer_darurat_s" className="mb-1 text-slate-500">
+          <label htmlFor="Timer_darurat_s" className="mb-1 text-slate-950">
             AEC - Timer Darurat (s)
           </label>
           <input
@@ -357,14 +343,12 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             id="Timer_darurat_s"
             name="Timer_darurat_s"
             value={dataUji.Timer_darurat_s || ""}
-            onChange={(e) =>
-              setDataUji({ ...dataUji, Timer_darurat_s: e.target.value })
-            }
+            onChange={(e) => setDataUji({ ...dataUji, Timer_darurat_s: e.target.value })}
             placeholder="6"
             aria-describedby="Timer_darurat_s"
           />
 
-          <label htmlFor="Uniformitas_mAs" className="mb-1 text-slate-500">
+          <label htmlFor="Uniformitas_mAs" className="mb-1 text-slate-950">
             AEC - Densitas Standar & Uniformitas (Error mAs)
           </label>
           <input
@@ -384,7 +368,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             aria-describedby="Uniformitas_mAs"
           />
 
-          <label htmlFor="Uniformitas_EI" className="mb-1 text-slate-500">
+          <label htmlFor="Uniformitas_EI" className="mb-1 text-slate-950">
             AEC - Densitas Standar & Uniformitas (Error EI)
           </label>
           <input
@@ -404,7 +388,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             aria-describedby="Uniformitas_EI"
           />
 
-          <label htmlFor="Penjejakan_ketebalan" className="mb-1 text-slate-500">
+          <label htmlFor="Penjejakan_ketebalan" className="mb-1 text-slate-950">
             AEC - Penjejakan Ketebalan
           </label>
           <input
@@ -419,7 +403,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             aria-describedby="Penjejakan_ketebalan"
           />
 
-          <label htmlFor="Penjejakan_kV" className="mb-1 text-slate-500">
+          <label htmlFor="Penjejakan_kV" className="mb-1 text-slate-950">
             AEC - Penjejakan kV
           </label>
           <input
@@ -434,7 +418,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             aria-describedby="Penjejakan_kV"
           />
 
-          <label htmlFor="Penjejakan_kombinasi" className="mb-1 text-slate-500">
+          <label htmlFor="Penjejakan_kombinasi" className="mb-1 text-slate-950">
             AEC - Penjejakan kombinasi
           </label>
           <input
@@ -449,7 +433,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             aria-describedby="Penjejakan_kombinasi"
           />
 
-          <label htmlFor="Waktu_respon_min" className="mb-1 text-slate-500">
+          <label htmlFor="Waktu_respon_min" className="mb-1 text-slate-950">
             AEC - Waktu Respon Minimum
           </label>
           <input
@@ -459,9 +443,7 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
             id="Waktu_respon_min"
             name="Waktu_respon_min"
             value={dataUji.Waktu_respon_min || ""}
-            onChange={(e) =>
-              setDataUji({ ...dataUji, Waktu_respon_min: e.target.value })
-            }
+            onChange={(e) => setDataUji({ ...dataUji, Waktu_respon_min: e.target.value })}
             placeholder="3"
             aria-describedby="Waktu_respon_min"
           />
@@ -512,36 +494,31 @@ export default function EditDataUjiForm({ payloadQueryParams }: RadProps) {
     if (editResponse.status == 200) {
       setLoading(false);
       alert("successfully Update Data Uji!");
-      router.push(
-        `/radiografi/parameter-uji?id_spesifikasi=${editResult.data.id_spesifikasi}&id_user=${editResult.data.id_user}`
-      );
+      router.push(`/radiografi/parameter-uji?id_spesifikasi=${editResult.data.id_spesifikasi}&id_user=${editResult.data.id_user}`);
     } else {
       console.error("Failed to edit data");
       setLoading(false);
-      toast("failed to edit Data Uji")
+      toast.error("failed to edit Data Uji");
     }
     //router.push("/departure");
   };
 
   return (
     <div>
-      <div className="flex min-h-screen overflow-hidden bg-gradient-to-br from-green-50 to-green-100">
+      <div className="flex min-h-screen overflow-hidden bg-gradient-to-b from-green-800 to-green-400 text-black">
         <SideBar />
 
         <div className="flex-1 flex flex-col min-w-0">
           <Header email={payloadQueryParams.email} />
 
           <main className="mt-3 flex justify-center items-center">
-            <div className="px-5 py-5 shadow-md max-w-3xl min-h-screen w-full border-t-4 border-green-500">
+            <div className="px-5 py-5 shadow-md max-w-3xl min-h-screen w-full border-t-4 bg-green-100 border-fuchsia-500">
               <h2 className="mb-5 text-center text-3xl">Form Edit Data Uji</h2>
 
-              <form onSubmit={(e) => handleEdit(e)} className="flex flex-col">
+              <form onSubmit={(e) => handleEdit(e)} className="flex flex-col ">
                 {renderDataUji()}
 
-                <button
-                  type="submit"
-                  className="px-2 py-2 bg-gradient-to-r from-lime-500 to-green-500 hover:from-fuchsia-600 hover:to-pink-300 rounded text-white"
-                >
+                <button type="submit" className="px-2 py-2 bg-gradient-to-r from-lime-600 to-green-700 hover:from-fuchsia-600 hover:to-pink-300 rounded text-white">
                   {loading ? "Updating Data... Please wait..." : "Update Data"}
                 </button>
               </form>

@@ -199,7 +199,7 @@ export default function Dashboard({ email }: { email: string }) {
 
   return (
     <div>
-      <div className="flex h-screen overflow-hidden bg-gradient-to-br from-green-800 to-green-500">
+      <div className="flex h-screen overflow-hidden bg-gradient-to-b from-green-800 to-green-400">
         {/* Sidebar */}
         <SideBar />
         {/* // */}

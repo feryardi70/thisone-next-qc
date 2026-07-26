@@ -57,32 +57,31 @@ export default function DataUjiPesawatFlo({ payloadQueryParams }: FloProps) {
         <tr key={d.id_parameter} className="odd:bg-green-50 even:bg-green-100">
           <td className="text-center w-7 px-3 py-2">{++i}</td>
           <td className="hidden">{d.id_parameter}</td>
-          <td className="text-center px-3 py-2">{d.Iluminasi}</td>
           <td className="text-center px-3 py-2">{d.Kolimasi_deltaX}</td>
           <td className="text-center px-3 py-2">{d.Kolimasi_deltaY}</td>
-          <td className="text-center px-3 py-2">{d.Ketegaklurusan}</td>
+          <td className="text-center px-3 py-2">{d.Titik_pusat}</td>
           <td className="text-center px-3 py-2">{d.Akurasi_kV}</td>
-          <td className="text-center px-3 py-2">{d.Akurasi_waktu}</td>
-          <td className="text-center px-3 py-2">{d.Linearitas}</td>
-          <td className="text-center px-3 py-2">{d.Reproduksibilitas}</td>
-          <td className="text-center px-3 py-2">{d.Reproduksibilitas_kV}</td>
-          <td className="text-center px-3 py-2">{d.Reproduksibilitas_waktu}</td>
+          <td className="text-center px-3 py-2">{d.Waktu_Fluoroskopik}</td>
           <td className="text-center px-3 py-2">{d.HVL}</td>
           <td className="text-center px-3 py-2">{d.HVL_80}</td>
-          <td className="text-center px-3 py-2">{d.Kebocoran}</td>
-          <td className="text-center px-3 py-2">{d.Timer_darurat_mAs}</td>
-          <td className="text-center px-3 py-2">{d.Timer_darurat_s}</td>
-          <td className="text-center px-3 py-2">{d.Uniformitas_mAs}</td>
-          <td className="text-center px-3 py-2">{d.Uniformitas_EI}</td>
-          <td className="text-center px-3 py-2">{d.Penjejakan_ketebalan}</td>
-          <td className="text-center px-3 py-2">{d.Penjejakan_kV}</td>
-          <td className="text-center px-3 py-2">{d.Penjejakan_kombinasi}</td>
-          <td className="text-center px-3 py-2">{d.Waktu_respon_min}</td>
+          <td className="text-center px-3 py-2">{d.Esd}</td>
+          <td className="text-center px-3 py-2">{d.Dmax}</td>
+          <td className="text-center px-3 py-2">{d.Dmax_high}</td>
+          <td className="text-center px-3 py-2">{d.Input_II_a}</td>
+          <td className="text-center px-3 py-2">{d.Input_II_b}</td>
+          <td className="text-center px-3 py-2">{d.Input_II_c}</td>
+          <td className="text-center px-3 py-2">{d.Low_contrast}</td>
+          <td className="text-center px-3 py-2">{d.High_contrast_d1}</td>
+          <td className="text-center px-3 py-2">{d.High_contrast_d2}</td>
+          <td className="text-center px-3 py-2">{d.High_contrast_d3}</td>
+          <td className="text-center px-3 py-2">{d.High_contrast_d4}</td>
+          <td className="text-center px-3 py-2">{d.High_contrast_d5}</td>
+          <td className="text-center px-3 py-2">{d.High_contrast_d6}</td>
           <td className="hidden">{d.id_user}</td>
           <td className="hidden">{d.id_spesifikasi}</td>
           <td className="text-center px-3 py-2">
             <span className="px-2 bg-green-400 rounded-lg hover:bg-green-500 hover:underline">
-              <Link href={`/radiografi/parameter-uji/${d.id_parameter}`}>edit</Link>
+              <Link href={`/fluoroskopi/parameter-uji/${d.id_parameter}`}>edit</Link>
             </span>
             <span className="px-2 bg-red-400 rounded-lg ml-1 hover:bg-red-600 hover:underline">
               <button onClick={() => openModal(d.id_parameter)}>Delete</button>
@@ -97,7 +96,7 @@ export default function DataUjiPesawatFlo({ payloadQueryParams }: FloProps) {
 
   return (
     <div>
-      <div className="flex h-screen overflow-hidden bg-gradient-to-br from-green-50 to-green-100">
+      <div className="flex h-screen overflow-hidden bg-gradient-to-b from-green-800 to-green-400">
         {/* Sidebar */}
         <SideBar />
         {/* // */}
@@ -133,27 +132,26 @@ export default function DataUjiPesawatFlo({ payloadQueryParams }: FloProps) {
                         <tr className="py-5 border-b-2 border-green-200">
                           <th className="text-center w-7 px-3">#</th>
                           <th className="hidden">Parameter ID</th>
-                          <th className="text-center px-3">Iluminasi</th>
-                          <th className="text-center px-3">Kolimasi ΔX</th>
-                          <th className="text-center px-3">Kolimasi ΔY</th>
-                          <th className="text-center px-3">Ketegaklurusan</th>
+                          <th className="text-center px-3">ASX</th>
+                          <th className="text-center px-3">Deviasi ASX-AEM</th>
+                          <th className="text-center px-3">Jarak Pusat Monitor</th>
                           <th className="text-center px-3">Akurasi kV</th>
-                          <th className="text-center px-3">Akurasi waktu</th>
-                          <th className="text-center px-3">Linearitas</th>
-                          <th className="text-center px-3">Reproduksibilitas Kerma</th>
-                          <th className="text-center px-3">Reproduksibilitas kV</th>
-                          <th className="text-center px-3">Reproduksibilitas waktu</th>
-                          <th className="text-center px-3">HVL pada 70kV</th>
+                          <th className="text-center px-3">Waktu Fluoroskopi Maksimum</th>
+                          <th className="text-center px-3">HVL pada 70 KV</th>
                           <th className="text-center px-3">HVL pada 80kV</th>
-                          <th className="text-center px-3">Kebocoran</th>
-                          <th className="text-center px-3">Timer darurat (mAs)</th>
-                          <th className="text-center px-3">Timer darurat (s)</th>
-                          <th className="text-center px-3">Densitas standar & Uniformitas (error mAs)</th>
-                          <th className="text-center px-3">Densitas standar & Uniformitas (error EI)</th>
-                          <th className="text-center px-3">Penjejakan ketebalan</th>
-                          <th className="text-center px-3">Penjejakan kV</th>
-                          <th className="text-center px-3">Penjejakan kombinasi</th>
-                          <th className="text-center px-3">Waktu respon min</th>
+                          <th className="text-center px-3">Laju ESD</th>
+                          <th className="text-center px-3">Laju Dosis Maksimum mode Normal</th>
+                          <th className="text-center px-3">Laju Dosis Maksimum mode High</th>
+                          <th className="text-center px-3">Input II &#40;11 cm &le; diameter image receptor &lt; 14 cm&#41;</th>
+                          <th className="text-center px-3">Input II &#40;23 cm &le; diameter image receptor &lt; 23 cm&#41;</th>
+                          <th className="text-center px-3">Input II &#40;image receptor &ge; 23 cm&#41;</th>
+                          <th className="text-center px-3">Low Contrast</th>
+                          <th className="text-center px-3">High Contrast/Resolusi Spasial FoV 36-40 cm</th>
+                          <th className="text-center px-3">High Contrast/Resolusi Spasial FoV 30-35 cm</th>
+                          <th className="text-center px-3">High Contrast/Resolusi Spasial FoV 25-29 cm</th>
+                          <th className="text-center px-3">High Contrast/Resolusi Spasial FoV 20-24 cm</th>
+                          <th className="text-center px-3">High Contrast/Resolusi Spasial FoV 15-18 cm</th>
+                          <th className="text-center px-3">High Contrast/Resolusi Spasial FoV &le; 14 cm</th>
                           <th className="hidden">User ID</th>
                           <th className="hidden">Spesifikasi ID</th>
                           <th className="text-center px-3">Aksi</th>

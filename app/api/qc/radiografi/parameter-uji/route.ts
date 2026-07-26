@@ -82,10 +82,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "unexpected error" }, { status: 500 });
   }
 
-  return NextResponse.json(
-    { data: callbackData, msg: "successfully adding data" },
-    { status: 200 }
-  );
+  return NextResponse.json({ data: callbackData, msg: "successfully adding data" }, { status: 200 });
 }
 
 export async function PATCH(request: Request) {
@@ -168,8 +165,5 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "unexpected error" }, { status: 500 });
   }
 
-  return NextResponse.json(
-    { data: callbackData, msg: "successfully edit data" },
-    { status: 200 }
-  );
+  return NextResponse.json({ data: callbackData, msg: "successfully edit data" }, { status: 200 });
 }

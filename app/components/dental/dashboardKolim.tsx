@@ -2,35 +2,34 @@
 
 import Link from "next/link";
 import SideBar from "../Sidebar";
-import PerformanceKolimChart from "./PerformanceKolimData";
-import { useFetchFloByParams } from "../../DAL/service/useFetchFloByParams";
-import SpinnerCss from "../spinner-css";
-import { useState } from "react";
 import Header from "../Header";
+import SpinnerCss from "../spinner-css";
+import PerformanceKolimChart from "../PerformanceKolimData";
+import { useState } from "react";
 import { TriangleAlert, Plus } from "lucide-react";
+import { useFetchDentalByParams } from "../../DAL/service/useFetchDentalByParams";
 import { deleteDataRadByIdSpec } from "../../DAL/repository/spec-repository";
 import { usePathname, useSearchParams } from "next/navigation";
 import HeadingMobileView from "../mobile-view/Heading";
 import Heading from "../heading-other-modality/HeadingFlo";
 
-export default function Dashboard({ email }: { email: string }) {
+export default function DashboardKolim({ email }: { email: string }) {
   const searchParams = useSearchParams();
   const currentId = searchParams.get("id");
   const currentNoSeri = searchParams.get("No_Seri");
-  //console.log("Payload Query Params:", payloadQueryParams.No_Seri);
-  const { allDataUji, dataUji, isLoading, errorMsg } = useFetchFloByParams({
+
+  const { allDataUji, dataUji, isLoading, errorMsg } = useFetchDentalByParams({
     id_user: currentId ? Number(currentId) : undefined,
     No_Seri: currentNoSeri || undefined,
-    email: email,
+    email,
   });
 
+  const pathname = usePathname();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSpecId, setSelectedSpecId] = useState<number | null>(null);
-  const pathname = usePathname();
 
   const dataLength = allDataUji.length;
   const tanggalUji = allDataUji[dataLength - 1]?.Tanggal_uji;
-  //console.log("Tanggal Uji Terakhir:", tanggalUji);
 
   const identifikasiPesawat = allDataUji.map(({ id_user, jenis_pesawat, id_spesifikasi, Merk, Model, No_Seri }) => ({
     id_user,
@@ -40,26 +39,24 @@ export default function Dashboard({ email }: { email: string }) {
     Model,
     No_Seri,
   }));
-  //const sortedIdentifikasiPesawat = [...identifikasiPesawat].sort((a, b) => b.id_spesifikasi - a.id_spesifikasi);
 
   const identifikasiPesawatUnik = identifikasiPesawat.filter((value, index, self) => index === self.findIndex((t) => t.id_user === value.id_user && t.Merk === value.Merk && t.Model === value.Model && t.No_Seri === value.No_Seri));
-  //console.log("Unique Machines:", identifikasiPesawatUnik);
 
   const current = dataUji[0];
   const baseParams = current ? `?id_user=${current.id_user}&id_specs=${current.id_spesifikasi}` : "";
 
   const items = [
-    { label: "Kesesuaian Berkas Sinar-x dg Reseptor", href: "/dashboard/fluoroskopi/kolimasi" },
-    { label: "Kesesuaian Titik Pusat", href: `/dashboard/fluoroskopi/titik-pusat/${baseParams}` },
-    { label: "Akurasi kVp", href: `/dashboard/fluoroskopi/akurasi-kvp/${baseParams}` },
-    { label: "Waktu Fluoroskopik Maksimum", href: `/dashboard/fluoroskopi/waktu-flo/${baseParams}` },
-    { label: "HVL", href: `/dashboard/fluoroskopi/hvl/${baseParams}` },
-    { label: "Laju Dosis Tipikal", href: `/dashboard/fluoroskopi/esd/${baseParams}` },
-    { label: "Laju Dosis Maksimum", href: `/dashboard/fluoroskopi/dosis-maksimum/${baseParams}` },
-    { label: "Kesesuaian Berkas Sinar-x dg Monitor", href: `/dashboard/fluoroskopi/asx-aem/${baseParams}` },
-    { label: "Laju Dosis permukaaan Reseptor", href: `/dashboard/fluoroskopi/input-ii/${baseParams}` },
-    { label: "Low Contrast", href: `/dashboard/fluoroskopi/low-contrast/${baseParams}` },
-    { label: "High Contrast/Resolusi Spasial", href: `/dashboard/fluoroskopi/high-contrast/${baseParams}` },
+    { label: "Kesesuaian Berkas Sinar-x dg Reseptor", href: "/dashboard/dental/kolimasi" },
+    { label: "Kesesuaian Titik Pusat", href: `/dashboard/dental/titik-pusat/${baseParams}` },
+    { label: "Akurasi kVp", href: `/dashboard/dental/akurasi-kvp/${baseParams}` },
+    { label: "Waktu Fluoroskopik Maksimum", href: `/dashboard/dental/waktu-flo/${baseParams}` },
+    { label: "HVL", href: `/dashboard/dental/hvl/${baseParams}` },
+    { label: "Laju Dosis Tipikal", href: `/dashboard/dental/esd/${baseParams}` },
+    { label: "Laju Dosis Maksimum", href: `/dashboard/dental/dosis-maksimum/${baseParams}` },
+    { label: "Kesesuaian Berkas Sinar-x dg Monitor", href: `/dashboard/dental/asx-aem/${baseParams}` },
+    { label: "Laju Dosis permukaaan Reseptor", href: `/dashboard/dental/input-ii/${baseParams}` },
+    { label: "Low Contrast", href: `/dashboard/dental/low-contrast/${baseParams}` },
+    { label: "High Contrast/Resolusi Spasial", href: `/dashboard/dental/high-contrast/${baseParams}` },
   ];
 
   const openModal = (id: number) => {
@@ -90,28 +87,25 @@ export default function Dashboard({ email }: { email: string }) {
   };
 
   const performanceData = dataUji
-    .map(({ Tanggal_uji, Kolimasi_deltaX }) => ({
+    .map(({ Tanggal_uji, Kolimasi_deltaX, Kolimasi_deltaY }) => ({
       x: new Date(Tanggal_uji).toLocaleDateString("en-CA"),
       y: Kolimasi_deltaX,
+      y1: Kolimasi_deltaY,
     }))
-    .filter((d) => d.y !== null && d.y !== undefined);
+    .filter((d) => d.y !== null && d.y !== undefined && d.y1 !== null && d.y1 !== undefined);
 
   const renderModality = () => {
     return (
       <div className="flex flex-wrap justify-center gap-1 mb-4">
         {identifikasiPesawatUnik.map((item, index) => {
-          const href = tanggalUji == null ? "#" : index === 0 ? `/dashboard/fluoroskopi/kolimasi` : `/dashboard/fluoroskopi/kolimasi?No_Seri=${item.No_Seri}&id=${item.id_user}`;
+          const href = tanggalUji == null ? "#" : index === 0 ? `/dashboard/dental/kolimasi` : `/dashboard/dental/kolimasi?No_Seri=${item.No_Seri}&id=${item.id_user}`;
 
-          // Tentukan apakah item ini aktif:
           const isDefault = currentId === null && currentNoSeri === null;
-
           const isCurrent = currentId === String(item.id_user) && currentNoSeri === String(item.No_Seri);
-
           const isActive = index === 0 ? isDefault : isCurrent;
 
           return (
             <div key={index} className="w-3/4 md:w-2/3 lg:w-[45%]">
-              {/* Card tetap ukuran penuh di dalam wrapper */}
               <div
                 className={`relative p-2.5 rounded-[35px]
             bg-[#e8e8e8]
@@ -173,7 +167,7 @@ export default function Dashboard({ email }: { email: string }) {
           <td className="hidden">{machine.jenis_pesawat}</td>
           <td className="text-center px-3 py-2">
             <span className="px-2 pb-1 bg-green-300 rounded-lg hover:bg-gray-300 hover:underline">
-              <Link href={`/fluoroskopi/${machine.No_Seri}`}>
+              <Link href={`/dental/${machine.No_Seri}`}>
                 <small>Edit</small>
               </Link>
             </span>
@@ -183,12 +177,12 @@ export default function Dashboard({ email }: { email: string }) {
               </button>
             </span>
             <span className="px-2 pb-1 bg-green-500 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
-              <Link href={`/fluoroskopi/parameter-uji?id_spesifikasi=${machine.id_spesifikasi}&id_user=${machine.id_user}`} target="blank">
+              <Link href={`/dental/parameter-uji?id_spesifikasi=${machine.id_spesifikasi}&id_user=${machine.id_user}`} target="blank">
                 <small>manage</small>
               </Link>
             </span>
             <span className="px-2 pb-1 bg-lime-400 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
-              <Link href={`/fluoroskopi/report?id_spesifikasi=${machine.id_spesifikasi}`} target="blank">
+              <Link href={`/dental/report?id_spesifikasi=${machine.id_spesifikasi}`} target="blank">
                 <small>report</small>
               </Link>
             </span>
@@ -203,15 +197,11 @@ export default function Dashboard({ email }: { email: string }) {
   return (
     <div>
       <div className="flex h-screen overflow-hidden bg-gradient-to-b from-green-800 to-green-400">
-        {/* Sidebar */}
         <SideBar />
 
-        {/* Main */}
         <div className="flex-1 flex flex-col">
-          {/* Header */}
           <Header email={email} />
 
-          {/* Content */}
           <main className="flex-1 p-3 overflow-y-auto">
             <div className="flex flex-col items-center">
               {errorMsg.length == 0 ? null : (
@@ -223,10 +213,7 @@ export default function Dashboard({ email }: { email: string }) {
                 </div>
               )}
 
-              {/* 📱 Versi layar kecil: 3 kolom */}
               <HeadingMobileView />
-
-              {/* 💻 Versi layar sedang & besar: 6 kolom */}
               <Heading />
 
               <div className="w-[75%]">{renderModality()}</div>
@@ -239,18 +226,11 @@ export default function Dashboard({ email }: { email: string }) {
                 <small>{dataUji[0] ? `${dataUji[0].Merk} - ${dataUji[0].Model} - ${dataUji[0].No_Seri}` : "Loading..."}</small>
               </p>
               <div className="md:hidden">Unsupported Chart</div>
-              <PerformanceKolimChart dataPoints={performanceData} />
-            </div>
-
-            {/* Cards */}
-            <div className="flex flex-col justify-center items-center mb-4">
-              <div className="md:hidden">Unsupported Table</div>
-              <div className="italic md:hidden">gunakan pc/tablet untuk melihat tabel</div>
-              <div className="italic md:hidden">atau ubah tampilan menjadi desktop view</div>
+              <PerformanceKolimChart data={performanceData} />
             </div>
 
             <div className="hidden md:flex flex-col items-center overflow-x-auto w-full">
-              <div className="w-[85%] shadow-md rounded-xl p-4 bg-white  px-10 py-10 border border-green-700">
+              <div className="w-[85%] shadow-md rounded-xl p-4 bg-white px-10 py-10 border border-green-700">
                 <div>
                   <div className="text-xl mb-3 text-green-700">Daftar Pesawat Sinar-X {dataUji[0] ? `${dataUji[0].jenis_pesawat}` : null}</div>
                 </div>
@@ -279,12 +259,12 @@ export default function Dashboard({ email }: { email: string }) {
 
                 {isLoading ? <SpinnerCss /> : null}
                 <div className="mt-4 flex justify-center items-center">
-                  <Link className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row" href={allDataUji[0] ? `/fluoroskopi/add?id_user=${allDataUji[0].id_user}` : "#"}>
+                  <Link className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row" href={allDataUji[0] ? `/dental/add?id_user=${allDataUji[0].id_user}` : "#"}>
                     <Plus />
                     <span>Add New Data</span>
                   </Link>
                 </div>
-                {/* Modal */}
+
                 {isModalOpen && (
                   <div className="fixed inset-0 flex items-center justify-center text-black bg-white/10 backdrop-blur-md z-50">
                     <div className="bg-white backdrop-blur-md border-2 border-green-500 p-6 rounded-lg shadow-lg w-1/3">

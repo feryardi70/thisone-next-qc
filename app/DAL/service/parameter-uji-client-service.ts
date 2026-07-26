@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { getDataUjiByUserIdnSpecId } from "../repository/fluoroskopi-spec-repository";
+import { getDataUjiByUserIdnSpecId as getDataUjiByUserIdnSpecIdRad } from "../repository/spec-repository";
+import { getDataUjiByUserIdnSpecId as getDataUjiByUserIdnSpecIdFlo } from "../repository/fluoroskopi-spec-repository";
 
 interface Machine {
   id_parameter: number;
@@ -34,6 +35,38 @@ interface Machine {
   No_Seri: string;
 }
 
+interface Machine2nd {
+  id_parameter: number;
+  Kolimasi_deltaX: number;
+  Kolimasi_deltaY: number;
+  Titik_pusat: string;
+  Akurasi_kV: number;
+  Waktu_Fluoroskopik: number;
+  HVL: number;
+  HVL_80: number;
+  Esd: number;
+  Dmax: number;
+  Dmax_high: number;
+  Input_II_a: number;
+  Input_II_b: number;
+  Input_II_c: number;
+  Low_contrast: number;
+  High_contrast_d1: number;
+  High_contrast_d2: number;
+  High_contrast_d3: number;
+  High_contrast_d4: number;
+  High_contrast_d5: number;
+  High_contrast_d6: number;
+  Tanggal_uji: string;
+  id_user: number;
+  email: string;
+  jenis_pesawat: string;
+  id_spesifikasi: number;
+  Merk: string;
+  Model: string;
+  No_Seri: string;
+}
+
 interface RadProps {
   payloadQueryParams: {
     spesifikasiId: number;
@@ -50,7 +83,7 @@ export const useFetchDataUjiByUserIdnSpecId = ({ payloadQueryParams }: RadProps)
     const fetchDataUji = async () => {
       try {
         setIsLoading(true);
-        const data = await getDataUjiByUserIdnSpecId({ payloadQueryParams });
+        const data = await getDataUjiByUserIdnSpecIdRad({ payloadQueryParams });
         //const data = await response.json();
         //console.log(data.data);
         setDataUji(data.data);
@@ -68,7 +101,7 @@ export const useFetchDataUjiByUserIdnSpecId = ({ payloadQueryParams }: RadProps)
 };
 
 export const useFetchDataUjiByUserIdnSpecIdforFlo = ({ payloadQueryParams }: RadProps) => {
-  const [dataUji, setDataUji] = useState<Machine[]>([]);
+  const [dataUji, setDataUji] = useState<Machine2nd[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
 
@@ -76,7 +109,7 @@ export const useFetchDataUjiByUserIdnSpecIdforFlo = ({ payloadQueryParams }: Rad
     const fetchDataUji = async () => {
       try {
         setIsLoading(true);
-        const data = await getDataUjiByUserIdnSpecId({ payloadQueryParams });
+        const data = await getDataUjiByUserIdnSpecIdFlo({ payloadQueryParams });
         setDataUji(data.data);
         setIsLoading(false);
       } catch (error) {

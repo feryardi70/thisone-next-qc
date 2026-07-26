@@ -2,17 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import {
-  Aperture,
-  LayoutDashboard,
-  ChevronsLeft,
-  Brain,
-  NotebookPen,
-  BusFront,
-  Disc2,
-  Caravan,
-  AudioWaveform,
-} from "lucide-react";
+import { Aperture, LayoutDashboard, ChevronsLeft, Brain, NotebookPen, BusFront, Disc2, Caravan, AudioWaveform } from "lucide-react";
 
 export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
@@ -34,29 +24,19 @@ export default function SideBar() {
   }, []);
 
   return (
-    <div
-      className={`hidden md:inline rounded-4xl transition-all duration-300 ${
-        collapsed ? "w-20" : "w-64"
-      } bg-gradient-to-b from-green-700 to-green-300 text-white p-5 relative`}
-    >
+    <div className={`hidden md:inline rounded-4xl transition-all duration-300 ${collapsed ? "w-20" : "w-64"} bg-gradient-to-b from-green-700 to-green-300 text-white p-5 relative`}>
       {/* Header dalam sidebar */}
       <div className="mt-0 mb-5 flex items-center justify-between">
         {!collapsed && (
           <h2 className="text-lime-200 text-xl font-semibold flex flex-row gap-1">
-            <span><NotebookPen /> </span>
+            <span>
+              <NotebookPen />{" "}
+            </span>
             <span>Kendali-Mutu</span>
           </h2>
         )}
-        <button
-          className="bg-white text-lime-700 p-1 rounded-full hover:bg-blue-200"
-          onClick={() => setCollapsed(!collapsed)}
-        >
-          <ChevronsLeft
-            className={`transition-transform duration-300 ${
-              collapsed ? "rotate-180" : ""
-            }`}
-            size={20}
-          />
+        <button className="bg-white text-lime-700 p-1 rounded-full hover:bg-blue-200" onClick={() => setCollapsed(!collapsed)}>
+          <ChevronsLeft className={`transition-transform duration-300 ${collapsed ? "rotate-180" : ""}`} size={20} />
         </button>
       </div>
 
@@ -65,49 +45,29 @@ export default function SideBar() {
           <LayoutDashboard size={20} />
           {!collapsed && <span>Dashboard</span>}
         </Link>
-        <Link
-          href="/dashboard"
-          className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer"
-        >
+        <Link href="/dashboard" className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer">
           <BusFront size={20} />
           {!collapsed && <span>Radiografi Umum</span>}
         </Link>
-        <Link
-          href="/dashboard"
-          className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer"
-        >
+        <Link href="/dashboard/fluoroskopi/kolimasi" className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer">
           <AudioWaveform size={20} />
           {!collapsed && <span>Fluoroskopi</span>}
         </Link>
-        <Link
-          href="/dashboard"
-          className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer"
-        >
+        <Link href="/dashboard" className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer">
           <Brain size={20} />
           {!collapsed && <span>CT Scan</span>}
         </Link>
-        <Link
-          href="/dashboard"
-          className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer"
-        >
+        <Link href="/dashboard" className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer">
           <Disc2 size={20} />
           {!collapsed && <span>Dental</span>}
         </Link>
-        <Link
-          href="/dashboard"
-          className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer"
-        >
+        <Link href="/dashboard" className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer">
           <Caravan size={20} />
           {!collapsed && <span>Mammografi</span>}
         </Link>
-        <Link
-          href="/dashboard"
-          className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer"
-        >
+        <Link href="/dashboard" className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer">
           <Aperture size={20} />
-          {!collapsed && (
-            <span>Fluroskopi Dual Mode</span>
-          )}
+          {!collapsed && <span>Fluroskopi Dual Mode</span>}
         </Link>
       </div>
     </div>
