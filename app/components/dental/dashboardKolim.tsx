@@ -46,17 +46,12 @@ export default function DashboardKolim({ email }: { email: string }) {
   const baseParams = current ? `?id_user=${current.id_user}&id_specs=${current.id_spesifikasi}` : "";
 
   const items = [
-    { label: "Kesesuaian Berkas Sinar-x dg Reseptor", href: "/dashboard/dental/kolimasi" },
-    { label: "Kesesuaian Titik Pusat", href: `/dashboard/dental/titik-pusat/${baseParams}` },
+    { label: "Kolimasi", href: "/dashboard/dental/kolimasi" },
     { label: "Akurasi kVp", href: `/dashboard/dental/akurasi-kvp/${baseParams}` },
-    { label: "Waktu Fluoroskopik Maksimum", href: `/dashboard/dental/waktu-flo/${baseParams}` },
+    { label: "Akurasi Waktu", href: `/dashboard/dental/waktu-flo/${baseParams}` },
+    { label: "Linearitas", href: `/dashboard/dental/dosis-maksimum/${baseParams}` },
+    { label: "Reproduksibilitas", href: `/dashboard/dental/esd/${baseParams}` },
     { label: "HVL", href: `/dashboard/dental/hvl/${baseParams}` },
-    { label: "Laju Dosis Tipikal", href: `/dashboard/dental/esd/${baseParams}` },
-    { label: "Laju Dosis Maksimum", href: `/dashboard/dental/dosis-maksimum/${baseParams}` },
-    { label: "Kesesuaian Berkas Sinar-x dg Monitor", href: `/dashboard/dental/asx-aem/${baseParams}` },
-    { label: "Laju Dosis permukaaan Reseptor", href: `/dashboard/dental/input-ii/${baseParams}` },
-    { label: "Low Contrast", href: `/dashboard/dental/low-contrast/${baseParams}` },
-    { label: "High Contrast/Resolusi Spasial", href: `/dashboard/dental/high-contrast/${baseParams}` },
   ];
 
   const openModal = (id: number) => {
@@ -143,7 +138,7 @@ export default function DashboardKolim({ email }: { email: string }) {
               key={item.label}
               href={item.href}
               className={`rounded-lg border text-sm transition-all ${
-                isActive ? "px-3 py-1 bg-green-700 text-white border-green-700 shadow-lg shadow-green-300" : "px-2 py-1 bg-green-100 text-gray-400 border-green-700 hover:text-green-800 hover:underline"
+                isActive ? "px-3 py-1 bg-slate-800 text-lime-100 border-green-700 shadow-lg shadow-slate-300" : "px-2 py-1 bg-green-100 text-gray-400 border-green-700 hover:text-green-800 hover:underline"
               }`}
             >
               {item.label}

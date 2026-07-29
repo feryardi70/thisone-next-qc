@@ -126,6 +126,19 @@ export const addDataFlo = async (dataUjiData: DataUji3rd) => {
   return { saveResponse, response };
 };
 
+export const addDataDentalIntraoral = async (dataUjiData: DataUji3rd) => {
+  const saveResponse = await fetch(`${baseUrl}/qc/dental/spesifikasi`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dataUjiData),
+  });
+  const response = await saveResponse.json();
+
+  return { saveResponse, response };
+};
+
 export const saveDataRad = async (data: DataUji3rd) => {
   const saveResponse = await fetch(`${externalApiUrl}/qc-data-radiografi/spesifikasi`, {
     method: "POST",
@@ -149,6 +162,37 @@ export const saveDataFlo = async (data: DataUji3rd) => {
 
   return saveResponse;
 };
+
+export const saveDataDentalIntraoral = async (data: DataUji3rd) => {
+  const saveResponse = await fetch(`${externalApiUrl}/qc-data-dental/spesifikasi`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  return saveResponse;
+};
+
+// export const readDataDentalBySN = async (No_Seri: string) => {
+//   const response = await fetch(`${externalApiUrl}/qc-data-dental/spesifikasi/rad/${No_Seri}`);
+//   const dataUji = await response.json();
+
+//   return dataUji;
+// };
+
+// export const updateDataDentalByIdSpec = async (data: DataUji1st, id_spesifikasi: string) => {
+//   const updateResponse = await fetch(`${externalApiUrl}/qc-data-dental/spesifikasi/${id_spesifikasi}`, {
+//     method: "PATCH",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(data),
+//   });
+
+//   return updateResponse;
+// };
 
 export const deleteDataRadByIdSpec = async (selectedSpecId: number | null) => {
   const response = await fetch(`${baseUrl}/qc/radiografi/spesifikasi?id_spesifikasi=${selectedSpecId}`, {
