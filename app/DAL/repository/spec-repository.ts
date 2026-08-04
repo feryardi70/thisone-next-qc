@@ -126,19 +126,6 @@ export const addDataFlo = async (dataUjiData: DataUji3rd) => {
   return { saveResponse, response };
 };
 
-export const addDataDentalIntraoral = async (dataUjiData: DataUji3rd) => {
-  const saveResponse = await fetch(`${baseUrl}/qc/dental/spesifikasi`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(dataUjiData),
-  });
-  const response = await saveResponse.json();
-
-  return { saveResponse, response };
-};
-
 export const saveDataRad = async (data: DataUji3rd) => {
   const saveResponse = await fetch(`${externalApiUrl}/qc-data-radiografi/spesifikasi`, {
     method: "POST",

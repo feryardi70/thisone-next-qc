@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { insertDataDentalIntraoral } from "@/app/DAL/service/spec-service";
+import { insertDataUjiDentalIntraoral } from "@/app/DAL/service/parameter-uji-dental-service";
+//import { editDataUjiByIdParameter } from "@/app/DAL/service/parameter-uji-dental-service";
 import { precheck } from "@/app/lib/precheck";
 import { cookies } from "next/headers";
 import { csrfTokenName, sessionTokenName } from "@/app/lib/constant";
-import { readDataUjiByUserIdnSpecIdFromExtApi } from "@/app/DAL/repository/dental-spec-repository";
 
 export async function POST(request: Request) {
   const referer = request.headers.get("referer");
@@ -19,36 +19,18 @@ export async function POST(request: Request) {
     });
   }
 
-  const { jenis_pesawat, Merk, Model, No_Seri, id_user } = await request.json();
+  const { Kolimasi_deltaX, Akurasi_kV, Akurasi_waktu, Linearitas, Reproduksibilitas, Reproduksibilitas_kV, Reproduksibilitas_waktu, HVL, HVL_80, Tanggal_uji, id_user, id_spesifikasi } = await request.json();
+
   const callbackData = {
-    No_Seri,
     id_user,
+    id_spesifikasi,
   };
 
-  const result = await insertDataDentalIntraoral(jenis_pesawat, Merk, Model, No_Seri, id_user);
+  const result = await insertDataUjiDentalIntraoral(Kolimasi_deltaX, Akurasi_kV, Akurasi_waktu, Linearitas, Reproduksibilitas, Reproduksibilitas_kV, Reproduksibilitas_waktu, HVL, HVL_80, Tanggal_uji, id_user, id_spesifikasi);
 
   if (result.success !== true) {
     return NextResponse.json({ error: "unexpected error" }, { status: 500 });
   }
 
   return NextResponse.json({ data: callbackData, msg: "successfully adding data" }, { status: 200 });
-}
-
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const id_spesifikasi = searchParams.get("id_spesifikasi");
-  const id_user = searchParams.get("id_user");
-
-  if (!id_spesifikasi) {
-    return NextResponse.json({ error: "bad request: id_user is required" }, { status: 400 });
-  }
-
-  if (!id_user) {
-    return NextResponse.json({ error: "bad request: id_user is required" }, { status: 400 });
-  }
-
-  const qcData = await readDataUjiByUserIdnSpecIdFromExtApi(id_user, id_spesifikasi);
-  //console.log(qcData);
-
-  return NextResponse.json(qcData, { status: 200 });
 }

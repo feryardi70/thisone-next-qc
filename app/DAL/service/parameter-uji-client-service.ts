@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getDataUjiByUserIdnSpecId as getDataUjiByUserIdnSpecIdRad } from "../repository/spec-repository";
 import { getDataUjiByUserIdnSpecId as getDataUjiByUserIdnSpecIdFlo } from "../repository/fluoroskopi-spec-repository";
+import { getDataUjiByUserIdnSpecIdDentalIntraoral } from "../repository/dental-spec-repository";
 
 interface Machine {
   id_parameter: number;
@@ -67,6 +68,20 @@ interface Machine2nd {
   No_Seri: string;
 }
 
+interface MachineDental {
+  id_parameter: number;
+  Kolimasi_deltaX?: number;
+  Kolimasi_deltaY?: number;
+  Tanggal_uji?: string;
+  id_user: number;
+  email?: string;
+  jenis_pesawat?: string;
+  id_spesifikasi: number;
+  Merk?: string;
+  Model?: string;
+  No_Seri?: string;
+}
+
 interface RadProps {
   payloadQueryParams: {
     spesifikasiId: number;
@@ -110,6 +125,30 @@ export const useFetchDataUjiByUserIdnSpecIdforFlo = ({ payloadQueryParams }: Rad
       try {
         setIsLoading(true);
         const data = await getDataUjiByUserIdnSpecIdFlo({ payloadQueryParams });
+        setDataUji(data.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+        setErrorMsg("An error occurred, please try again later!");
+      }
+    };
+    fetchDataUji();
+  }, []);
+
+  return { dataUji, isLoading, errorMsg };
+};
+
+export const useFetchDataUjiByUserIdnSpecIdforDentalIntraoral = ({ payloadQueryParams }: RadProps) => {
+  const [dataUji, setDataUji] = useState<MachineDental[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  useEffect(() => {
+    const fetchDataUji = async () => {
+      try {
+        setIsLoading(true);
+        const data = await getDataUjiByUserIdnSpecIdDentalIntraoral({ payloadQueryParams });
         setDataUji(data.data);
         setIsLoading(false);
       } catch (error) {
