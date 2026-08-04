@@ -6,7 +6,7 @@ import SideBar from "../Sidebar";
 import Header from "../Header";
 import { toast } from "sonner";
 //import { saveDataRad } from "@/app/DAL/repository/spec-repository";
-import { addDataDentalIntraoral } from "@/app/DAL/repository/spec-repository";
+import { addDataRad as addDataDentalIntraoral } from "@/app/DAL/repository/spec-repository";
 
 interface DentalProps {
   payloadQueryParams: {
