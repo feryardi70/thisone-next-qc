@@ -71,7 +71,13 @@ interface Machine2nd {
 interface MachineDental {
   id_parameter: number;
   Kolimasi_deltaX?: number;
-  Kolimasi_deltaY?: number;
+  Akurasi_kV?: number;
+  Akurasi_waktu?: number;
+  Linearitas?: number;
+  Reproduksibilitas?: number;
+  Reproduksibilitas_kV?: number;
+  Reproduksibilitas_waktu?: number;
+  HVL?: number;
   Tanggal_uji?: string;
   id_user: number;
   email?: string;

@@ -33,7 +33,6 @@ export default function AddNewDataUjiDentalIntraoralForm({ payloadQueryParams }:
     Reproduksibilitas_kV: "",
     Reproduksibilitas_waktu: "",
     HVL: "",
-    HVL_80: "",
     Tanggal_uji: "",
   });
 
@@ -53,7 +52,6 @@ export default function AddNewDataUjiDentalIntraoralForm({ payloadQueryParams }:
       Reproduksibilitas_kV: dataUji.Reproduksibilitas_kV,
       Reproduksibilitas_waktu: dataUji.Reproduksibilitas_waktu,
       HVL: dataUji.HVL,
-      HVL_80: dataUji.HVL_80,
       Tanggal_uji: dataUji.Tanggal_uji,
     };
 
@@ -94,7 +92,7 @@ export default function AddNewDataUjiDentalIntraoralForm({ payloadQueryParams }:
                 <div className="grid grid-cols-2 gap-5">
                   <div className="flex flex-col">
                     <label htmlFor="Kolimasi_deltaX" className="mb-1 text-slate-500">
-                      Kolimasi ΔX
+                      Kolimasi
                     </label>
                     <input
                       type="number"
@@ -223,23 +221,6 @@ export default function AddNewDataUjiDentalIntraoralForm({ payloadQueryParams }:
                       name="HVL"
                       value={dataUji.HVL}
                       onChange={(e) => setDataUji({ ...dataUji, HVL: e.target.value })}
-                      placeholder="0.00"
-                      required
-                    />
-                  </div>
-
-                  <div className="flex flex-col">
-                    <label htmlFor="HVL_80" className="mb-1 text-slate-500">
-                      HVL 80
-                    </label>
-                    <input
-                      type="number"
-                      step={0.01}
-                      className="px-2 py-2 border-2 border-cyan-200 focus:border-cyan-700 rounded-md outline-none"
-                      id="HVL_80"
-                      name="HVL_80"
-                      value={dataUji.HVL_80}
-                      onChange={(e) => setDataUji({ ...dataUji, HVL_80: e.target.value })}
                       placeholder="0.00"
                       required
                     />

@@ -7,6 +7,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Header from "../Header";
 import { toast } from "sonner";
+import { deleteDataUjiByIdParameter } from "@/app/DAL/repository/parameter-uji-repository";
 import { useFetchDataUjiByUserIdnSpecIdforDentalIntraoral } from "@/app/DAL/service/parameter-uji-client-service";
 
 interface DentalProps {
@@ -21,6 +22,7 @@ export default function DataUjiPesawatDentalIntaoral({ payloadQueryParams }: Den
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { dataUji, isLoading, errorMsg } = useFetchDataUjiByUserIdnSpecIdforDentalIntraoral({ payloadQueryParams });
+  //console.log("Data Uji Dental Intraoral:", dataUji);
 
   const openModal = (id: number) => {
     setSelectedParameterId(id);
@@ -34,9 +36,11 @@ export default function DataUjiPesawatDentalIntaoral({ payloadQueryParams }: Den
 
   const handleDelete = async () => {
     try {
-      console.log("Selected Parameter ID for deletion:", selectedParameterId);
-      // Implement delete logic for dental intraoral data here.
-      alert("Delete functionality is not implemented yet.");
+      const response = await deleteDataUjiByIdParameter(selectedParameterId);
+
+      if (response.status == 200) {
+        alert("successfully delete data uji");
+      }
     } catch (error) {
       console.error("Error deleting dental intraoral data:", error);
       toast("failed to delete Data Uji");
@@ -55,16 +59,18 @@ export default function DataUjiPesawatDentalIntaoral({ payloadQueryParams }: Den
           <td className="text-center w-7 px-3 py-2">{++i}</td>
           <td className="hidden">{d.id_parameter}</td>
           <td className="text-center px-3 py-2">{d.Kolimasi_deltaX}</td>
-          <td className="text-center px-3 py-2">{d.Kolimasi_deltaY}</td>
-          <td className="text-center px-3 py-2">{d.Tanggal_uji}</td>
-          <td className="text-center px-3 py-2">{d.Merk}</td>
-          <td className="text-center px-3 py-2">{d.Model}</td>
-          <td className="text-center px-3 py-2">{d.No_Seri}</td>
+          <td className="text-center px-3 py-2">{d.Akurasi_kV}</td>
+          <td className="text-center px-3 py-2">{d.Akurasi_waktu}</td>
+          <td className="text-center px-3 py-2">{d.Linearitas}</td>
+          <td className="text-center px-3 py-2">{d.Reproduksibilitas}</td>
+          <td className="text-center px-3 py-2">{d.Reproduksibilitas_kV}</td>
+          <td className="text-center px-3 py-2">{d.Reproduksibilitas_waktu}</td>
+          <td className="text-center px-3 py-2">{d.HVL}</td>
           <td className="hidden">{d.id_user}</td>
           <td className="hidden">{d.id_spesifikasi}</td>
           <td className="text-center px-3 py-2">
             <span className="px-2 bg-green-400 rounded-lg hover:bg-green-500 hover:underline">
-              <Link href="#">edit</Link>
+              <Link href={`/dental/parameter-uji/${d.id_parameter}`}>edit</Link>
             </span>
             <span className="px-2 bg-red-400 rounded-lg ml-1 hover:bg-red-600 hover:underline">
               <button onClick={() => d.id_parameter && openModal(d.id_parameter)}>Delete</button>
@@ -107,12 +113,14 @@ export default function DataUjiPesawatDentalIntaoral({ payloadQueryParams }: Den
                         <tr className="py-5 border-b-2 border-green-200">
                           <th className="text-center w-7 px-3">#</th>
                           <th className="hidden">Parameter ID</th>
-                          <th className="text-center px-3">Kolimasi ΔX</th>
-                          <th className="text-center px-3">Kolimasi ΔY</th>
-                          <th className="text-center px-3">Tanggal Uji</th>
-                          <th className="text-center px-3">Merk</th>
-                          <th className="text-center px-3">Model</th>
-                          <th className="text-center px-3">No Seri</th>
+                          <th className="text-center px-3">Kolimasi</th>
+                          <th className="text-center px-3">Akurasi kV</th>
+                          <th className="text-center px-3">Akurasi Waktu</th>
+                          <th className="text-center px-3">Linearitas</th>
+                          <th className="text-center px-3">Reproduksiblitas Kerma</th>
+                          <th className="text-center px-3">Reproduksiblitas kV</th>
+                          <th className="text-center px-3">Reproduksiblitas Waktu</th>
+                          <th className="text-center px-3">HVL</th>
                           <th className="hidden">User ID</th>
                           <th className="hidden">Spesifikasi ID</th>
                           <th className="text-center px-3">Aksi</th>
