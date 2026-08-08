@@ -12,7 +12,7 @@ export default function Heading() {
         </Badge>
       </Link>
 
-      <Link href="/dashboard/ct/akurasi-kv">
+      <Link href="/dashboard/ct/hvl">
         <Badge variant="secondary" className="text-gray-400 bg-green-100 border-green-700 hover:text-fuchsia-600 hover:underline">
           CT Scan
         </Badge>

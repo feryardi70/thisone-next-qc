@@ -14,11 +14,11 @@ interface RadProps {
   };
 }
 
-export default function AddNewDataFloForm({ payloadQueryParams }: RadProps) {
+export default function AddNewDataCtForm({ payloadQueryParams }: RadProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [dataUji, setDataUji] = useState({
-    jenis_pesawat: "Fluoroskopi",
+    jenis_pesawat: "CT Scan",
     Merk: "",
     Model: "",
     No_Seri: "",
@@ -28,7 +28,7 @@ export default function AddNewDataFloForm({ payloadQueryParams }: RadProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Handle form submission logic
+
     const dataUjiData = {
       jenis_pesawat: dataUji.jenis_pesawat,
       Merk: dataUji.Merk,
@@ -42,14 +42,13 @@ export default function AddNewDataFloForm({ payloadQueryParams }: RadProps) {
 
       if (saveResponse.status !== 200) {
         setLoading(false);
-        // alert("successfully Adding New Data Uji!");
         toast("Failed to add data");
         return;
       }
 
       setLoading(false);
-      alert("successfully Adding New Data Pesawat Sinar-X Fluoroskopi");
-      router.push(`/dashboard/fluoroskopi/kolimasi?No_Seri=${response.data.No_Seri}&id=${response.data.id_user}`);
+      alert("successfully Adding New Data Pesawat CT Scan");
+      router.push(`/dashboard/ct-scan/kolimasi?No_Seri=${response.data.No_Seri}&id=${response.data.id_user}`);
     } catch (error) {
       console.error(error);
       setLoading(false);
@@ -61,25 +60,25 @@ export default function AddNewDataFloForm({ payloadQueryParams }: RadProps) {
 
   return (
     <div>
-      <div className="flex min-h-screen overflow-hidden bg-linear-to-br from-green-800 to-green-500">
+      <div className="flex min-h-screen overflow-hidden bg-linear-to-br from-slate-800 to-slate-500">
         <SideBar />
 
         <div className="flex-1 flex flex-col min-w-0">
           <Header email={payloadQueryParams.email} />
 
           <main className="mt-3 flex justify-center items-center text-black">
-            <div className="px-5 py-5 shadow-md max-w-xl min-h-screen w-full border-t-4 border-green-500">
-              <h2 className="mb-5 text-center text-3xl">Form Add Data Fluoroskopi</h2>
+            <div className="px-5 py-5 shadow-md max-w-xl min-h-screen w-full border-t-4 border-slate-500 bg-white/90">
+              <h2 className="mb-5 text-center text-3xl">Form Add Data CT Scan</h2>
 
               <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col">
                 <div className="flex justify-between">
                   <div className="flex flex-col w-[48%]">
-                    <label htmlFor="Merk" className="mb-1 text-green-50">
+                    <label htmlFor="Merk" className="mb-1 text-slate-700">
                       Merk
                     </label>
                     <input
                       type="text"
-                      className="px-2 py-2 mb-5 border-2 border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+                      className="px-2 py-2 mb-5 border-2 border-slate-300 focus:border-slate-700 rounded-md outline-none"
                       id="Merk"
                       name="Merk"
                       value={dataUji.Merk || ""}
@@ -88,12 +87,12 @@ export default function AddNewDataFloForm({ payloadQueryParams }: RadProps) {
                       aria-describedby="Merk"
                     />
 
-                    <label htmlFor="Model" className="mb-1 text-green-50">
+                    <label htmlFor="Model" className="mb-1 text-slate-700">
                       Model
                     </label>
                     <input
                       type="text"
-                      className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+                      className="px-2 py-2 mb-5 border border-slate-300 focus:border-slate-700 rounded-md outline-none"
                       id="Model"
                       name="Model"
                       value={dataUji.Model || ""}
@@ -109,12 +108,12 @@ export default function AddNewDataFloForm({ payloadQueryParams }: RadProps) {
                   </div>
 
                   <div className="flex flex-col w-[48%]">
-                    <label htmlFor="No_Seri" className="mb-1 text-green-50">
+                    <label htmlFor="No_Seri" className="mb-1 text-slate-700">
                       Nomor Seri
                     </label>
                     <input
                       type="text"
-                      className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+                      className="px-2 py-2 mb-5 border border-slate-300 focus:border-slate-700 rounded-md outline-none"
                       id="No_Seri"
                       name="No_Seri"
                       value={dataUji.No_Seri || ""}
@@ -125,7 +124,6 @@ export default function AddNewDataFloForm({ payloadQueryParams }: RadProps) {
 
                     <input
                       type="hidden"
-                      className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
                       id="jenis_pesawat"
                       name="jenis_pesawat"
                       value={dataUji.jenis_pesawat || ""}
@@ -135,13 +133,12 @@ export default function AddNewDataFloForm({ payloadQueryParams }: RadProps) {
                           jenis_pesawat: e.target.value,
                         })
                       }
-                      placeholder="0.000"
                       aria-describedby="jenis_pesawat"
                     />
                   </div>
                 </div>
 
-                <button type="submit" className="px-2 py-2 bg-linear-to-r from-lime-500 to-green-500 hover:from-fuchsia-600 hover:to-pink-300 rounded text-white">
+                <button type="submit" className="px-2 py-2 bg-linear-to-r from-slate-700 to-slate-900 hover:from-slate-900 hover:to-slate-700 rounded text-white">
                   {loading ? "Adding New Data... Please wait..." : "Add Data"}
                 </button>
               </form>

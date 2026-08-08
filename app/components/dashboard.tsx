@@ -118,7 +118,7 @@ export default function Dashboard({ email }: { email: string }) {
                 <Link href={href}>
                   <div
                     className={`flex flex-col justify-center items-center
-                h-[254px] rounded-[30px] overflow-hidden text-center
+                h-63.5 rounded-[30px] overflow-hidden text-center
                 font-mono font-black space-y-1 bg-[#9bcda1]
                 ${isActive ? "text-teal-800" : "text-gray-400 hover:text-green-900"}`}
                   >
@@ -138,7 +138,7 @@ export default function Dashboard({ email }: { email: string }) {
 
   const renderParameterUji = () => {
     return (
-      <div className="flex flex-row flex-wrap gap-1 w-[100%] justify-center">
+      <div className="flex flex-row flex-wrap gap-1 w-full justify-center">
         {items.map((item) => {
           const isActive = pathname.startsWith(item.href.split("?")[0]);
           return (
@@ -199,7 +199,7 @@ export default function Dashboard({ email }: { email: string }) {
 
   return (
     <div>
-      <div className="flex h-screen overflow-hidden bg-gradient-to-b from-green-800 to-green-400">
+      <div className="flex h-screen overflow-hidden bg-linear-to-b from-green-800 to-green-400">
         {/* Sidebar */}
         <SideBar />
         {/* // */}

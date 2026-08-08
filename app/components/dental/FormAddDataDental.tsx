@@ -62,7 +62,7 @@ export default function AddNewDataDentalForm({ payloadQueryParams }: DentalProps
 
   return (
     <div>
-      <div className="flex min-h-screen overflow-hidden bg-gradient-to-br from-cyan-50 to-blue-100">
+      <div className="flex min-h-screen overflow-hidden bg-linear-to-br from-cyan-50 to-blue-100">
         <SideBar />
 
         <div className="flex-1 flex flex-col min-w-0">
@@ -142,7 +142,7 @@ export default function AddNewDataDentalForm({ payloadQueryParams }: DentalProps
                   </div>
                 </div>
 
-                <button type="submit" className="px-2 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 rounded text-white">
+                <button type="submit" className="px-2 py-2 bg-linear-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 rounded text-white">
                   {loading ? "Adding New Data... Please wait..." : "Add Data"}
                 </button>
               </form>

@@ -4,21 +4,21 @@ import Link from "next/link";
 import SideBar from "../Sidebar";
 import Header from "../Header";
 import SpinnerCss from "../spinner-css";
-import PerformanceKolimChart from "../PerformanceKolimData";
+import PerformanceHVLChart from "./PerformanceHVLData";
 import { useState } from "react";
 import { TriangleAlert, Plus } from "lucide-react";
-import { useFetchDentalByParams } from "../../DAL/service/useFetchDentalByParams";
+import { useFetchCTByParams } from "../../DAL/service/useFetchCTByParams";
 import { deleteDataRadByIdSpec } from "../../DAL/repository/spec-repository";
 import { usePathname, useSearchParams } from "next/navigation";
 import HeadingMobileView from "../mobile-view/Heading";
-import Heading from "../heading-other-modality/HeadingDental";
+import Heading from "../heading-other-modality/HeadingCt";
 
-export default function DashboardKolim({ email }: { email: string }) {
+export default function DashboardCT({ email }: { email: string }) {
   const searchParams = useSearchParams();
   const currentId = searchParams.get("id");
   const currentNoSeri = searchParams.get("No_Seri");
 
-  const { allDataUji, dataUji, isLoading, errorMsg } = useFetchDentalByParams({
+  const { allDataUji, dataUji, isLoading, errorMsg } = useFetchCTByParams({
     id_user: currentId ? Number(currentId) : undefined,
     No_Seri: currentNoSeri || undefined,
     email,
@@ -46,12 +46,12 @@ export default function DashboardKolim({ email }: { email: string }) {
   const baseParams = current ? `?id_user=${current.id_user}&id_specs=${current.id_spesifikasi}` : "";
 
   const items = [
-    { label: "Kolimasi", href: "/dashboard/dental/kolimasi" },
-    { label: "Akurasi kVp", href: `/dashboard/dental/akurasi-kvp/${baseParams}` },
-    { label: "Akurasi Waktu", href: `/dashboard/dental/waktu-flo/${baseParams}` },
-    { label: "Linearitas", href: `/dashboard/dental/dosis-maksimum/${baseParams}` },
-    { label: "Reproduksibilitas", href: `/dashboard/dental/esd/${baseParams}` },
-    { label: "HVL", href: `/dashboard/dental/hvl/${baseParams}` },
+    { label: "HVL", href: "/dashboard/ct/hvl" },
+    { label: "Reproduksibilitas", href: `/dashboard/ct/reproduksibilitas/${baseParams}` },
+    { label: "Linearitas", href: `/dashboard/ct-scan/linearitas/${baseParams}` },
+    { label: "CTDI Udara", href: `/dashboard/ct-scan/ctdi-udara/${baseParams}` },
+    { label: "CTDI Head", href: `/dashboard/ct-scan/ctdi-head/${baseParams}` },
+    { label: "CTDI Body", href: `/dashboard/ct-scan/ctdi-body/${baseParams}` },
   ];
 
   const openModal = (id: number) => {
@@ -82,18 +82,17 @@ export default function DashboardKolim({ email }: { email: string }) {
   };
 
   const performanceData = dataUji
-    .map(({ Tanggal_uji, Kolimasi_deltaX, Kolimasi_deltaY }) => ({
+    .map(({ Tanggal_uji, HVL }) => ({
       x: new Date(Tanggal_uji).toLocaleDateString("en-CA"),
-      y: Kolimasi_deltaX,
-      y1: Kolimasi_deltaY,
+      y: HVL,
     }))
-    .filter((d) => d.y !== null && d.y !== undefined && d.y1 !== null && d.y1 !== undefined);
+    .filter((d) => d.y !== null && d.y !== undefined);
 
   const renderModality = () => {
     return (
       <div className="flex flex-wrap justify-center gap-1 mb-4">
         {identifikasiPesawatUnik.map((item, index) => {
-          const href = tanggalUji == null ? "#" : index === 0 ? `/dashboard/dental/kolimasi` : `/dashboard/dental/kolimasi?No_Seri=${item.No_Seri}&id=${item.id_user}`;
+          const href = tanggalUji == null ? "#" : index === 0 ? `/dashboard/ct-scan/kolimasi` : `/dashboard/ct-scan/kolimasi?No_Seri=${item.No_Seri}&id=${item.id_user}`;
 
           const isDefault = currentId === null && currentNoSeri === null;
           const isCurrent = currentId === String(item.id_user) && currentNoSeri === String(item.No_Seri);
@@ -138,7 +137,7 @@ export default function DashboardKolim({ email }: { email: string }) {
               key={item.label}
               href={item.href}
               className={`rounded-lg border text-sm transition-all ${
-                isActive ? "px-3 py-1 bg-slate-800 text-lime-100 border-green-700 shadow-lg shadow-slate-300" : "px-2 py-1 bg-green-100 text-gray-400 border-green-700 hover:text-green-800 hover:underline"
+                isActive ? "px-3 py-1 bg-gray-950 text-green-400 border-green-700 shadow-lg shadow-slate-300" : "px-2 py-1 bg-green-100 text-gray-400 border-green-700 hover:text-green-800 hover:underline"
               }`}
             >
               {item.label}
@@ -162,7 +161,7 @@ export default function DashboardKolim({ email }: { email: string }) {
           <td className="hidden">{machine.jenis_pesawat}</td>
           <td className="text-center px-3 py-2">
             <span className="px-2 pb-1 bg-green-300 rounded-lg hover:bg-gray-300 hover:underline">
-              <Link href={`/dental/${machine.No_Seri}`}>
+              <Link href={`/ct-scan/${machine.No_Seri}`}>
                 <small>Edit</small>
               </Link>
             </span>
@@ -172,12 +171,12 @@ export default function DashboardKolim({ email }: { email: string }) {
               </button>
             </span>
             <span className="px-2 pb-1 bg-green-500 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
-              <Link href={`/dental/parameter-uji?id_spesifikasi=${machine.id_spesifikasi}&id_user=${machine.id_user}`} target="blank">
+              <Link href={`/ct-scan/parameter-uji?id_spesifikasi=${machine.id_spesifikasi}&id_user=${machine.id_user}`} target="blank">
                 <small>manage</small>
               </Link>
             </span>
             <span className="px-2 pb-1 bg-lime-400 rounded-lg ml-1 hover:bg-gray-300 hover:underline">
-              <Link href={`/dental/report?id_spesifikasi=${machine.id_spesifikasi}`} target="blank">
+              <Link href={`/ct-scan/report?id_spesifikasi=${machine.id_spesifikasi}`} target="blank">
                 <small>report</small>
               </Link>
             </span>
@@ -216,12 +215,12 @@ export default function DashboardKolim({ email }: { email: string }) {
             </div>
 
             <div className="mt-4 flex flex-col items-center p-8 gap-1">
-              <h1 className="text-2xl font-bold">Kesesuaian Berkas Sinar-x dg Reseptor Tren</h1>
+              <h1 className="text-2xl font-bold">Half Value Layer Tren</h1>
               <p>
                 <small>{dataUji[0] ? `${dataUji[0].Merk} - ${dataUji[0].Model} - ${dataUji[0].No_Seri}` : "Loading..."}</small>
               </p>
               <div className="md:hidden">Unsupported Chart</div>
-              <PerformanceKolimChart data={performanceData} />
+              <PerformanceHVLChart dataPoints={performanceData} />
             </div>
 
             <div className="hidden md:flex flex-col items-center overflow-x-auto w-full">
@@ -254,7 +253,7 @@ export default function DashboardKolim({ email }: { email: string }) {
 
                 {isLoading ? <SpinnerCss /> : null}
                 <div className="mt-4 flex justify-center items-center">
-                  <Link className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row" href={allDataUji[0] ? `/dental/add?id_user=${allDataUji[0].id_user}` : "#"}>
+                  <Link className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row" href={allDataUji[0] ? `/ct-scan/add?id_user=${allDataUji[0].id_user}` : "#"}>
                     <Plus />
                     <span>Add New Data</span>
                   </Link>
