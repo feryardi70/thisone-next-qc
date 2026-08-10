@@ -55,9 +55,7 @@ export default function EditDataRadForm({ payloadQueryParams }: RadProps) {
             id="Merk"
             name="Merk"
             value={dataUji.Merk || ""}
-            onChange={(e) =>
-              setDataUji({ ...dataUji, Merk: e.target.value })
-            }
+            onChange={(e) => setDataUji({ ...dataUji, Merk: e.target.value })}
             placeholder="Philips"
             aria-describedby="Merk"
           />
@@ -92,9 +90,7 @@ export default function EditDataRadForm({ payloadQueryParams }: RadProps) {
             id="No_Seri"
             name="No_Seri"
             value={dataUji.No_Seri || ""}
-            onChange={(e) =>
-              setDataUji({ ...dataUji, No_Seri: e.target.value })
-            }
+            onChange={(e) => setDataUji({ ...dataUji, No_Seri: e.target.value })}
             placeholder="1234"
             aria-describedby="No_Seri"
           />
@@ -145,20 +141,18 @@ export default function EditDataRadForm({ payloadQueryParams }: RadProps) {
     if (editResponse.status == 200) {
       setLoading(false);
       alert("successfully Update Data Pesawat Sinar-X");
-      router.push(
-        `/dashboard/radiografi?No_Seri=${editResult.data.No_Seri}&id=${editResult.data.id_user}`
-      );
+      router.push(`/dashboard/radiografi?No_Seri=${editResult.data.No_Seri}&id=${editResult.data.id_user}`);
     } else {
       console.error("Failed to edit data");
       setLoading(false);
-      toast("failed to edit Data")
+      toast.error("failed to edit Data");
     }
     //router.push("/departure");
   };
 
   return (
     <div>
-      <div className="flex min-h-screen overflow-hidden bg-gradient-to-br from-green-50 to-green-100">
+      <div className="flex min-h-screen overflow-hidden bg-linear-to-b from-green-200 to-green-300 text-emerald-900">
         <SideBar />
 
         <div className="flex-1 flex flex-col min-w-0">
@@ -171,10 +165,7 @@ export default function EditDataRadForm({ payloadQueryParams }: RadProps) {
               <form onSubmit={(e) => handleEdit(e)} className="flex flex-col">
                 {renderDataUji()}
 
-                <button
-                  type="submit"
-                  className="px-2 py-2 bg-gradient-to-r from-lime-500 to-green-500 hover:from-fuchsia-600 hover:to-pink-300 rounded text-white"
-                >
+                <button type="submit" className="px-2 py-2 bg-gradient-to-r from-lime-500 to-green-500 hover:from-fuchsia-600 hover:to-pink-300 rounded text-white">
                   {loading ? "Updating Data... Please wait..." : "Update Data"}
                 </button>
               </form>

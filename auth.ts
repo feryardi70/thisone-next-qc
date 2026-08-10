@@ -9,9 +9,15 @@ import { JWT } from "next-auth/jwt";
 import { getUserByEmail } from "./app/DAL/repository/user-repository";
 
 declare module "next-auth" {
+  interface User {
+    id: string;
+    dbid: number;
+  }
+
   interface Session {
     user: {
       id: string;
+      dbid: number;
       email: string; // Add your custom field
     } & DefaultSession["user"];
   }
@@ -20,6 +26,7 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT {
     id: string; // Add your custom field
+    dbid: number;
   }
 }
 
@@ -52,6 +59,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new CredentialsSignin("Invalid email or password.");
         }
         const dbuser = await response.json();
+        //console.log("User fetched from database:", dbuser);
 
         const pwMatch = checkPass(password, dbuser.password);
 
@@ -59,7 +67,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new CredentialsSignin("Invalid email or password.");
         }
 
-        user = { id: dbuser.database_userId, email, name: dbuser.name };
+        user = { id: dbuser.database_userId, dbid: dbuser.id_user, email, name: dbuser.name };
         return user;
       },
     }),
@@ -72,9 +80,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET,
   callbacks: {
     async jwt({ token, user }: { token: JWT; user?: User | { id: string } }) {
+      //console.log("USER =", user);
       // If user exists (e.g., after login), add the `id` to the token
-      if (user && typeof user.id === "string") {
+      if (user) {
         token.id = user.id;
+        token.dbid = (user as { dbid: number }).dbid;
       }
 
       return token;
@@ -82,6 +92,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async session({ session, token }: { session: Session; token: JWT }) {
       // Explicitly assign `id` if it exists and is a string
       session.user.id = typeof token.id === "string" ? token.id : "";
+      session.user.dbid = typeof token.dbid === "number" ? token.dbid : 0;
 
       return session;
     },

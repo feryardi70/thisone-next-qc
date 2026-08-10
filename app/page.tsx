@@ -17,7 +17,7 @@ export default function Home() {
           </span>
         </div>
         <div className="flex items-center gap-6">
-          <Link href="/login" className="text-sm font-medium text-gray-300 hover:text-white hover:underline transition-colors">
+          <Link href="/login" className="text-sm font-medium text-green-900 hover:text-purple-500 hover:underline transition-colors">
             Login
           </Link>
           <Link href="/register" className="text-sm font-semibold bg-emerald-500 hover:bg-emerald-400 text-black px-5 py-2.5 rounded-full transition-all shadow-[0_0_15px_rgba(16,185,129,0.2)] hover:shadow-[0_0_25px_rgba(16,185,129,0.4)]">
@@ -29,14 +29,16 @@ export default function Home() {
       {/* Hero Section */}
       <main className="relative z-10 flex flex-col items-center justify-center text-center px-4 pt-24 pb-32 max-w-5xl mx-auto">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-emerald-300 text-sm font-medium mb-8 backdrop-blur-md">
-          <Zap color="yellow" className="w-4 h-4" />
+          <Zap color="purple" className="w-4 h-4" />
           <span className="text-emerald-950">New: Advanced Trend Analysis Engine</span>
         </div>
 
         <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-400 mb-6 leading-[1.1]" style={{ fontFamily: "var(--font-outfit)" }}>
-          Input your testing data,
+          Input your testing <span className="text-gray-400">data</span>,
           <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">you can see a trend.</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">
+            you can see a <span className="text-gray-400">trend</span>
+          </span>
         </h1>
 
         <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
@@ -51,7 +53,10 @@ export default function Home() {
             Start Analyzing
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
-          <Link href="/docs" className="w-full sm:w-auto flex items-center justify-center px-8 py-4 rounded-full font-semibold text-lg text-white bg-white/5 hover:bg-white/10 border border-white/10 backdrop-blur-md transition-all">
+          <Link
+            href="/docs"
+            className="w-full sm:w-auto flex items-center justify-center px-8 py-4 rounded-full font-semibold text-lg text-white bg-white/5 hover:bg-white/10 hover:underline hover:text-fuchsia-500 border border-green-500/20 backdrop-blur-md transition-all"
+          >
             View Documentation
           </Link>
         </div>

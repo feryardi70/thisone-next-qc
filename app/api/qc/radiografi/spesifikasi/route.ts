@@ -4,6 +4,7 @@ import { editDataRadByIdSpec, insertDataRad } from "@/app/DAL/service/spec-servi
 import { precheck } from "@/app/lib/precheck";
 import { cookies } from "next/headers";
 import { csrfTokenName, sessionTokenName } from "@/app/lib/constant";
+import getSession from "@/app/action/session";
 
 export async function GET(request: Request) {
   //const { spesifikasiId } = await params;
@@ -49,6 +50,13 @@ export async function PATCH(request: Request) {
     No_Seri,
     id_user,
   };
+
+  const session = await getSession();
+  const currentUserId = session?.user?.dbid;
+
+  if (currentUserId !== id_user) {
+    return NextResponse.json({ error: "bad request, missing params" }, { status: 400 });
+  }
 
   const updateResponse = await editDataRadByIdSpec(Merk, Model, No_Seri, jenis_pesawat, id_user, id_spesifikasi);
 
@@ -112,11 +120,19 @@ export async function DELETE(request: Request) {
   }
 
   const dataUji = await readDataRadByIdSpec(id_spesifikasi);
+  const id_user = dataUji.data[0].id_user;
   //const dataUji = await response.json();
   console.log("data = ", dataUji);
 
   if (dataUji.data.length == 0) {
     return NextResponse.json({ error: "bad request: data uji tidak ditemukan" }, { status: 404 });
+  }
+
+  const session = await getSession();
+  const currentUserId = session?.user?.dbid;
+
+  if (currentUserId !== id_user) {
+    return NextResponse.json({ error: "bad request, missing params" }, { status: 400 });
   }
 
   const deletedData = await removeDataRadByIdSpec(id_spesifikasi);

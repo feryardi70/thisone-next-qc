@@ -199,7 +199,7 @@ export default function Dashboard({ email }: { email: string }) {
 
   return (
     <div>
-      <div className="flex h-screen overflow-hidden bg-linear-to-b from-green-800 to-green-400">
+      <div className="flex h-screen overflow-hidden bg-linear-to-b from-green-200 to-green-300">
         {/* Sidebar */}
         <SideBar />
         {/* // */}
@@ -286,10 +286,13 @@ export default function Dashboard({ email }: { email: string }) {
                 {/* Modal */}
                 {isModalOpen && (
                   <div className="fixed inset-0 flex items-center justify-center bg-white/10 backdrop-blur-md z-50">
-                    <div className="bg-white backdrop-blur-md border-2 border-green-500 p-6 rounded-lg shadow-lg w-1/3">
-                      <h3 className="text-lg font-semibold mb-4">Are you sure you want to delete this data?</h3>
+                    <div className="bg-gray-900 backdrop-blur-md border-2 p-6 rounded-lg shadow-lg w-1/3">
+                      <h3 className="text-lg font-semibold mb-2">Are you sure you want to delete this data?</h3>
+                      <p className="mb-3 text-gray-500">
+                        <small>This action cannot be undone!</small>
+                      </p>
                       <div className="flex justify-end space-x-2">
-                        <button onClick={handleDelete} className="bg-green-600 hover:bg-red-500 text-white px-4 py-2 rounded">
+                        <button onClick={handleDelete} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
                           Yes
                         </button>
                         <button onClick={closeModal} className="bg-gray-400 hover:bg-gray-300 px-4 py-2 rounded">

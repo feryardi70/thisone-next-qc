@@ -39,8 +39,8 @@ export default function Header({ email }: { email: string }) {
     <header className="h-16 flex items-center justify-end px-6">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="flex items-center gap-1 border-2 p-1 rounded-full hover:bg-green-300">
-            <UserRound size={25} color="white" />
+          <button className="flex items-center gap-1 border-2 border-green-400 p-1 rounded-full hover:bg-green-300">
+            <UserRound size={25} color="black" />
           </button>
         </DropdownMenuTrigger>
 
