@@ -14,12 +14,16 @@ import { deleteDataRadByIdSpec } from "../DAL/repository/spec-repository";
 import { usePathname, useSearchParams } from "next/navigation";
 import HeadingMobileView from "./mobile-view/Heading";
 import Heading from "./Heading";
+import AddDataRadModal from "./radiografi/AddDataRadModal";
+import EditDataRadDrawer from "./radiografi/EditDataRadDrawer";
 
 export default function Dashboard({ email }: { email: string }) {
   //const { currentEmail } = useAuth();
-  const { allDataUji, dataUji, isLoading, errorMsg } = useFetchDataUjiByUserEmail(email);
+  const { allDataUji, dataUji, isLoading, errorMsg, refetch } = useFetchDataUjiByUserEmail(email);
   //console.log(dataUji);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [editSerial, setEditSerial] = useState<string | null>(null);
   const [selectedSpecId, setSelectedSpecId] = useState<number | null>(null);
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -170,9 +174,9 @@ export default function Dashboard({ email }: { email: string }) {
           <td className="hidden">{machine.jenis_pesawat}</td>
           <td className="text-center px-3 py-2">
             <span className="px-2 pb-1 bg-green-300 rounded-lg hover:bg-gray-300 hover:underline">
-              <Link href={`/radiografi/${machine.No_Seri}`}>
+              <button onClick={() => setEditSerial(machine.No_Seri)}>
                 <small>Edit</small>
-              </Link>
+              </button>
             </span>
             <span className="px-2 pb-1 bg-red-500 rounded-lg ml-1 hover:bg-rose-300">
               <button className="hover:underline" onClick={() => openModal(machine.id_spesifikasi)}>
@@ -278,11 +282,20 @@ export default function Dashboard({ email }: { email: string }) {
 
                 {isLoading ? <SpinnerCss /> : null}
                 <div className="mt-4 flex justify-center items-center">
-                  <Link className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row" href={allDataUji[0] ? `/radiografi/add?id_user=${allDataUji[0].id_user}` : "#"}>
+                  <button
+                    className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row"
+                    onClick={() => allDataUji[0] && setIsAddModalOpen(true)}
+                  >
                     <Plus />
                     <span>Add New Data</span>
-                  </Link>
+                  </button>
                 </div>
+                {/* Add New Data Modal */}
+                {isAddModalOpen && allDataUji[0] && (
+                  <AddDataRadModal id_user={allDataUji[0].id_user} onClose={() => setIsAddModalOpen(false)} onSuccess={refetch} />
+                )}
+                {/* Edit Data Drawer */}
+                <EditDataRadDrawer open={editSerial !== null} No_Seri={editSerial} onClose={() => setEditSerial(null)} onSuccess={refetch} />
                 {/* Modal */}
                 {isModalOpen && (
                   <div className="fixed inset-0 flex items-center justify-center bg-white/10 backdrop-blur-md z-50">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getDataRadByUserEmail } from "../repository/radiografi-repository";
 import { getDataFloByUserEmail } from "../repository/fluoroskopi-repository";
 
@@ -19,6 +19,9 @@ export const useFetchDataUjiByUserEmail = (email: string) => {
   const [allDataUji, setAllDataUji] = useState<Machine[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
+  const [refreshKey, setRefreshKey] = useState<number>(0);
+
+  const refetch = useCallback(() => setRefreshKey((k) => k + 1), []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -48,9 +51,9 @@ export const useFetchDataUjiByUserEmail = (email: string) => {
     fetchDataUji();
 
     return () => controller.abort();
-  }, [email]);
+  }, [email, refreshKey]);
 
-  return { allDataUji, dataUji, isLoading, errorMsg };
+  return { allDataUji, dataUji, isLoading, errorMsg, refetch };
 };
 
 export const useFetchDataUjiFloByUserEmail = (email: string) => {

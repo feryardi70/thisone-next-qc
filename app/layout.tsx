@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${inter.variable} ${outfit.variable} antialiased font-sans`}>
-        <Toaster richColors />
+        <Toaster richColors duration={7000} />
         {children}
       </body>
     </html>
