@@ -16,8 +16,13 @@ import HeadingMobileView from "./mobile-view/Heading";
 import Heading from "./Heading";
 import AddDataRadModal from "./radiografi/AddDataRadModal";
 import EditDataRadDrawer from "./radiografi/EditDataRadDrawer";
+import { toast } from "sonner";
 
-export default function Dashboard({ email }: { email: string }) {
+interface DashboardProps {
+  email: string;
+}
+
+export default function Dashboard({ email }: DashboardProps) {
   //const { currentEmail } = useAuth();
   const { allDataUji, dataUji, isLoading, errorMsg, refetch } = useFetchDataUjiByUserEmail(email);
   //console.log(dataUji);
@@ -77,16 +82,17 @@ export default function Dashboard({ email }: { email: string }) {
       // console.log(data);
 
       if (response.status == 200) {
-        alert("successfully delete data pesawat sinar-x");
+        closeModal();
+        refetch();
+        toast.success("Successfully Delete Pesawat Sinar-X data");
       }
     } catch (error) {
-      console.error("Error deleting data pesawat sinar-x:", error);
-    } finally {
+        console.error("Error deleting data pesawat sinar-x:", error);
       closeModal();
+        toast.error("Failed to add data", {
+          className: "bg-red-400 text-black",
+        });
     }
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
   };
 
   const performanceData = dataUji

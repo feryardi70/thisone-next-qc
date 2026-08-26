@@ -68,7 +68,7 @@ export default function Home() {
         <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-2 md:p-4 shadow-2xl relative z-0 group">
           <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
           <div className="relative aspect-[16/10] md:aspect-[21/9] rounded-xl overflow-hidden bg-black/80 ring-1 ring-white/10">
-            <Image src="/hero-dashboard.png" alt="QC Dashboard Preview" fill className="object-cover object-top opacity-90 transition-transform duration-700 hover:scale-105" />
+            <Image src="/thisone-qc.png" alt="QC Dashboard Preview" fill className="object-cover object-top opacity-90 transition-transform duration-700 hover:scale-105" />
           </div>
         </div>
       </div>
