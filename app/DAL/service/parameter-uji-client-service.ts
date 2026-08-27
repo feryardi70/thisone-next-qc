@@ -100,25 +100,24 @@ export const useFetchDataUjiByUserIdnSpecId = ({ payloadQueryParams }: RadProps)
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
 
+  const fetchDataUji = async () => {
+    try {
+      setIsLoading(true);
+      const data = await getDataUjiByUserIdnSpecIdRad({ payloadQueryParams });
+      setDataUji(data.data);
+    } catch (error) {
+      console.log(error);
+      setErrorMsg("An error occurred, please try again later!");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchDataUji = async () => {
-      try {
-        setIsLoading(true);
-        const data = await getDataUjiByUserIdnSpecIdRad({ payloadQueryParams });
-        //const data = await response.json();
-        //console.log(data.data);
-        setDataUji(data.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-        setErrorMsg("An error occurred, please try again later!");
-      }
-    };
     fetchDataUji();
   }, []);
 
-  return { dataUji, isLoading, errorMsg };
+  return { dataUji, isLoading, errorMsg, refetch: fetchDataUji };
 };
 
 export const useFetchDataUjiByUserIdnSpecIdforFlo = ({ payloadQueryParams }: RadProps) => {

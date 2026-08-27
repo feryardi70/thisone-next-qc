@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter } from "@/components/ui/drawer";
 import { editDataRadByIdSpec, getDataRadBySN } from "@/app/DAL/repository/spec-repository";
+import SpinnerCss from "../spinner-css";
 
 interface EditDataRadDrawerProps {
   open: boolean;
@@ -14,6 +15,7 @@ interface EditDataRadDrawerProps {
 
 export default function EditDataRadDrawer({ open, No_Seri, onClose, onSuccess }: EditDataRadDrawerProps) {
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(false);
   const [dataUji, setDataUji] = useState({
     Merk: "",
     Model: "",
@@ -25,12 +27,15 @@ export default function EditDataRadDrawer({ open, No_Seri, onClose, onSuccess }:
 
   useEffect(() => {
     const fetchDataUjiById = async () => {
+      setFetching(true);
       try {
         const data = await getDataRadBySN(No_Seri as string);
         setDataUji(data.data[0]);
       } catch (error) {
         console.log(error);
         toast.error("failed to load data");
+      } finally {
+        setFetching(false);
       }
     };
 
@@ -82,6 +87,9 @@ export default function EditDataRadDrawer({ open, No_Seri, onClose, onSuccess }:
             </DrawerDescription>
           </DrawerHeader>
 
+          {fetching ? (
+            <SpinnerCss />
+          ) : (
           <form onSubmit={handleEdit} className="mt-5 flex flex-col">
             <div className="flex justify-between">
               <div className="flex w-[48%] flex-col">
@@ -154,6 +162,7 @@ export default function EditDataRadDrawer({ open, No_Seri, onClose, onSuccess }:
               </button>
             </DrawerFooter>
           </form>
+          )}
         </div>
       </DrawerContent>
     </Drawer>

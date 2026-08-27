@@ -18,11 +18,7 @@ import AddDataRadModal from "./radiografi/AddDataRadModal";
 import EditDataRadDrawer from "./radiografi/EditDataRadDrawer";
 import { toast } from "sonner";
 
-interface DashboardProps {
-  email: string;
-}
-
-export default function Dashboard({ email }: DashboardProps) {
+export default function Dashboard({ email }: { email: string }) {
   //const { currentEmail } = useAuth();
   const { allDataUji, dataUji, isLoading, errorMsg, refetch } = useFetchDataUjiByUserEmail(email);
   //console.log(dataUji);
@@ -30,6 +26,7 @@ export default function Dashboard({ email }: DashboardProps) {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editSerial, setEditSerial] = useState<string | null>(null);
   const [selectedSpecId, setSelectedSpecId] = useState<number | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -76,6 +73,7 @@ export default function Dashboard({ email }: DashboardProps) {
   };
 
   const handleDelete = async () => {
+    setIsDeleting(true);
     try {
       const response = await deleteDataRadByIdSpec(selectedSpecId);
       // const data = await response.json();
@@ -87,11 +85,13 @@ export default function Dashboard({ email }: DashboardProps) {
         toast.success("Successfully Delete Pesawat Sinar-X data");
       }
     } catch (error) {
-        console.error("Error deleting data pesawat sinar-x:", error);
+      console.error("Error deleting data pesawat sinar-x:", error);
       closeModal();
-        toast.error("Failed to add data", {
-          className: "bg-red-400 text-black",
-        });
+      toast.error("Failed to add data", {
+        className: "bg-red-400 text-black",
+      });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -288,18 +288,13 @@ export default function Dashboard({ email }: DashboardProps) {
 
                 {isLoading ? <SpinnerCss /> : null}
                 <div className="mt-4 flex justify-center items-center">
-                  <button
-                    className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row"
-                    onClick={() => allDataUji[0] && setIsAddModalOpen(true)}
-                  >
+                  <button className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row" onClick={() => allDataUji[0] && setIsAddModalOpen(true)}>
                     <Plus />
                     <span>Add New Data</span>
                   </button>
                 </div>
                 {/* Add New Data Modal */}
-                {isAddModalOpen && allDataUji[0] && (
-                  <AddDataRadModal id_user={allDataUji[0].id_user} onClose={() => setIsAddModalOpen(false)} onSuccess={refetch} />
-                )}
+                {isAddModalOpen && allDataUji[0] && <AddDataRadModal id_user={allDataUji[0].id_user} onClose={() => setIsAddModalOpen(false)} onSuccess={refetch} />}
                 {/* Edit Data Drawer */}
                 <EditDataRadDrawer open={editSerial !== null} No_Seri={editSerial} onClose={() => setEditSerial(null)} onSuccess={refetch} />
                 {/* Modal */}
@@ -311,10 +306,10 @@ export default function Dashboard({ email }: DashboardProps) {
                         <small>This action cannot be undone!</small>
                       </p>
                       <div className="flex justify-end space-x-2">
-                        <button onClick={handleDelete} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
-                          Yes
+                        <button onClick={handleDelete} disabled={isDeleting} className="bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white px-4 py-2 rounded">
+                          {isDeleting ? "Menghapus..." : "Yes"}
                         </button>
-                        <button onClick={closeModal} className="bg-gray-400 hover:bg-gray-300 px-4 py-2 rounded">
+                        <button onClick={closeModal} disabled={isDeleting} className="bg-gray-400 hover:bg-gray-300 px-4 py-2 rounded">
                           No
                         </button>
                       </div>

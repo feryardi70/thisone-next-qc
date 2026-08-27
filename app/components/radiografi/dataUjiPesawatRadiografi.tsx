@@ -1,14 +1,18 @@
 "use client";
 
 import SideBar from "../Sidebar";
-import { Plus, TriangleAlert } from "lucide-react";
+import { Plus, TriangleAlert, SquareChevronLeftIcon } from "lucide-react";
 import SpinnerCss from "../spinner-css";
 import { useState } from "react";
-import Link from "next/link";
 import Header from "../Header";
 import { useFetchDataUjiByUserIdnSpecId } from "@/app/DAL/service/parameter-uji-client-service";
 import { deleteDataUjiByIdParameter } from "@/app/DAL/repository/parameter-uji-repository";
 import { toast } from "sonner";
+import AddDataUjiModal from "./AddDataUjiModal";
+import EditDataUjiDrawer from "./EditDataUjiDrawer";
+import TabbedDataTable from "../TabbedDataTable";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import Link from "next/link";
 
 interface RadProps {
   payloadQueryParams: {
@@ -17,12 +21,68 @@ interface RadProps {
   };
 }
 
+const tabColumns = [
+  {
+    key: "kolimasi",
+    label: "Kolimasi",
+    fields: ["Iluminasi", "Kolimasi_deltaX", "Kolimasi_deltaY", "Ketegaklurusan"] as const,
+  },
+  {
+    key: "akurasi",
+    label: "Akurasi",
+    fields: ["Akurasi_kV", "Akurasi_waktu"] as const,
+  },
+  {
+    key: "linearitas",
+    label: "Linearitas & Reproduksibilitas",
+    fields: ["Linearitas", "Reproduksibilitas", "Reproduksibilitas_kV", "Reproduksibilitas_waktu"] as const,
+  },
+  {
+    key: "hvl",
+    label: "HVL & Kebocoran",
+    fields: ["HVL", "HVL_80", "Kebocoran"] as const,
+  },
+  {
+    key: "aec",
+    label: "AEC",
+    fields: ["Timer_darurat_mAs", "Timer_darurat_s", "Uniformitas_mAs", "Uniformitas_EI", "Penjejakan_ketebalan", "Penjejakan_kV", "Penjejakan_kombinasi", "Waktu_respon_min"] as const,
+  },
+];
+
+const fieldLabels: Record<string, string> = {
+  Iluminasi: "Iluminasi",
+  Kolimasi_deltaX: "Kolimasi ΔX",
+  Kolimasi_deltaY: "Kolimasi ΔY",
+  Ketegaklurusan: "Ketegaklurusan",
+  Akurasi_kV: "Akurasi kV",
+  Akurasi_waktu: "Akurasi waktu",
+  Linearitas: "Linearitas",
+  Reproduksibilitas: "Reproduksibilitas Kerma",
+  Reproduksibilitas_kV: "Reproduksibilitas kV",
+  Reproduksibilitas_waktu: "Reproduksibilitas waktu",
+  HVL: "HVL 70kV",
+  HVL_80: "HVL 80kV",
+  Kebocoran: "Kebocoran",
+  Timer_darurat_mAs: "Timer Darurat (mAs)",
+  Timer_darurat_s: "Timer Darurat (s)",
+  Uniformitas_mAs: "Uniformitas (mAs)",
+  Uniformitas_EI: "Uniformitas (EI)",
+  Penjejakan_ketebalan: "Penjejakan Ketebalan",
+  Penjejakan_kV: "Penjejakan kV",
+  Penjejakan_kombinasi: "Penjejakan Kombinasi",
+  Waktu_respon_min: "Waktu Respon Minimum",
+};
+
 export default function DataUjiPesawatRad({ payloadQueryParams }: RadProps) {
   //console.log(payloadQueryParams);
   const [selectedParameterId, setSelectedParameterId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [editId, setEditId] = useState<number | null>(null);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
-  const { dataUji, isLoading, errorMsg } = useFetchDataUjiByUserIdnSpecId({ payloadQueryParams });
+  const { dataUji, isLoading, errorMsg, refetch } = useFetchDataUjiByUserIdnSpecId({ payloadQueryParams });
 
   const openModal = (id: number) => {
     setSelectedParameterId(id);
@@ -35,66 +95,22 @@ export default function DataUjiPesawatRad({ payloadQueryParams }: RadProps) {
   };
 
   const handleDelete = async () => {
+    setIsDeleting(true);
     try {
       const response = await deleteDataUjiByIdParameter(selectedParameterId);
 
       if (response.status == 200) {
-        alert("successfully delete data uji");
+        closeModal();
+        refetch();
+        toast.success("Successfully delete data uji");
       }
     } catch (error) {
       console.error("Error deleting data pesawat sinar-x:", error);
-      toast("failed to delete Data Uji");
+      toast.error("Failed to delete Data Uji");
     } finally {
-      closeModal();
+      setIsDeleting(false);
     }
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
   };
-
-  const renderDataUji = () => {
-    return dataUji.map((d, i) => {
-      return (
-        <tr key={d.id_parameter} className="odd:bg-green-50 even:bg-green-100">
-          <td className="text-center w-7 px-3 py-2">{++i}</td>
-          <td className="hidden">{d.id_parameter}</td>
-          <td className="text-center px-3 py-2">{d.Iluminasi}</td>
-          <td className="text-center px-3 py-2">{d.Kolimasi_deltaX}</td>
-          <td className="text-center px-3 py-2">{d.Kolimasi_deltaY}</td>
-          <td className="text-center px-3 py-2">{d.Ketegaklurusan}</td>
-          <td className="text-center px-3 py-2">{d.Akurasi_kV}</td>
-          <td className="text-center px-3 py-2">{d.Akurasi_waktu}</td>
-          <td className="text-center px-3 py-2">{d.Linearitas}</td>
-          <td className="text-center px-3 py-2">{d.Reproduksibilitas}</td>
-          <td className="text-center px-3 py-2">{d.Reproduksibilitas_kV}</td>
-          <td className="text-center px-3 py-2">{d.Reproduksibilitas_waktu}</td>
-          <td className="text-center px-3 py-2">{d.HVL}</td>
-          <td className="text-center px-3 py-2">{d.HVL_80}</td>
-          <td className="text-center px-3 py-2">{d.Kebocoran}</td>
-          <td className="text-center px-3 py-2">{d.Timer_darurat_mAs}</td>
-          <td className="text-center px-3 py-2">{d.Timer_darurat_s}</td>
-          <td className="text-center px-3 py-2">{d.Uniformitas_mAs}</td>
-          <td className="text-center px-3 py-2">{d.Uniformitas_EI}</td>
-          <td className="text-center px-3 py-2">{d.Penjejakan_ketebalan}</td>
-          <td className="text-center px-3 py-2">{d.Penjejakan_kV}</td>
-          <td className="text-center px-3 py-2">{d.Penjejakan_kombinasi}</td>
-          <td className="text-center px-3 py-2">{d.Waktu_respon_min}</td>
-          <td className="hidden">{d.id_user}</td>
-          <td className="hidden">{d.id_spesifikasi}</td>
-          <td className="text-center px-3 py-2">
-            <span className="px-2 bg-green-400 rounded-lg hover:bg-green-500 hover:underline">
-              <Link href={`/radiografi/parameter-uji/${d.id_parameter}`}>edit</Link>
-            </span>
-            <span className="px-2 bg-red-400 rounded-lg ml-1 hover:bg-red-600 hover:underline">
-              <button onClick={() => openModal(d.id_parameter)}>Delete</button>
-            </span>
-          </td>
-        </tr>
-      );
-    });
-  };
-
-  const checkPU = dataUji[0]?.id_parameter != null ? 1 : 0;
 
   return (
     <div>
@@ -135,57 +151,48 @@ export default function DataUjiPesawatRad({ payloadQueryParams }: RadProps) {
               )}
               <div className="mt-1 w-[85%] shadow-md rounded-xl p-8 bg-white border border-green-700">
                 <div>
-                  <div className="text-xl text-green-900 mb-1">
-                    <small>Data Uji -{dataUji[0] ? ` ${dataUji[0].Merk} ${dataUji[0].Model} ${dataUji[0].No_Seri}` : "Loading..."}</small>
+                  <div className="w-fit text-xl text-green-950  mb-2">
+                    <h6 className="flex flex-row">
+                      <div className="mr-1 py-0.5">
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Link href="/dashboard">
+                              <SquareChevronLeftIcon />
+                            </Link>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Back to Radiografi Dashboard</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
+                      Data Uji -{dataUji[0] ? ` ${dataUji[0].Merk} ${dataUji[0].Model} ${dataUji[0].No_Seri}` : "Loading..."}
+                    </h6>
                   </div>
                 </div>
 
-                {checkPU ? (
-                  <div className="overflow-x-auto w-full">
-                    <table className="my-4 w-full border-collapse">
-                      <thead className="text-lg mb-5 bg-green-100 py-5">
-                        <tr className="py-5 border-b-2 border-green-200">
-                          <th className="text-center w-7 px-3">#</th>
-                          <th className="hidden">Parameter ID</th>
-                          <th className="text-center px-3">Iluminasi</th>
-                          <th className="text-center px-3">Kolimasi ΔX</th>
-                          <th className="text-center px-3">Kolimasi ΔY</th>
-                          <th className="text-center px-3">Ketegaklurusan</th>
-                          <th className="text-center px-3">Akurasi kV</th>
-                          <th className="text-center px-3">Akurasi waktu</th>
-                          <th className="text-center px-3">Linearitas</th>
-                          <th className="text-center px-3">Reproduksibilitas Kerma</th>
-                          <th className="text-center px-3">Reproduksibilitas kV</th>
-                          <th className="text-center px-3">Reproduksibilitas waktu</th>
-                          <th className="text-center px-3">HVL pada 70kV</th>
-                          <th className="text-center px-3">HVL pada 80kV</th>
-                          <th className="text-center px-3">Kebocoran</th>
-                          <th className="text-center px-3">Timer darurat (mAs)</th>
-                          <th className="text-center px-3">Timer darurat (s)</th>
-                          <th className="text-center px-3">Densitas standar & Uniformitas (error mAs)</th>
-                          <th className="text-center px-3">Densitas standar & Uniformitas (error EI)</th>
-                          <th className="text-center px-3">Penjejakan ketebalan</th>
-                          <th className="text-center px-3">Penjejakan kV</th>
-                          <th className="text-center px-3">Penjejakan kombinasi</th>
-                          <th className="text-center px-3">Waktu respon min</th>
-                          <th className="hidden">User ID</th>
-                          <th className="hidden">Spesifikasi ID</th>
-                          <th className="text-center px-3">Aksi</th>
-                        </tr>
-                      </thead>
-                      <tbody className="text-xl">{renderDataUji()}</tbody>
-                    </table>
-                  </div>
+                {isLoading ? (
+                  <SpinnerCss />
+                ) : dataUji.length === 0 || !dataUji[0]?.id_parameter ? (
+                  <div className="text-center py-8 text-gray-500">No data available</div>
                 ) : (
-                  <div>No data available</div>
+                  <TabbedDataTable
+                    data={dataUji}
+                    columns={tabColumns}
+                    fieldLabels={fieldLabels}
+                    keyField="id_parameter"
+                    onEdit={(item) => {
+                      setEditId(item.id_parameter);
+                      setIsEditOpen(true);
+                    }}
+                    onDelete={(item) => openModal(item.id_parameter)}
+                  />
                 )}
 
-                {isLoading ? <SpinnerCss /> : null}
                 <div className="mt-4 flex justify-center items-center">
-                  <Link className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row" href={dataUji[0] ? `/radiografi/parameter-uji/add?id_user=${dataUji[0].id_user}&id_spesifikasi=${dataUji[0].id_spesifikasi}` : "#"}>
+                  <button onClick={() => setIsAddModalOpen(true)} className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row">
                     <Plus />
                     <span>Add New Data</span>
-                  </Link>
+                  </button>
                 </div>
                 {/* Modal */}
                 {isModalOpen && (
@@ -193,16 +200,31 @@ export default function DataUjiPesawatRad({ payloadQueryParams }: RadProps) {
                     <div className="bg-white backdrop-blur-md border-2 border-green-500 p-6 rounded-lg shadow-lg w-1/3">
                       <h3 className="text-lg font-semibold mb-4">Are you sure you want to delete this data uji?</h3>
                       <div className="flex justify-end space-x-4">
-                        <button onClick={handleDelete} className="bg-fuchsia-500 text-white px-4 py-2 rounded">
-                          Yes
+                        <button onClick={handleDelete} disabled={isDeleting} className="bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white px-4 py-2 rounded">
+                          {isDeleting ? "Menghapus..." : "Yes"}
                         </button>
-                        <button onClick={closeModal} className="bg-gray-300 px-4 py-2 rounded">
+                        <button onClick={closeModal} disabled={isDeleting} className="bg-gray-400 hover:bg-gray-300 disabled:opacity-50 px-4 py-2 rounded">
                           No
                         </button>
                       </div>
                     </div>
                   </div>
                 )}
+                {/* Add Data Modal */}
+                {isAddModalOpen && dataUji[0] && <AddDataUjiModal id_user={dataUji[0].id_user} id_spesifikasi={dataUji[0].id_spesifikasi} onClose={() => setIsAddModalOpen(false)} onSuccess={refetch} />}
+
+                {/* Edit Data Drawer */}
+                <EditDataUjiDrawer
+                  open={isEditOpen}
+                  id_parameter={editId}
+                  onClose={() => {
+                    setIsEditOpen(false);
+                    setEditId(null);
+                  }}
+                  onSuccess={() => {
+                    refetch();
+                  }}
+                />
               </div>
             </div>
           </main>
