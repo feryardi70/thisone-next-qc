@@ -81,9 +81,9 @@ export default function EditDataRadDrawer({ open, No_Seri, onClose, onSuccess }:
       <DrawerContent className="max-h-[92vh] bg-green-900/70 backdrop-blur-sm">
         <div className="overflow-y-auto px-6 pb-6">
           <DrawerHeader className="p-0 pt-5 text-center">
-            <DrawerTitle className="text-2xl">Form Edit Data Pesawat Sinar-X Radiografi</DrawerTitle>
+            <DrawerTitle className="text-2xl text-white">Form Edit Data Pesawat Sinar-X Radiografi</DrawerTitle>
             <DrawerDescription>
-              <small className="italic">Edit spesifikasi pesawat sinar-x</small>
+              <small className="italic text-white">Edit spesifikasi pesawat sinar-x</small>
             </DrawerDescription>
           </DrawerHeader>
 
@@ -98,7 +98,7 @@ export default function EditDataRadDrawer({ open, No_Seri, onClose, onSuccess }:
                 </label>
                 <input
                   type="text"
-                  className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+                  className="px-2 py-2 mb-5 border text-white border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
                   id="drawer-Merk"
                   name="Merk"
                   value={dataUji.Merk || ""}
@@ -112,7 +112,7 @@ export default function EditDataRadDrawer({ open, No_Seri, onClose, onSuccess }:
                 </label>
                 <input
                   type="text"
-                  className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+                  className="px-2 py-2 mb-5 border text-white border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
                   id="drawer-Model"
                   name="Model"
                   value={dataUji.Model || ""}
@@ -128,7 +128,7 @@ export default function EditDataRadDrawer({ open, No_Seri, onClose, onSuccess }:
                 </label>
                 <input
                   type="text"
-                  className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+                  className="px-2 py-2 mb-5 border text-white border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
                   id="drawer-No_Seri"
                   name="No_Seri"
                   value={dataUji.No_Seri || ""}
@@ -142,7 +142,7 @@ export default function EditDataRadDrawer({ open, No_Seri, onClose, onSuccess }:
                 </label>
                 <input
                   type="text"
-                  className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+                  className="px-2 py-2 mb-5 border text-white border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
                   id="drawer-jenis_pesawat"
                   name="jenis_pesawat"
                   value={dataUji.jenis_pesawat || ""}

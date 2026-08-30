@@ -56,15 +56,15 @@ export default function AddDataRadModal({ id_user, onClose, onSuccess }: AddData
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-white/10 backdrop-blur-md z-50">
       <div className="bg-emerald-900 p-6 rounded-lg shadow-lg w-[90%] md:w-1/2 lg:w-1/3">
-        <h2 className="mb-5 text-center text-xl font-semibold">Form Add Data Radiografi</h2>
+        <h2 className="mb-5 text-center text-xl font-semibold text-white">Form Add Data Radiografi</h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col">
-          <label htmlFor="Merk" className="mb-1 text-slate-500">
+          <label htmlFor="Merk" className="mb-1 text-lime-500">
             Merk
           </label>
           <input
             type="text"
-            className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+            className="px-2 py-2 mb-5 border text-white border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
             id="Merk"
             name="Merk"
             value={dataUji.Merk || ""}
@@ -72,12 +72,12 @@ export default function AddDataRadModal({ id_user, onClose, onSuccess }: AddData
             aria-describedby="Merk"
           />
 
-          <label htmlFor="Model" className="mb-1 text-slate-500">
+          <label htmlFor="Model" className="mb-1 text-lime-500">
             Model
           </label>
           <input
             type="text"
-            className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+            className="px-2 py-2 mb-5 border text-white border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
             id="Model"
             name="Model"
             value={dataUji.Model || ""}
@@ -85,12 +85,12 @@ export default function AddDataRadModal({ id_user, onClose, onSuccess }: AddData
             aria-describedby="Model"
           />
 
-          <label htmlFor="No_Seri" className="mb-1 text-slate-500">
+          <label htmlFor="No_Seri" className="mb-1 text-lime-500">
             Nomor Seri
           </label>
           <input
             type="text"
-            className="px-2 py-2 mb-5 border border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
+            className="px-2 py-2 mb-5 border text-white border-fuchsia-200 focus:border-green-700 rounded-md outline-none"
             id="No_Seri"
             name="No_Seri"
             value={dataUji.No_Seri || ""}

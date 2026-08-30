@@ -13,7 +13,7 @@ export default function Heading() {
       </Link>
 
       <Link href="/dashboard/ct/hvl">
-        <Badge variant="secondary" className="text-gray-400 bg-green-100 border-green-700 hover:text-fuchsia-600 hover:underline">
+        <Badge variant="secondary" className="text-gray-400 bg-green-100 border-green-700 hover:text-slate-950 hover:underline">
           CT Scan
         </Badge>
       </Link>
@@ -25,7 +25,7 @@ export default function Heading() {
       </Link>
 
       <Link href="/dashboard/mammografi/kolimasi">
-        <Badge variant="secondary" className="text-gray-400 bg-green-100 border-green-700 hover:text-black hover:underline">
+        <Badge variant="secondary" className="text-gray-400 bg-green-100 border-green-700 hover:text-fuchsia-600 hover:underline">
           Mammografi
         </Badge>
       </Link>

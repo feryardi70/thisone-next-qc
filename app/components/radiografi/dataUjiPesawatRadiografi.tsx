@@ -114,7 +114,7 @@ export default function DataUjiPesawatRad({ payloadQueryParams }: RadProps) {
 
   return (
     <div>
-      <div className="flex h-screen overflow-hidden bg-gradient-to-br from-green-50 to-green-100">
+      <div className="flex h-screen overflow-hidden bg-linear-to-b from-green-200 to-green-300 dark:from-green-950 dark:to-gray-950">
         {/* Sidebar */}
         <SideBar />
         {/* // */}
@@ -149,10 +149,10 @@ export default function DataUjiPesawatRad({ payloadQueryParams }: RadProps) {
                   <div className="inline ml-1 text-xl">{errorMsg}</div>
                 </div>
               )}
-              <div className="mt-1 w-[85%] shadow-md rounded-xl p-8 bg-white border border-green-700">
+              <div className="mt-1 w-[85%] shadow-md rounded-xl p-8 bg-white dark:bg-green-950 border border-green-700">
                 <div>
                   <div className="w-fit text-xl text-green-950  mb-2">
-                    <h6 className="flex flex-row">
+                    <h6 className="flex flex-row dark:text-green-50">
                       <div className="mr-1 py-0.5">
                         <Tooltip>
                           <TooltipTrigger>

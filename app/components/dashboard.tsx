@@ -33,6 +33,9 @@ export default function Dashboard({ email }: { email: string }) {
   const currentId = searchParams.get("id");
   const currentNoSeri = searchParams.get("No_Seri");
 
+  const dataLength = allDataUji.length;
+  const tanggalUji = allDataUji[dataLength - 1]?.Tanggal_uji;
+
   const identifikasiPesawat = allDataUji.map(({ id_user, jenis_pesawat, id_spesifikasi, Merk, Model, No_Seri }) => ({
     id_user,
     jenis_pesawat,
@@ -206,10 +209,11 @@ export default function Dashboard({ email }: { email: string }) {
   };
 
   const checkDS = allDataUji[0]?.id_spesifikasi != null ? 1 : 0;
+  const checkTglUji = tanggalUji != null ? 1 : 0;
 
   return (
-    <div>
-      <div className="flex h-screen overflow-hidden bg-linear-to-b from-green-200 to-green-300">
+    <div className="dark:bg-gray-950">
+      <div className="flex h-screen overflow-hidden bg-linear-to-b from-green-200 to-green-300 dark:from-green-950 dark:to-gray-950">
         {/* Sidebar */}
         <SideBar />
         {/* // */}
@@ -239,36 +243,40 @@ export default function Dashboard({ email }: { email: string }) {
               <Heading />
 
               <div className="w-[75%]">{renderModality()}</div>
-              <div>{renderParameterUji()}</div>
+              {checkTglUji ? 
+              (<div>{renderParameterUji()}</div>) : null
+              }
             </div>
 
-            <div className="mt-4 flex flex-col items-center p-8 gap-1">
+            {checkTglUji ? 
+            (<div className="mt-4 flex flex-col items-center p-8 gap-1 dark:text-white">
               <h1 className="text-2xl font-bold">Iluminasi Tren</h1>
               <p>
-                <small>{dataUji[0] ? `${dataUji[0].Merk} - ${dataUji[0].Model} - ${dataUji[0].No_Seri}` : "Loading..."}</small>
+                <small className="italic">{dataUji[0] ? `${dataUji[0].Merk} - ${dataUji[0].Model} - ${dataUji[0].No_Seri}` : "Loading..."}</small>
               </p>
               <div className="md:hidden">Unsupported Chart</div>
               <IluminasiChart dataPoints={performanceData} />
-            </div>
+            </div>) : null
+            }
 
             {/* Cards */}
-            <div className="flex flex-col justify-center items-center mb-4">
+            <div className="flex flex-col justify-center items-center mb-4 dark:text-gray-400">
               <div className="md:hidden">Unsupported Table</div>
               <div className="italic md:hidden">gunakan pc/tablet untuk melihat tabel</div>
               <div className="italic md:hidden">atau ubah tampilan menjadi desktop view</div>
             </div>
 
             <div className="hidden md:flex flex-col items-center overflow-x-auto w-full">
-              <div className="w-[85%] shadow-md rounded-xl p-4 bg-white  px-10 py-10 border border-green-700">
+              <div className="w-[85%] shadow-md rounded-xl p-4 bg-white dark:bg-gray-900 px-10 py-10 border border-green-700 dark:border-green-800">
                 <div>
-                  <div className="text-xl mb-3 text-green-700">Daftar Pesawat Sinar-X {dataUji[0] ? `${dataUji[0].jenis_pesawat}` : null}</div>
+                  <div className="text-xl mb-3 text-green-700 dark:text-green-400">Daftar Pesawat Sinar-X {dataUji[0] ? `${dataUji[0].jenis_pesawat}` : null}</div>
                 </div>
 
                 {checkDS ? (
                   <div className="overflow-x-auto w-full">
                     <table className="my-4 w-full border-collapse">
-                      <thead className="text-lg mb-5 bg-green-100 py-5">
-                        <tr className="py-5 border-b-2 border-green-200 text-green-800">
+                      <thead className="text-lg mb-5 bg-green-100 dark:bg-green-900/50 py-5">
+                        <tr className="py-5 border-b-2 border-green-200 dark:border-green-800 text-green-800 dark:text-green-200">
                           <th className="text-center w-7 px-3">#</th>
                           <th className="hidden">Spesification ID</th>
                           <th className="text-center px-3">Merk</th>
@@ -279,16 +287,16 @@ export default function Dashboard({ email }: { email: string }) {
                           <th className="text-center px-3">Aksi</th>
                         </tr>
                       </thead>
-                      <tbody className="text-xl">{renderDaftarPesawatXRay()}</tbody>
+                      <tbody className="text-xl dark:text-gray-200">{renderDaftarPesawatXRay()}</tbody>
                     </table>
                   </div>
                 ) : (
-                  <div>No data available</div>
+                  <div className="text-green-800 dark:text-green-400">No data available</div>
                 )}
 
                 {isLoading ? <SpinnerCss /> : null}
                 <div className="mt-4 flex justify-center items-center">
-                  <button className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row" onClick={() => allDataUji[0] && setIsAddModalOpen(true)}>
+                  <button className="bg-green-400 hover:bg-fuchsia-300 px-2 py-1 rounded-lg flex flex-row dark:bg-green-700 dark:hover:bg-fuchsia-700 dark:text-white" onClick={() => allDataUji[0] && setIsAddModalOpen(true)}>
                     <Plus />
                     <span>Add New Data</span>
                   </button>
@@ -299,9 +307,9 @@ export default function Dashboard({ email }: { email: string }) {
                 <EditDataRadDrawer open={editSerial !== null} No_Seri={editSerial} onClose={() => setEditSerial(null)} onSuccess={refetch} />
                 {/* Modal */}
                 {isModalOpen && (
-                  <div className="fixed inset-0 flex items-center justify-center bg-white/10 backdrop-blur-md z-50">
-                    <div className="bg-gray-900 backdrop-blur-md border-2 p-6 rounded-lg shadow-lg w-1/3">
-                      <h3 className="text-lg font-semibold mb-2">Are you sure you want to delete this data?</h3>
+                  <div className="fixed inset-0 flex items-center justify-center bg-white/10 dark:bg-black/50 backdrop-blur-md z-50">
+                    <div className="bg-gray-900 dark:bg-gray-800 backdrop-blur-md border-2 p-6 rounded-lg shadow-lg w-1/3">
+                      <h3 className="text-lg font-semibold mb-2 text-white">Are you sure you want to delete this data?</h3>
                       <p className="mb-3 text-gray-500">
                         <small>This action cannot be undone!</small>
                       </p>
@@ -309,7 +317,7 @@ export default function Dashboard({ email }: { email: string }) {
                         <button onClick={handleDelete} disabled={isDeleting} className="bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white px-4 py-2 rounded">
                           {isDeleting ? "Menghapus..." : "Yes"}
                         </button>
-                        <button onClick={closeModal} disabled={isDeleting} className="bg-gray-400 hover:bg-gray-300 px-4 py-2 rounded">
+                        <button onClick={closeModal} disabled={isDeleting} className="bg-gray-400 hover:bg-gray-300 px-4 py-2 rounded dark:bg-gray-700 dark:text-gray-200">
                           No
                         </button>
                       </div>

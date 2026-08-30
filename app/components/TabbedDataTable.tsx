@@ -31,7 +31,7 @@ export default function TabbedDataTable<T>({
   const activeColumn = columns.find((col) => col.key === activeTab);
 
   return (
-    <div className="border-2 border-emerald-300 rounded-lg overflow-hidden bg-white">
+    <div className="border-2 border-emerald-300 rounded-lg overflow-hidden bg-white dark:bg-green-900">
       {/* Tab Buttons */}
       <div className="flex flex-wrap bg-emerald-100 border-b-2 border-emerald-300">
         {columns.map((col) => (
@@ -53,7 +53,7 @@ export default function TabbedDataTable<T>({
       <div className="p-4">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-emerald-50">
+            <thead className="bg-emerald-50 dark:bg-emerald-200">
               <tr>
                 <th className="px-3 py-2 text-center w-10">#</th>
                 {activeColumn?.fields.map((field) => (
@@ -68,7 +68,7 @@ export default function TabbedDataTable<T>({
               {data.map((item, index) => (
                 <tr
                   key={String(item[keyField])}
-                  className="border-b border-emerald-100 hover:bg-emerald-50"
+                  className="border-b border-emerald-100 hover:bg-emerald-50 dark:text-white"
                 >
                   <td className="px-3 py-2 text-center">{index + 1}</td>
                   {activeColumn?.fields.map((field) => (
@@ -80,7 +80,7 @@ export default function TabbedDataTable<T>({
                     <div className="flex justify-center gap-1">
                       <button
                         onClick={() => onEdit(item)}
-                        className="p-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors"
+                        className="p-1.5 bg-green-500 hover:bg-green-600 text-white rounded transition-colors"
                         title="Edit"
                       >
                         <Pencil size={14} />
