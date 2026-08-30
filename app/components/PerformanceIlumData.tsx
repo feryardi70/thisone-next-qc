@@ -115,19 +115,19 @@ const IluminasiChart = forwardRef<HTMLDivElement, PerformanceChartProps>(
           callbacks: {
             title: (items: TooltipItem<"line">[]) => {
               const item = items[0];
-              const rawValue: number | string | Date | undefined | null =
-                (item as any)?.parsed?.x ?? (item as any)?.label;
+              if (!item) return "";
 
-              if (rawValue === undefined || rawValue === null || rawValue === "") {
+              const rawValue: number | string | undefined | null =
+                item.parsed.x ?? item.label;
+
+              if (rawValue === undefined || rawValue === null) {
                 return "";
               }
 
               const date =
                 typeof rawValue === "number"
                   ? new Date(rawValue)
-                  : rawValue instanceof Date
-                    ? rawValue
-                    : new Date(String(rawValue));
+                  : new Date(String(rawValue));
 
               if (Number.isNaN(date.getTime())) return String(rawValue);
 
