@@ -45,12 +45,6 @@ const recentActivity = [
   "Completed compliance training module",
 ];
 
-const achievements = [
-  "Quality Champion",
-  "Audit-ready reviewer",
-  "Data validation lead",
-];
-
 const initialProfile = {
   fullName: "Anisa Dwi",
   role: "Quality Control Supervisor",
@@ -262,11 +256,11 @@ export default function ProfilePage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3">
-                <Star className="h-5 w-5 text-amber-400" />
+              <div className="flex items-center gap-3 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 px-4 py-3">
+                <Star className="h-5 w-5 text-emerald-600 dark:text-emerald-300" />
                 <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-emerald-300/80">Performance</p>
-                  <p className="text-lg font-semibold text-white">Top 5%</p>
+                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-300">Plan</p>
+                  <p className="text-xs text-slate-400">Free Tier</p>
                 </div>
               </div>
             </div>
@@ -316,14 +310,23 @@ export default function ProfilePage() {
 
               <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900/80">
                 <div className="mb-4 flex items-center gap-2">
-                  <ShieldCheck className="h-5 w-5 text-emerald-400" />
-                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Achievements</h2>
+                  <ShieldCheck className="h-5 w-5 text-emerald-600 dark:text-emerald-300" />
+                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Invoice history</h2>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  {achievements.map((item) => (
-                    <span key={item} className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200">
-                      {item}
-                    </span>
+                <div className="space-y-3">
+                  {[
+                    { id: "INV-2024-018", date: "12 Aug 2024", amount: "Rp 0", status: "Free plan" },
+                  ].map((invoice) => (
+                    <div key={invoice.id} className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 dark:border-slate-700 dark:bg-slate-800/80">
+                      <div>
+                        <p className="text-sm font-medium text-slate-900 dark:text-white">{invoice.id}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">{invoice.date}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-semibold text-slate-900 dark:text-white">{invoice.amount}</p>
+                        <p className="text-xs text-emerald-600 dark:text-emerald-300">{invoice.status}</p>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
