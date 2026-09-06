@@ -5,6 +5,7 @@ interface FloProps {
     spesifikasiId: number;
     userId: number;
   };
+  signal?: AbortSignal;
 }
 
 export const readDataUjiByUserIdnSpecIdFromExtApi = async (id_user: string, id_spesifikasi: string) => {
@@ -14,8 +15,8 @@ export const readDataUjiByUserIdnSpecIdFromExtApi = async (id_user: string, id_s
   return qcData;
 };
 
-export const getDataUjiByUserIdnSpecId = async ({ payloadQueryParams }: FloProps) => {
-  const response = await fetch(`${baseUrl}/qc/fluoroskopi/spesifikasi?id_spesifikasi=${payloadQueryParams.spesifikasiId}&id_user=${payloadQueryParams.userId}`);
+export const getDataUjiByUserIdnSpecId = async ({ payloadQueryParams, signal }: FloProps) => {
+  const response = await fetch(`${baseUrl}/qc/fluoroskopi/spesifikasi?id_spesifikasi=${payloadQueryParams.spesifikasiId}&id_user=${payloadQueryParams.userId}`, { signal });
   const data = await response.json();
 
   return data;

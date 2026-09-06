@@ -167,6 +167,7 @@ export default function DataUjiPesawatRad({ payloadQueryParams }: RadProps) {
                       </div>
                       Data Uji -{dataUji[0] ? ` ${dataUji[0].Merk} ${dataUji[0].Model} ${dataUji[0].No_Seri}` : "Loading..."}
                     </h6>
+                    <small className="italic dark:text-white">Tab sections menampilkan data uji berdasarkan kategori tertentu</small>
                   </div>
                 </div>
 
@@ -197,8 +198,9 @@ export default function DataUjiPesawatRad({ payloadQueryParams }: RadProps) {
                 {/* Modal */}
                 {isModalOpen && (
                   <div className="fixed inset-0 flex items-center justify-center bg-white/10 backdrop-blur-md z-50">
-                    <div className="bg-white backdrop-blur-md border-2 border-green-500 p-6 rounded-lg shadow-lg w-1/3">
-                      <h3 className="text-lg font-semibold mb-4">Are you sure you want to delete this data uji?</h3>
+                    <div className="bg-emerald-50 dark:bg-emerald-200 backdrop-blur-md border-2 border-green-500 p-6 rounded-lg shadow-lg w-1/3">
+                      <h3 className="text-lg font-semibold mb-0">Are you sure you want to delete this data uji?</h3>
+                      <small className="text-gray-500 mb-4">This action cannot be undone.</small>
                       <div className="flex justify-end space-x-4">
                         <button onClick={handleDelete} disabled={isDeleting} className="bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white px-4 py-2 rounded">
                           {isDeleting ? "Menghapus..." : "Yes"}

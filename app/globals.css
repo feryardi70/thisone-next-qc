@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "react-day-picker/style.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -118,5 +119,29 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* ================================================================
+   Global print rules - apply to any print-targeted view
+   ================================================================ */
+@media print {
+  html,
+  body {
+    background: #ffffff !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-break-before {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  .print-avoid-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }

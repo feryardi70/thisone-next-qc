@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 import { getDataRadByUserEmail } from "../repository/radiografi-repository";
 import { getDataFloByUserEmail } from "../repository/fluoroskopi-repository";
 
@@ -15,45 +16,22 @@ interface Machine {
 }
 
 export const useFetchDataUjiByUserEmail = (email: string) => {
-  const [dataUji, setDataUji] = useState<Machine[]>([]);
-  const [allDataUji, setAllDataUji] = useState<Machine[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>("");
-  const [refreshKey, setRefreshKey] = useState<number>(0);
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["dataUji", "rad", email],
+    queryFn: ({ signal }) => getDataRadByUserEmail(email, signal),
+    select: (res) => ({
+      allDataUji: (res.data ?? []) as Machine[],
+      dataUji: (res.selectedData ?? []) as Machine[],
+    }),
+  });
 
-  const refetch = useCallback(() => setRefreshKey((k) => k + 1), []);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-
-    const fetchDataUji = async () => {
-      try {
-        setIsLoading(true);
-        const data = await getDataRadByUserEmail(email, signal);
-        //const data = await response.json();
-        //console.log(data);
-        const allDataUji = await data.data;
-        const dataUji = await data.selectedData;
-        setAllDataUji(allDataUji || []);
-        //console.log(dataUji);
-        setDataUji(dataUji || []);
-        setIsLoading(false);
-      } catch (error) {
-        const err = error as Error;
-        if (err.name !== "AbortError") {
-          setErrorMsg("An error occurred, please try again later!");
-        }
-        setIsLoading(false);
-      }
-    };
-
-    fetchDataUji();
-
-    return () => controller.abort();
-  }, [email, refreshKey]);
-
-  return { allDataUji, dataUji, isLoading, errorMsg, refetch };
+  return {
+    allDataUji: data?.allDataUji ?? [],
+    dataUji: data?.dataUji ?? [],
+    isLoading,
+    errorMsg: error ? "An error occurred, please try again later!" : "",
+    refetch,
+  };
 };
 
 export const useFetchDataUjiFloByUserEmail = (email: string) => {

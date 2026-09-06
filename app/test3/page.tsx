@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Layers, Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 
 interface DataUji {
   id_parameter: number;
@@ -112,17 +112,7 @@ const categories: Record<CategoryKey, { label: string; fields: (keyof DataUji)[]
   },
   aec: {
     label: "AEC (Timer, Uniformitas, Penjejakan)",
-    fields: [
-      "Tanggal_uji",
-      "Timer_darurat_mAs",
-      "Timer_darurat_s",
-      "Uniformitas_mAs",
-      "Uniformitas_EI",
-      "Penjejakan_ketebalan",
-      "Penjejakan_kV",
-      "Penjejakan_kombinasi",
-      "Waktu_respon_min",
-    ],
+    fields: ["Tanggal_uji", "Timer_darurat_mAs", "Timer_darurat_s", "Uniformitas_mAs", "Uniformitas_EI", "Penjejakan_ketebalan", "Penjejakan_kV", "Penjejakan_kombinasi", "Waktu_respon_min"],
   },
 };
 
@@ -164,9 +154,7 @@ export default function Test3Page() {
         {/* Header */}
         <header className="text-center space-y-2">
           <h1 className="text-3xl font-bold">Data Uji Pesawat Sinar-X</h1>
-          <p className="text-slate-600">
-            Tabbed sections untuk menampilkan data uji berdasarkan kategori pengujian
-          </p>
+          <p className="text-slate-600">Tabbed sections untuk menampilkan data uji berdasarkan kategori pengujian</p>
         </header>
 
         {/* Tabbed Sections */}
@@ -174,15 +162,7 @@ export default function Test3Page() {
           {/* Tab Buttons */}
           <div className="flex flex-wrap bg-emerald-100 border-b-2 border-emerald-300">
             {(Object.keys(categories) as CategoryKey[]).map((key) => (
-              <button
-                key={key}
-                onClick={() => setActiveTab(key)}
-                className={`px-4 py-2 text-sm font-medium transition-colors ${
-                  activeTab === key
-                    ? "bg-emerald-500 text-white"
-                    : "text-emerald-700 hover:bg-emerald-200"
-                }`}
-              >
+              <button key={key} onClick={() => setActiveTab(key)} className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === key ? "bg-emerald-500 text-white" : "text-emerald-700 hover:bg-emerald-200"}`}>
                 {categories[key].label}
               </button>
             ))}

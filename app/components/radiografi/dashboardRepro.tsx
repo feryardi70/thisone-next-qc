@@ -2,14 +2,13 @@
 
 import Link from "next/link";
 import SideBar from "../Sidebar";
-import PerformanceChart from "../PerformanceReproWaktuData";
 import Header from "../Header";
 import { TriangleAlert, Plus } from "lucide-react";
 import { useState } from "react";
 import SpinnerCss from "../spinner-css";
 import { useFetchRadMachineByUserIdnSNNumberForRepro } from "@/app/DAL/service/radiografi-service";
 import { deleteDataRadByIdSpec } from "@/app/DAL/repository/spec-repository";
-import DualAxisChart from "../PerformanceReproData";
+import ReproCombinedChart from "../ReproCombinedChart";
 import HeadingMobileView from "../mobile-view/Heading";
 import Heading from "../Heading";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -81,33 +80,28 @@ export default function DashboardRadRepro({
     { label: "AEC - Waktu Respon Minimum", href: `/dashboard/radiografi/trespon-min/${baseParams}` },
   ];
 
-  const performanceData = dataUji.map(
-    ({ Tanggal_uji, Reproduksibilitas, Reproduksibilitas_kV }) => ({
+  const combinedReproData = dataUji.map(
+    ({
+      Tanggal_uji,
+      Reproduksibilitas,
+      Reproduksibilitas_kV,
+      Reproduksibilitas_waktu,
+    }) => ({
       x: new Date(Tanggal_uji).toLocaleDateString("en-CA"),
       y: Reproduksibilitas,
       y1: Reproduksibilitas_kV,
+      y2: Reproduksibilitas_waktu,
     })
-  )
-  .filter(
+  ).filter(
     (d) =>
       d.y !== null &&
       d.y !== undefined &&
       d.y1 !== null &&
-      d.y1 !== undefined
+      d.y1 !== undefined &&
+      d.y2 !== null &&
+      d.y2 !== undefined
   );
-
-  const performanceDataReproWaktu = dataUji.map(
-    ({ Tanggal_uji, Reproduksibilitas_waktu }) => ({
-      x: new Date(Tanggal_uji).toLocaleDateString("en-CA"),
-      y: Reproduksibilitas_waktu,
-    })
-  )
-  .filter(
-    (d) =>
-      d.y !== null &&
-      d.y !== undefined
-  );
-  //console.log(performanceDataKetegaklurusan);
+  //console.log(combinedReproData);
 
   const renderModality = () => {
     return (
@@ -300,8 +294,10 @@ export default function DashboardRadRepro({
             </div>
 
             {/* Cards */}
-            <div className="mt-8 flex flex-col items-center p-0 gap-1">
-              <h1 className="text-2xl font-bold">Reproduksibilitas Tren</h1>
+            <div className="mt-8 mb-8 flex flex-col items-center p-0 gap-1">
+              <h1 className="text-2xl font-bold">
+                Tren Reproduksibilitas (Kerma, kV, Waktu)
+              </h1>
               <p>
                 <small>
                   {dataUji[0]
@@ -310,21 +306,7 @@ export default function DashboardRadRepro({
                 </small>
               </p>
               <div className="md:hidden">Unsupported Chart</div>
-              <DualAxisChart data={performanceData} />
-            </div>
-
-            {/* Cards */}
-            <div className="mt-3 mb-8 flex flex-col items-center p-0 gap-1">
-              <h1 className="text-2xl font-bold">Reproduksibilitas Tren</h1>
-              <p>
-                <small>
-                  {dataUji[0]
-                    ? `${dataUji[0].Merk} - ${dataUji[0].Model} - ${dataUji[0].No_Seri}`
-                    : "Loading..."}
-                </small>
-              </p>
-              <div className="md:hidden">Unsupported Chart</div>
-              <PerformanceChart dataPoints={performanceDataReproWaktu} />
+              <ReproCombinedChart dataPoints={combinedReproData} />
             </div>
 
             {/* Cards */}

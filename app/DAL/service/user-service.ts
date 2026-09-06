@@ -1,26 +1,27 @@
 import { getUserByEmailFromExtApi } from "../repository/user-repository";
 
 export const fetchUserByEmail = async (authHeader: string | null, email: string | null) => {
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return { status: 401, body: { error: "Unauthorized: Missing or invalid token" } };
-    }
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return { status: 401, body: { error: "Unauthorized: Missing or invalid token" } };
+  }
 
-    const token = authHeader.split(" ")[1];
+  const token = authHeader.split(" ")[1];
 
-    if (!token || token !== process.env.INTERNAL_API_KEY) {
-        return { status: 401, body: { error: "Unauthorized: Invalid token" } };
-    }
-    
-    if (!email) {
-        return { status: 400, body: { error: "bad request: email is required" } };
-    }
+  if (!token || token !== process.env.INTERNAL_API_KEY) {
+    return { status: 401, body: { error: "Unauthorized: Invalid token" } };
+  }
 
-    const response = await getUserByEmailFromExtApi(email);
-    const data = await response.json();
+  if (!email) {
+    return { status: 400, body: { error: "bad request: email is required" } };
+  }
 
-    if (!data || data.data.length === 0) {
-        return { status: 404, body: { error: "User not found" } };
-    }
+  const response = await getUserByEmailFromExtApi(email);
+  const data = await response.json();
+  //console.log("Data from fetchUserByEmail:", data);
 
-    return { status: 200, body: data.data[0] };
-}
+  if (!data || data.data.length === 0) {
+    return { status: 404, body: { error: "User not found" } };
+  }
+
+  return { status: 200, body: data.data[0] };
+};

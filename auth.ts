@@ -12,6 +12,7 @@ declare module "next-auth" {
   interface User {
     id: string;
     dbid: number;
+    verification: string;
   }
 
   interface Session {
@@ -19,6 +20,7 @@ declare module "next-auth" {
       id: string;
       dbid: number;
       email: string; // Add your custom field
+      verification: string;
     } & DefaultSession["user"];
   }
 }
@@ -27,6 +29,7 @@ declare module "next-auth/jwt" {
   interface JWT {
     id: string; // Add your custom field
     dbid: number;
+    verification: string;
   }
 }
 
@@ -67,7 +70,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new CredentialsSignin("Invalid email or password.");
         }
 
-        user = { id: dbuser.database_userId, dbid: dbuser.id_user, email, name: dbuser.name };
+        user = { id: dbuser.database_userId, dbid: dbuser.id_user, email, name: dbuser.name, verification: dbuser.verification };
         return user;
       },
     }),
@@ -85,6 +88,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.id = user.id;
         token.dbid = (user as { dbid: number }).dbid;
+        token.verification = (user as { verification: string }).verification;
       }
 
       return token;
@@ -93,7 +97,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // Explicitly assign `id` if it exists and is a string
       session.user.id = typeof token.id === "string" ? token.id : "";
       session.user.dbid = typeof token.dbid === "number" ? token.dbid : 0;
-
+      session.user.verification = typeof token.verification === "string" ? token.verification : "";
       return session;
     },
   },

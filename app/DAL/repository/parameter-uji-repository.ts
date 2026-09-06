@@ -155,9 +155,10 @@ export const updateDataUjiByIdParameter = async (
   return updateResponse;
 };
 
-export const getDataUjiByIdParameter = async (id_parameter: number) => {
+export const getDataUjiByIdParameter = async (id_parameter: number, signal?: AbortSignal) => {
   const response = await fetch(
-    `${baseUrl}/qc/radiografi/parameter-uji/${id_parameter}`
+    `${baseUrl}/qc/radiografi/parameter-uji/${id_parameter}`,
+    { signal }
   );
   const data = await response.json();
 

@@ -96,7 +96,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
         <form onSubmit={handleSubmit} className="flex flex-col">
           <div className="flex justify-between gap-5">
             <div className="flex flex-col w-[33%]">
-              <label htmlFor="modal-Iluminasi" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Iluminasi" className="mb-1 text-lime-300">
                 Iluminasi
               </label>
               <input
@@ -109,7 +109,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="100"
               />
 
-              <label htmlFor="modal-Kolimasi_deltaX" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Kolimasi_deltaX" className="mb-1 text-lime-300">
                 Kolimasi ΔX
               </label>
               <input
@@ -123,7 +123,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="2.0"
               />
 
-              <label htmlFor="modal-Kolimasi_deltaY" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Kolimasi_deltaY" className="mb-1 text-lime-300">
                 Kolimasi ΔY
               </label>
               <input
@@ -137,7 +137,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="2.0"
               />
 
-              <label htmlFor="modal-Ketegaklurusan" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Ketegaklurusan" className="mb-1 text-lime-300">
                 Ketegaklurusan
               </label>
               <input
@@ -150,7 +150,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="< 1.5"
               />
 
-              <label htmlFor="modal-Akurasi_kV" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Akurasi_kV" className="mb-1 text-lime-300">
                 Akurasi kV
               </label>
               <input
@@ -164,7 +164,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="10.0"
               />
 
-              <label htmlFor="modal-Akurasi_waktu" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Akurasi_waktu" className="mb-1 text-lime-300">
                 Akurasi waktu
               </label>
               <input
@@ -178,7 +178,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="10.0"
               />
 
-              <label htmlFor="modal-Linearitas" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Linearitas" className="mb-1 text-lime-300">
                 Linearitas
               </label>
               <input
@@ -194,7 +194,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
             </div>
 
             <div className="flex flex-col w-[33%]">
-              <label htmlFor="modal-Reproduksibilitas" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Reproduksibilitas" className="mb-1 text-lime-300">
                 Reproduksibilitas Kerma
               </label>
               <input
@@ -208,7 +208,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="0.000"
               />
 
-              <label htmlFor="modal-Reproduksibilitas_kV" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Reproduksibilitas_kV" className="mb-1 text-lime-300">
                 Reproduksibilitas kV
               </label>
               <input
@@ -222,7 +222,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="0.000"
               />
 
-              <label htmlFor="modal-Reproduksibilitas_waktu" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Reproduksibilitas_waktu" className="mb-1 text-lime-300">
                 Reproduksibilitas waktu
               </label>
               <input
@@ -236,7 +236,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="0.000"
               />
 
-              <label htmlFor="modal-HVL" className="mb-1 text-slate-500">
+              <label htmlFor="modal-HVL" className="mb-1 text-lime-300">
                 HVL pada 70kV
               </label>
               <input
@@ -250,7 +250,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="2.1"
               />
 
-              <label htmlFor="modal-HVL_80" className="mb-1 text-slate-500">
+              <label htmlFor="modal-HVL_80" className="mb-1 text-lime-300">
                 HVL pada 80kV
               </label>
               <input
@@ -264,7 +264,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="2.3"
               />
 
-              <label htmlFor="modal-Kebocoran" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Kebocoran" className="mb-1 text-lime-300">
                 Kebocoran
               </label>
               <input
@@ -278,7 +278,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="0.01"
               />
 
-              <label htmlFor="modal-Tanggal_uji" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Tanggal_uji" className="mb-1 text-lime-300">
                 Tanggal Uji
               </label>
               <input
@@ -292,7 +292,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
             </div>
 
             <div className="flex flex-col w-[33%]">
-              <label htmlFor="modal-Timer_darurat_mAs" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Timer_darurat_mAs" className="mb-1 text-lime-300">
                 AEC - Timer Darurat (mAs)
               </label>
               <input
@@ -306,7 +306,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="600"
               />
 
-              <label htmlFor="modal-Timer_darurat_s" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Timer_darurat_s" className="mb-1 text-lime-300">
                 AEC - Timer Darurat (s)
               </label>
               <input
@@ -320,7 +320,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="6"
               />
 
-              <label htmlFor="modal-Uniformitas_mAs" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Uniformitas_mAs" className="mb-1 text-lime-300">
                 AEC - Densitas Standar & Uniformitas (Error mAs)
               </label>
               <input
@@ -334,7 +334,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="20"
               />
 
-              <label htmlFor="modal-Uniformitas_EI" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Uniformitas_EI" className="mb-1 text-lime-300">
                 AEC - Densitas Standar & Uniformitas (Error EI)
               </label>
               <input
@@ -348,7 +348,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="10"
               />
 
-              <label htmlFor="modal-Penjejakan_ketebalan" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Penjejakan_ketebalan" className="mb-1 text-lime-300">
                 AEC - Penjejakan Ketebalan
               </label>
               <input
@@ -362,7 +362,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="10"
               />
 
-              <label htmlFor="modal-Penjejakan_kV" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Penjejakan_kV" className="mb-1 text-lime-300">
                 AEC - Penjejakan kV
               </label>
               <input
@@ -376,7 +376,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="15"
               />
 
-              <label htmlFor="modal-Penjejakan_kombinasi" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Penjejakan_kombinasi" className="mb-1 text-lime-300">
                 AEC - Penjejakan kombinasi
               </label>
               <input
@@ -390,7 +390,7 @@ export default function AddDataUjiModal({ id_user, id_spesifikasi, onClose, onSu
                 placeholder="20"
               />
 
-              <label htmlFor="modal-Waktu_respon_min" className="mb-1 text-slate-500">
+              <label htmlFor="modal-Waktu_respon_min" className="mb-1 text-lime-300">
                 AEC - Waktu Respon Minimum
               </label>
               <input

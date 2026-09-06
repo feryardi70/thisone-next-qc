@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Pencil, Trash2 } from "lucide-react";
+// import { Pencil, Trash2 } from "lucide-react";
 
 interface TabColumn<T> {
   key: string;
@@ -18,14 +18,7 @@ interface TabbedDataTableProps<T> {
   onDelete: (item: T) => void;
 }
 
-export default function TabbedDataTable<T>({
-  data,
-  columns,
-  fieldLabels,
-  keyField,
-  onEdit,
-  onDelete,
-}: TabbedDataTableProps<T>) {
+export default function TabbedDataTable<T>({ data, columns, fieldLabels, keyField, onEdit, onDelete }: TabbedDataTableProps<T>) {
   const [activeTab, setActiveTab] = useState(columns[0]?.key || "");
 
   const activeColumn = columns.find((col) => col.key === activeTab);
@@ -35,15 +28,7 @@ export default function TabbedDataTable<T>({
       {/* Tab Buttons */}
       <div className="flex flex-wrap bg-emerald-100 border-b-2 border-emerald-300">
         {columns.map((col) => (
-          <button
-            key={col.key}
-            onClick={() => setActiveTab(col.key)}
-            className={`px-4 py-2 text-sm font-medium transition-colors ${
-              activeTab === col.key
-                ? "bg-emerald-500 text-white"
-                : "text-emerald-700 hover:bg-emerald-200"
-            }`}
-          >
+          <button key={col.key} onClick={() => setActiveTab(col.key)} className={`px-4 py-2 text-sm font-medium transition-colors ${activeTab === col.key ? "bg-emerald-500 text-white" : "text-emerald-700 hover:bg-emerald-200"}`}>
             {col.label}
           </button>
         ))}
@@ -66,10 +51,7 @@ export default function TabbedDataTable<T>({
             </thead>
             <tbody>
               {data.map((item, index) => (
-                <tr
-                  key={String(item[keyField])}
-                  className="border-b border-emerald-100 hover:bg-emerald-50 dark:text-white"
-                >
+                <tr key={String(item[keyField])} className="border-b border-emerald-100 hover:bg-emerald-50 dark:text-white dark:hover:bg-green-700">
                   <td className="px-3 py-2 text-center">{index + 1}</td>
                   {activeColumn?.fields.map((field) => (
                     <td key={field} className="px-3 py-2">
@@ -78,19 +60,13 @@ export default function TabbedDataTable<T>({
                   ))}
                   <td className="px-3 py-2">
                     <div className="flex justify-center gap-1">
-                      <button
-                        onClick={() => onEdit(item)}
-                        className="p-1.5 bg-green-500 hover:bg-green-600 text-white rounded transition-colors"
-                        title="Edit"
-                      >
-                        <Pencil size={14} />
+                      <button onClick={() => onEdit(item)} className="p-1.5 bg-green-500 hover:bg-green-600 text-white rounded transition-colors" title="Edit">
+                        {/* <Pencil size={14} /> */}
+                        Edit
                       </button>
-                      <button
-                        onClick={() => onDelete(item)}
-                        className="p-1.5 bg-red-500 hover:bg-red-600 text-white rounded transition-colors"
-                        title="Hapus"
-                      >
-                        <Trash2 size={14} />
+                      <button onClick={() => onDelete(item)} className="p-1.5 bg-red-500 hover:bg-red-600 text-white rounded transition-colors" title="Hapus">
+                        {/* <Trash2 size={14} /> */}
+                        Delete
                       </button>
                     </div>
                   </td>

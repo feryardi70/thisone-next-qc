@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "next-themes";
+import { Providers } from "./providers";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -29,8 +30,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${outfit.variable} antialiased font-sans`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <Toaster richColors duration={7000} />
-          <TooltipProvider>{children}</TooltipProvider>
+          <Providers>
+            <Toaster richColors duration={7000} />
+            <TooltipProvider>{children}</TooltipProvider>
+          </Providers>
         </ThemeProvider>
       </body>
     </html>

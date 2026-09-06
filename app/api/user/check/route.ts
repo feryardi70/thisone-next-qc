@@ -13,5 +13,5 @@ export async function GET(request: Request) {
   const data = await response.json();
   //console.log("Data from GET /api/user:", data);
 
-  return NextResponse.json(data.email, { status: 200 });
+  return NextResponse.json(data, { status: 200 });
 }

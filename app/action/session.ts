@@ -1,11 +1,11 @@
 "use server";
 
+import { Session } from "next-auth";
 import { auth } from "../../auth";
 
-const getSession = async () => {
+const getSession = async (): Promise<Session | null> => {
   const session = await auth();
-  //console.log(session);
-  return session;
+  return session ?? null;
 };
 
 export default getSession;

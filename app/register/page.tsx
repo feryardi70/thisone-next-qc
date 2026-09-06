@@ -1,24 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+//import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Eye,
-  EyeOff,
-  Lock,
-  AlertCircle,
-  KeySquare,
-  Mail,
-} from "lucide-react";
+import { Eye, EyeOff, Lock, AlertCircle, KeySquare, Mail, CheckCircle2 } from "lucide-react";
 import { baseUrl } from "../lib/constant";
 import { checkUserByEmail } from "../DAL/repository/user-repository";
+import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
 export default function SignUp() {
-  const router = useRouter();
+  //const router = useRouter();
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -28,7 +22,7 @@ export default function SignUp() {
           credentials: "include",
         });
 
-        (await response.json());
+        await response.json();
       } catch (error) {
         console.error("Error fetching token:", error);
       }
@@ -46,8 +40,10 @@ export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmedPassword, setShowConfirmedPassword] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState<string | null>(null);
 
-  const formAction = async (e: React.FormEvent) => {
+  const formAction = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
@@ -61,8 +57,8 @@ export default function SignUp() {
     try {
       const checkUser = await checkUserByEmail(formState.email);
       const checkUserResult = await checkUser.json();
-      //console.log(checkUser);
-      if (checkUserResult) {
+      //console.log("checkUserResult:", checkUserResult.error);
+      if (!checkUserResult.error) {
         setError("User already exists");
         setIsLoading(false);
         return;
@@ -83,13 +79,14 @@ export default function SignUp() {
       });
 
       if (response.status === 201) {
-        alert("User registered successfully!");
         setIsLoading(false);
-        // Redirect or reset form here if needed
-        router.push("/login");
+        setRegisteredEmail(formState.email);
+        setFormState({ email: "", password: "", confirmedPassword: "" });
+        setShowSuccessDialog(true);
       } else {
         console.log("Failed to register user, please refresh the page and try again.");
         setIsLoading(false);
+        setError("An error occurred during registration. Please try again.");
       }
     } catch (error) {
       setError("An error occurred during registration. Please try again.");
@@ -107,12 +104,12 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-green-900 via-lime-900 to-green-950">
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
         style={{
-          backgroundImage: "url('/img/nias2.jpeg')",
+          backgroundImage: "url('233831.jpg')",
         }}
       />
 
@@ -130,7 +127,7 @@ export default function SignUp() {
           <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl p-8 shadow-2xl">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl mb-4 shadow-lg">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-fuchsia-500 rounded-2xl mb-4 shadow-lg">
                 <Lock className="w-8 h-8 text-white" />
               </div>
               <div className="flex flex-row items-center justify-center gap-2">
@@ -154,122 +151,110 @@ export default function SignUp() {
             )}
 
             {/* Login Form */}
-            <form onSubmit={formAction} className="space-y-3">
-              {/* Email Field */}
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-yellow-300 font-medium">
-                  Email
-                </Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/50" />
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formState.email}
-                    onChange={handleChange}
-                    placeholder="Enter your email"
-                    className="pl-12 h-12 bg-white/10 border-white/20 text-black placeholder:text-white/50 rounded-xl backdrop-blur-sm focus:bg-white/20 focus:border-white/40 transition-all duration-300"
-                    required
-                  />
+            {registeredEmail !== null ? (
+              <div className="rounded-xl border border-green-400/30 bg-green-500/10 p-6 backdrop-blur-sm text-center space-y-3">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-500/20">
+                  <CheckCircle2 className="w-6 h-6 text-green-400" />
                 </div>
+                <h2 className="text-xl font-semibold text-white">Registration complete — check your email</h2>
+                <p className="text-white/70 text-sm">
+                  We&apos;ve sent a verification link to <span className="font-medium text-yellow-300">{registeredEmail}</span>. Click the link to activate your account. Didn&apos;t get it? Check your spam folder.
+                </p>
+                <Button type="button" variant="outline" className="mt-2 border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white" onClick={() => setRegisteredEmail(null)}>
+                  Register another account
+                </Button>
               </div>
-
-              {/* Password Field */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="password"
-                  className="text-yellow-300 font-medium"
-                >
-                  Password
-                </Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/50" />
-                  <Input
-                    id="password"
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    value={formState.password}
-                    onChange={handleChange}
-                    placeholder="Enter your password"
-                    className="pl-12 pr-12 h-12 bg-white/10 border-white/20 text-black placeholder:text-white/50 rounded-xl backdrop-blur-sm focus:bg-white/20 focus:border-white/40 transition-all duration-300"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-white/80 transition-colors"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="w-5 h-5" />
-                    ) : (
-                      <Eye className="w-5 h-5" />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              {/* Confirmed Password Field */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="confirmedPassword"
-                  className="text-yellow-300 font-medium"
-                >
-                  Confirm Password
-                </Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/50" />
-                  <Input
-                    id="confirmedPassword"
-                    name="confirmedPassword"
-                    type={showConfirmedPassword ? "text" : "password"}
-                    value={formState.confirmedPassword}
-                    onChange={handleChange}
-                    placeholder="Enter your password"
-                    className="pl-12 pr-12 h-12 bg-white/10 border-white/20 text-black placeholder:text-white/50 rounded-xl backdrop-blur-sm focus:bg-white/20 focus:border-white/40 transition-all duration-300"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setShowConfirmedPassword(!showConfirmedPassword)
-                    }
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-white/80 transition-colors"
-                  >
-                    {showConfirmedPassword ? (
-                      <EyeOff className="w-5 h-5" />
-                    ) : (
-                      <Eye className="w-5 h-5" />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              {/* Login Button */}
-              <Button
-                type="submit"
-                disabled={isLoading}
-                className="w-full h-12 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-              >
-                {isLoading ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Signing you up...
+            ) : (
+              <form onSubmit={formAction} className="space-y-3">
+                {/* Email Field */}
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-yellow-300 font-medium">
+                    Email
+                  </Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/50" />
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formState.email}
+                      onChange={handleChange}
+                      placeholder="Enter your email"
+                      className="pl-12 h-12 bg-white/10 border-white/20 text-black placeholder:text-white/50 rounded-xl backdrop-blur-sm focus:bg-white/20 focus:border-white/40 transition-all duration-300"
+                      required
+                    />
                   </div>
-                ) : (
-                  "Sign Up"
-                )}
-              </Button>
-            </form>
+                </div>
+
+                {/* Password Field */}
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-yellow-300 font-medium">
+                    Password
+                  </Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/50" />
+                    <Input
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      value={formState.password}
+                      onChange={handleChange}
+                      placeholder="Enter your password"
+                      className="pl-12 pr-12 h-12 bg-white/10 border-white/20 text-black placeholder:text-white/50 rounded-xl backdrop-blur-sm focus:bg-white/20 focus:border-white/40 transition-all duration-300"
+                      required
+                    />
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-white/80 transition-colors">
+                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Confirmed Password Field */}
+                <div className="space-y-2">
+                  <Label htmlFor="confirmedPassword" className="text-yellow-300 font-medium">
+                    Confirm Password
+                  </Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/50" />
+                    <Input
+                      id="confirmedPassword"
+                      name="confirmedPassword"
+                      type={showConfirmedPassword ? "text" : "password"}
+                      value={formState.confirmedPassword}
+                      onChange={handleChange}
+                      placeholder="Enter your password"
+                      className="pl-12 pr-12 h-12 bg-white/10 border-white/20 text-black placeholder:text-white/50 rounded-xl backdrop-blur-sm focus:bg-white/20 focus:border-white/40 transition-all duration-300"
+                      required
+                    />
+                    <button type="button" onClick={() => setShowConfirmedPassword(!showConfirmedPassword)} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-white/80 transition-colors">
+                      {showConfirmedPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Login Button */}
+                <Button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full h-12 bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 text-white text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                >
+                  {isLoading ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Signing you up...
+                    </div>
+                  ) : (
+                    "Sign Up"
+                  )}
+                </Button>
+              </form>
+            )}
 
             {/* Sign Up Link */}
             <div className="mt-3 text-center">
               <p className="text-white/70">
                 {"Already have an account? "}
-                <Link
-                  href={"/login"}
-                  className="text-yellow-300 hover:text-white font-medium transition-colors"
-                >
+                <Link href={"/login"} className="text-yellow-300 hover:text-white font-medium transition-colors">
                   Sign in
                 </Link>
               </p>
@@ -277,6 +262,23 @@ export default function SignUp() {
           </div>
         </div>
       </div>
+
+      <AlertDialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2 text-green-600">
+              <CheckCircle2 className="w-5 h-5" />
+              Check Your Email
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              We&apos;ve sent a verification link to <span className="font-medium text-foreground">{registeredEmail}</span>. Please check your inbox (and spam folder) and click the link to activate your account.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setShowSuccessDialog(false)}>OK</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

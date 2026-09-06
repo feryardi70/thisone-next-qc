@@ -41,31 +41,31 @@ export default function SideBar() {
       </div>
 
       <div className="mt-4 space-y-0">
-        <Link href="/dashboard" className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer">
+        <Link href="/dashboard" className="flex items-center gap-2 hover:bg-lime-500 p-2 rounded cursor-pointer">
           <LayoutDashboard size={20} />
           {!collapsed && <span>Dashboard</span>}
         </Link>
-        <Link href="/dashboard" className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer">
+        <Link href="/dashboard" className="flex items-center gap-2 hover:bg-lime-500 p-2 rounded cursor-pointer">
           <BusFront size={20} />
           {!collapsed && <span>Radiografi Umum</span>}
         </Link>
-        <Link href="/dashboard/fluoroskopi/kolimasi" className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer">
+        <Link href="/dashboard/fluoroskopi/kolimasi" className="flex items-center gap-2 hover:bg-lime-500 p-2 rounded cursor-pointer">
           <AudioWaveform size={20} />
           {!collapsed && <span>Fluoroskopi</span>}
         </Link>
-        <Link href="/dashboard" className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer">
+        <Link href="/dashboard/ct/hvl" className="flex items-center gap-2 hover:bg-lime-500 p-2 rounded cursor-pointer">
           <Brain size={20} />
           {!collapsed && <span>CT Scan</span>}
         </Link>
-        <Link href="/dashboard" className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer">
+        <Link href="/dashboard/dental/kolimasi" className="flex items-center gap-2 hover:bg-lime-500 p-2 rounded cursor-pointer">
           <Disc2 size={20} />
           {!collapsed && <span>Dental</span>}
         </Link>
-        <Link href="/dashboard" className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer">
+        <Link href="/dashboard/mammografi/kolimasi" className="flex items-center gap-2 hover:bg-lime-500 p-2 rounded cursor-pointer">
           <Caravan size={20} />
           {!collapsed && <span>Mammografi</span>}
         </Link>
-        <Link href="/dashboard" className="flex items-center gap-2 hover:bg-fuchsia-500 p-2 rounded cursor-pointer">
+        <Link href="/dashboard/fluoroskopi/dual-mode/iluminasi" className="flex items-center gap-2 hover:bg-lime-500 p-2 rounded cursor-pointer">
           <Aperture size={20} />
           {!collapsed && <span>Fluroskopi Dual Mode</span>}
         </Link>

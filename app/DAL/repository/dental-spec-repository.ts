@@ -5,10 +5,11 @@ interface DentalProps {
     spesifikasiId: number;
     userId: number;
   };
+  signal?: AbortSignal;
 }
 
-export const getDataUjiByUserIdnSpecIdDentalIntraoral = async ({ payloadQueryParams }: DentalProps) => {
-  const response = await fetch(`${baseUrl}/qc/dental/spesifikasi?id_spesifikasi=${payloadQueryParams.spesifikasiId}&id_user=${payloadQueryParams.userId}`);
+export const getDataUjiByUserIdnSpecIdDentalIntraoral = async ({ payloadQueryParams, signal }: DentalProps) => {
+  const response = await fetch(`${baseUrl}/qc/dental/spesifikasi?id_spesifikasi=${payloadQueryParams.spesifikasiId}&id_user=${payloadQueryParams.userId}`, { signal });
   const data = await response.json();
 
   return data;

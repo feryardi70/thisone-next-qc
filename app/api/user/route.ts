@@ -6,6 +6,7 @@ import { hashSync } from "bcrypt-ts";
 import { sendVerificationEmail } from "@/app/lib/sendVerifEmail";
 import { externalApiUrl } from "@/app/lib/constant";
 import { fetchUserByEmail } from "@/app/DAL/service/user-service";
+import { updateUser } from "@/app/DAL/repository/user-repository";
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get("authorization");
@@ -50,7 +51,7 @@ export async function POST(request: Request) {
     email: sanitizedEmail,
     password: hashedPassword,
     token: registerToken,
-  }
+  };
 
   const response = await fetch(`${externalApiUrl}/user`, {
     method: "POST",
@@ -68,5 +69,24 @@ export async function POST(request: Request) {
   // Send verification email
   await sendVerificationEmail(email, registerToken);
 
-  return NextResponse.json({msg: "User registered successfully" }, { status: 201 });
+  return NextResponse.json({ msg: "User registered successfully" }, { status: 201 });
+}
+
+export async function PATCH(request: Request) {
+  const { id, token } = await request.json();
+
+  const payload = {
+    id_user: parseInt(id),
+    database_userId: token,
+    verification: "pending",
+  };
+
+  const response = await updateUser(payload);
+  const data = await response.json();
+
+  if (data.success !== true) {
+    return NextResponse.json({ error: "Update user failed" }, { status: 500 });
+  }
+
+  return NextResponse.json({ msg: "User updated successfully" }, { status: 200 });
 }

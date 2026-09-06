@@ -1,0 +1,66 @@
+/* ================================================================
+   Print stylesheet for QC Performance Report
+   Imported by app/radiografi/report/print/page.tsx
+   ================================================================ */
+
+@page {
+  size: A4;
+  margin: 15mm 12mm;
+}
+
+@media print {
+  html,
+  body {
+    background: #ffffff !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .report-print-root {
+    background: #ffffff !important;
+    min-height: 0 !important;
+  }
+
+  .report-document {
+    max-width: 100% !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+  }
+
+  .report-page {
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .report-page:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+
+  .report-cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(100vh - 30mm);
+  }
+
+  .report-chart-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .report-summary {
+    page-break-before: always;
+    break-before: page;
+  }
+}
+
+/* Screen styles (only when NOT printing) */
+@media screen {
+  .report-document {
+    border-radius: 6px;
+  }
+}

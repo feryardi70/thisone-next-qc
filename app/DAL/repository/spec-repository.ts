@@ -5,6 +5,7 @@ interface RadProps {
     spesifikasiId: number;
     userId: number;
   };
+  signal?: AbortSignal;
 }
 
 interface DataUji1st {
@@ -32,8 +33,8 @@ interface DataUji3rd {
   id_user: number;
 }
 
-export const getDataUjiByUserIdnSpecId = async ({ payloadQueryParams }: RadProps) => {
-  const response = await fetch(`${baseUrl}/qc/radiografi/spesifikasi?id_spesifikasi=${payloadQueryParams.spesifikasiId}&id_user=${payloadQueryParams.userId}`);
+export const getDataUjiByUserIdnSpecId = async ({ payloadQueryParams, signal }: RadProps) => {
+  const response = await fetch(`${baseUrl}/qc/radiografi/spesifikasi?id_spesifikasi=${payloadQueryParams.spesifikasiId}&id_user=${payloadQueryParams.userId}`, { signal });
   const data = await response.json();
   //console.log(data);
 
@@ -47,8 +48,8 @@ export const readDataUjiByUserIdnSpecIdFromExtApi = async (id_user: string, id_s
   return qcData;
 };
 
-export const getDataRadBySN = async (No_Seri: string) => {
-  const response = await fetch(`${baseUrl}/qc/radiografi/spesifikasi/${No_Seri}`);
+export const getDataRadBySN = async (No_Seri: string, signal?: AbortSignal) => {
+  const response = await fetch(`${baseUrl}/qc/radiografi/spesifikasi/${No_Seri}`, { signal });
   const data = await response.json();
 
   return data;

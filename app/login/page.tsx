@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Session } from "next-auth";
 import { signInCredentials } from "../action/signin";
 import getSession from "../action/session";
 import { useRouter } from "next/navigation";
@@ -13,28 +14,34 @@ import { SignInGoogle } from "../components/signin-google";
 
 export default function SignIn() {
   const router = useRouter();
-  const [session, setSession] = useState<boolean | null>(null);
+  const [session, setSession] = useState<Session | null | undefined>(undefined);
+  const [formState, setFormState] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const fetchSession = async () => {
       const result = await getSession();
-
-      setSession(result ? true : false);
+      setSession(result ?? null);
     };
 
     fetchSession();
   }, []);
 
   useEffect(() => {
-    if (session === true) {
-      router.push("/");
+    if (session?.user?.verification === "yes") {
+      router.push("/dashboard");
     }
   }, [session, router]);
 
-  const [formState, setFormState] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  if (session === undefined) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-900 via-lime-900 to-green-950">
+        <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   const formAction = async (e: React.FormEvent) => {
     e.preventDefault();

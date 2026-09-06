@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getDataUjiByUserIdnSpecId as getDataUjiByUserIdnSpecIdRad } from "../repository/spec-repository";
 import { getDataUjiByUserIdnSpecId as getDataUjiByUserIdnSpecIdFlo } from "../repository/fluoroskopi-spec-repository";
 import { getDataUjiByUserIdnSpecIdDentalIntraoral } from "../repository/dental-spec-repository";
@@ -96,74 +96,49 @@ interface RadProps {
 }
 
 export const useFetchDataUjiByUserIdnSpecId = ({ payloadQueryParams }: RadProps) => {
-  const [dataUji, setDataUji] = useState<Machine[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>("");
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["dataUji", "rad", "bySpecAndUser", payloadQueryParams.spesifikasiId, payloadQueryParams.userId],
+    queryFn: ({ signal }) => getDataUjiByUserIdnSpecIdRad({ payloadQueryParams, signal }),
+    enabled: !!payloadQueryParams?.spesifikasiId && !!payloadQueryParams?.userId,
+    select: (res) => (res.data ?? []) as Machine[],
+  });
 
-  const fetchDataUji = async () => {
-    try {
-      setIsLoading(true);
-      const data = await getDataUjiByUserIdnSpecIdRad({ payloadQueryParams });
-      setDataUji(data.data);
-    } catch (error) {
-      console.log(error);
-      setErrorMsg("An error occurred, please try again later!");
-    } finally {
-      setIsLoading(false);
-    }
+  return {
+    dataUji: data ?? [],
+    isLoading,
+    errorMsg: error ? "An error occurred, please try again later!" : "",
+    refetch,
   };
-
-  useEffect(() => {
-    fetchDataUji();
-  }, []);
-
-  return { dataUji, isLoading, errorMsg, refetch: fetchDataUji };
 };
 
 export const useFetchDataUjiByUserIdnSpecIdforFlo = ({ payloadQueryParams }: RadProps) => {
-  const [dataUji, setDataUji] = useState<Machine2nd[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>("");
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["dataUji", "flo", "bySpecAndUser", payloadQueryParams.spesifikasiId, payloadQueryParams.userId],
+    queryFn: ({ signal }) => getDataUjiByUserIdnSpecIdFlo({ payloadQueryParams, signal }),
+    enabled: !!payloadQueryParams?.spesifikasiId && !!payloadQueryParams?.userId,
+    select: (res) => (res.data ?? []) as Machine2nd[],
+  });
 
-  useEffect(() => {
-    const fetchDataUji = async () => {
-      try {
-        setIsLoading(true);
-        const data = await getDataUjiByUserIdnSpecIdFlo({ payloadQueryParams });
-        setDataUji(data.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-        setErrorMsg("An error occurred, please try again later!");
-      }
-    };
-    fetchDataUji();
-  }, []);
-
-  return { dataUji, isLoading, errorMsg };
+  return {
+    dataUji: data ?? [],
+    isLoading,
+    errorMsg: error ? "An error occurred, please try again later!" : "",
+    refetch,
+  };
 };
 
 export const useFetchDataUjiByUserIdnSpecIdforDentalIntraoral = ({ payloadQueryParams }: RadProps) => {
-  const [dataUji, setDataUji] = useState<MachineDental[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>("");
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["dataUji", "dental", "bySpecAndUser", payloadQueryParams.spesifikasiId, payloadQueryParams.userId],
+    queryFn: ({ signal }) => getDataUjiByUserIdnSpecIdDentalIntraoral({ payloadQueryParams, signal }),
+    enabled: !!payloadQueryParams?.spesifikasiId && !!payloadQueryParams?.userId,
+    select: (res) => (res.data ?? []) as MachineDental[],
+  });
 
-  useEffect(() => {
-    const fetchDataUji = async () => {
-      try {
-        setIsLoading(true);
-        const data = await getDataUjiByUserIdnSpecIdDentalIntraoral({ payloadQueryParams });
-        setDataUji(data.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-        setErrorMsg("An error occurred, please try again later!");
-      }
-    };
-    fetchDataUji();
-  }, []);
-
-  return { dataUji, isLoading, errorMsg };
+  return {
+    dataUji: data ?? [],
+    isLoading,
+    errorMsg: error ? "An error occurred, please try again later!" : "",
+    refetch,
+  };
 };
