@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, Lock, AlertCircle, KeySquare, Mail, CheckCircle2 } from "lucide-react";
 import { baseUrl } from "../lib/constant";
-import { checkUserByEmail } from "../DAL/repository/user-repository";
+import { checkUserByEmail, createNewUser } from "../DAL/repository/user-repository";
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
 export default function SignUp() {
@@ -69,15 +69,7 @@ export default function SignUp() {
         password: formState.password,
       };
 
-      const response = await fetch(`${baseUrl}/user`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-        credentials: "include",
-      });
-
+      const response = await createNewUser(payload);
       if (response.status === 201) {
         setIsLoading(false);
         setRegisteredEmail(formState.email);
@@ -86,10 +78,10 @@ export default function SignUp() {
       } else {
         console.log("Failed to register user, please refresh the page and try again.");
         setIsLoading(false);
-        setError("An error occurred during registration. Please try again.");
+        setError("An error occurred during registration. Please try again later.");
       }
     } catch (error) {
-      setError("An error occurred during registration. Please try again.");
+      setError("An error occurred during registration. Please try again later.");
       console.error("Error:", error);
       setIsLoading(false);
     }

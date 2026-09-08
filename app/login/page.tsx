@@ -43,7 +43,7 @@ export default function SignIn() {
     );
   }
 
-  const formAction = async (e: React.FormEvent) => {
+  const formAction = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);

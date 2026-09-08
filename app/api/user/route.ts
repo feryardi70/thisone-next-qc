@@ -4,9 +4,8 @@ import { cookies } from "next/headers";
 import { generateToken, verifyToken } from "@/app/lib/generateToken";
 import { hashSync } from "bcrypt-ts";
 import { sendVerificationEmail } from "@/app/lib/sendVerifEmail";
-import { externalApiUrl } from "@/app/lib/constant";
 import { fetchUserByEmail } from "@/app/DAL/service/user-service";
-import { updateUser } from "@/app/DAL/repository/user-repository";
+import { insertUser, updateUser } from "@/app/DAL/repository/user-repository";
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get("authorization");
@@ -53,13 +52,7 @@ export async function POST(request: Request) {
     token: registerToken,
   };
 
-  const response = await fetch(`${externalApiUrl}/user`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
+  const response = await insertUser(payload);
   const data = await response.json();
 
   if (!data || data.error) {

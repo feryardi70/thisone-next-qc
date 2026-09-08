@@ -35,6 +35,30 @@ export const checkUserByEmail = async (email: string) => {
   return response;
 };
 
+export const createNewUser = async (payload: { email: string; password: string }) => {
+  const response = await fetch(`${baseUrl}/user`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  return response;
+};
+
+export const insertUser = async (payload: { email: string | null; password: string; token: string }) => {
+  const response = await fetch(`${externalApiUrl}/user`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  return response;
+};
+
 export const updateUser = async (payload: { id_user: number; database_userId: string; verification: string }) => {
   const response = await fetch(`${externalApiUrl}/user`, {
     method: "PATCH",
