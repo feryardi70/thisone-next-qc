@@ -55,26 +55,3 @@ export async function GET(request: Request) {
 
   return NextResponse.json(qcData, { status: 200 });
 }
-
-export async function DELETE(request: Request, segmentData: { params: Params }) {
-  const params = await segmentData.params;
-  const id_spesifikasi = params.id_spesifikasi;
-
-  if (!id_spesifikasi) {
-    return NextResponse.json({ error: "bad request: id_spesifikasi is required" }, { status: 400 });
-  }
-
-  const response = await fetch(`http://localhost:8000/qc-data-radiografi/spesifikasi/${id_spesifikasi}`);
-  const dataPesawat = await response.json();
-
-  if (dataPesawat.data.length == 0) {
-    return NextResponse.json({ error: "bad request: data pesawat sinar-x tidak ditemukan" }, { status: 404 });
-  }
-
-  const result = await fetch(`http://localhost:8000/qc-data-radiografi/spesifikasi/${id_spesifikasi}`, {
-    method: "DELETE",
-  });
-  const deletedData = await result.json();
-
-  return NextResponse.json(deletedData, { status: 200 });
-}
