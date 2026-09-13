@@ -7,135 +7,119 @@ interface DashboardRadProps {
   };
 }
 
-export const getDataRadByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
-    const response = await fetch(
-            `${baseUrl}/qc/radiografi/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
-          );
-    const data = await response.json();
+export const getDataRadByUserIdnSNNumber = async ({ payloadQueryParams }: DashboardRadProps) => {
+  const response = await fetch(`${baseUrl}/qc/radiografi/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`);
+  const data = await response.json();
 
-    return data;
-}
+  return data;
+};
 
-export const getDataRadByUserEmail = async(email: string, signal: AbortSignal) => {
-    const response = await fetch(
-          `${baseUrl}/qc/radiografi?email=${email}`, { signal }
-        );
-    const data = await response.json();
+export const getDataRadByUserEmail = async (email: string, signal: AbortSignal) => {
+  const response = await fetch(`${baseUrl}/qc/radiografi?email=${email}`, { signal });
+  const data = await response.json();
 
-    return data;
-}
+  return data;
+};
 
-export const readDataRadByUserEmail = async(email: string) => {
-  const response = await fetch(`${externalApiUrl}/qc-data-radiografi/${email}`);
-    //console.log(response);
-    const qcData = await response.json();
-
-    return qcData;
-}
-
-export const readDataRadByUserIdnSNNumber = async(id_user: number, No_Seri: string) => {
-  const response = await fetch(`${externalApiUrl}/qc-data-radiografi?id_user=${id_user}&No_Seri=${No_Seri}`);
+export const readDataRadByUserEmail = async (email: string) => {
+  const response = await fetch(`${externalApiUrl}/qc-data-radiografi/${email}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${process.env.INTERNAL_API_KEY}`,
+    },
+  });
   //console.log(response);
   const qcData = await response.json();
 
   return qcData;
-}
+};
 
-export const getDataRadForCollimationByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
-    const response = await fetch(
-            `${baseUrl}/qc/radiografi/kolimasi/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
-          );
-    const data = await response.json();
+export const readDataRadByUserIdnSNNumber = async (id_user: number, No_Seri: string) => {
+  const response = await fetch(`${externalApiUrl}/qc-data-radiografi?id_user=${id_user}&No_Seri=${No_Seri}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${process.env.INTERNAL_API_KEY}`,
+    },
+  });
+  //console.log(response);
+  const qcData = await response.json();
 
-    return data;
-}
+  return qcData;
+};
 
-export const getDataRadForAkurKVByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
-    const response = await fetch(
-            `${baseUrl}/qc/radiografi/akurasi-kv/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
-          );
-    const data = await response.json();
+export const getDataRadForCollimationByUserIdnSNNumber = async ({ payloadQueryParams }: DashboardRadProps) => {
+  const response = await fetch(`${baseUrl}/qc/radiografi/kolimasi/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`);
+  const data = await response.json();
 
-    return data;
-}
+  return data;
+};
 
-export const getDataRadForAkurWaktuByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
-    const response = await fetch(
-            `${baseUrl}/qc/radiografi/akurasi-waktu/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
-          );
-    const data = await response.json();
+export const getDataRadForAkurKVByUserIdnSNNumber = async ({ payloadQueryParams }: DashboardRadProps) => {
+  const response = await fetch(`${baseUrl}/qc/radiografi/akurasi-kv/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`);
+  const data = await response.json();
 
-    return data;
-}
+  return data;
+};
 
-export const getDataRadForLinearitasByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
-    const response = await fetch(
-            `${baseUrl}/qc/radiografi/linearitas/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
-          );
-    const data = await response.json();
+export const getDataRadForAkurWaktuByUserIdnSNNumber = async ({ payloadQueryParams }: DashboardRadProps) => {
+  const response = await fetch(`${baseUrl}/qc/radiografi/akurasi-waktu/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`);
+  const data = await response.json();
 
-    return data;
-}
+  return data;
+};
 
-export const getDataRadForReproByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
-    const response = await fetch(
-            `${baseUrl}/qc/radiografi/reproduksibilitas/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
-          );
-    const data = await response.json();
+export const getDataRadForLinearitasByUserIdnSNNumber = async ({ payloadQueryParams }: DashboardRadProps) => {
+  const response = await fetch(`${baseUrl}/qc/radiografi/linearitas/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`);
+  const data = await response.json();
 
-    return data;
-}
+  return data;
+};
 
-export const getDataRadForHVLByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
-    const response = await fetch(
-            `${baseUrl}/qc/radiografi/hvl/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
-          );
-    const data = await response.json();
+export const getDataRadForReproByUserIdnSNNumber = async ({ payloadQueryParams }: DashboardRadProps) => {
+  const response = await fetch(`${baseUrl}/qc/radiografi/reproduksibilitas/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`);
+  const data = await response.json();
 
-    return data;
-}
+  return data;
+};
 
-export const getDataRadForKebocoranByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
-    const response = await fetch(
-            `${baseUrl}/qc/radiografi/kebocoran/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
-          );
-    const data = await response.json();
+export const getDataRadForHVLByUserIdnSNNumber = async ({ payloadQueryParams }: DashboardRadProps) => {
+  const response = await fetch(`${baseUrl}/qc/radiografi/hvl/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`);
+  const data = await response.json();
 
-    return data;
-}
+  return data;
+};
 
-export const getDataRadForTimerDaruratByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
-    const response = await fetch(
-            `${baseUrl}/qc/radiografi/timer-darurat/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
-          );
-    const data = await response.json();
+export const getDataRadForKebocoranByUserIdnSNNumber = async ({ payloadQueryParams }: DashboardRadProps) => {
+  const response = await fetch(`${baseUrl}/qc/radiografi/kebocoran/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`);
+  const data = await response.json();
 
-    return data;
-}
+  return data;
+};
 
-export const getDataRadForAECUniformitasByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
-    const response = await fetch(
-            `${baseUrl}/qc/radiografi/aec-uniformity/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
-          );
-    const data = await response.json();
+export const getDataRadForTimerDaruratByUserIdnSNNumber = async ({ payloadQueryParams }: DashboardRadProps) => {
+  const response = await fetch(`${baseUrl}/qc/radiografi/timer-darurat/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`);
+  const data = await response.json();
 
-    return data;
-}
+  return data;
+};
 
-export const getDataRadForPenjejakanByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
-    const response = await fetch(
-            `${baseUrl}/qc/radiografi/penjejakan/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
-          );
-    const data = await response.json();
+export const getDataRadForAECUniformitasByUserIdnSNNumber = async ({ payloadQueryParams }: DashboardRadProps) => {
+  const response = await fetch(`${baseUrl}/qc/radiografi/aec-uniformity/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`);
+  const data = await response.json();
 
-    return data;
-}
+  return data;
+};
 
-export const getDataRadForWaktuResponMinByUserIdnSNNumber = async({ payloadQueryParams }: DashboardRadProps) => {
-    const response = await fetch(
-            `${baseUrl}/qc/radiografi/trespon-min/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`
-          );
-    const data = await response.json();
+export const getDataRadForPenjejakanByUserIdnSNNumber = async ({ payloadQueryParams }: DashboardRadProps) => {
+  const response = await fetch(`${baseUrl}/qc/radiografi/penjejakan/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`);
+  const data = await response.json();
 
-    return data;
-}
+  return data;
+};
+
+export const getDataRadForWaktuResponMinByUserIdnSNNumber = async ({ payloadQueryParams }: DashboardRadProps) => {
+  const response = await fetch(`${baseUrl}/qc/radiografi/trespon-min/${payloadQueryParams.id_user}?No_Seri=${payloadQueryParams.No_Seri}`);
+  const data = await response.json();
+
+  return data;
+};

@@ -42,7 +42,12 @@ export const getDataUjiByUserIdnSpecId = async ({ payloadQueryParams, signal }: 
 };
 
 export const readDataUjiByUserIdnSpecIdFromExtApi = async (id_user: string, id_spesifikasi: string) => {
-  const response = await fetch(`${externalApiUrl}/qc-data-radiografi/ukes/data?id_user=${id_user}&id_spesifikasi=${id_spesifikasi}`);
+  const response = await fetch(`${externalApiUrl}/qc-data-radiografi/ukes/data?id_user=${id_user}&id_spesifikasi=${id_spesifikasi}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${process.env.INTERNAL_API_KEY}`,
+    },
+  });
   const qcData = await response.json();
 
   return qcData;
@@ -56,14 +61,24 @@ export const getDataRadBySN = async (No_Seri: string, signal?: AbortSignal) => {
 };
 
 export const readDataRadBySN = async (No_Seri: string) => {
-  const response = await fetch(`${externalApiUrl}/qc-data-radiografi/spesifikasi/rad/${No_Seri}`);
+  const response = await fetch(`${externalApiUrl}/qc-data-radiografi/spesifikasi/rad/${No_Seri}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${process.env.INTERNAL_API_KEY}`,
+    },
+  });
   const dataUji = await response.json();
 
   return dataUji;
 };
 
 export const readDataRadByIdSpec = async (id_spesifikasi: string) => {
-  const response = await fetch(`${externalApiUrl}/qc-data-radiografi/spesifikasi/${id_spesifikasi}`);
+  const response = await fetch(`${externalApiUrl}/qc-data-radiografi/spesifikasi/${id_spesifikasi}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${process.env.INTERNAL_API_KEY}`,
+    },
+  });
   const dataUji = await response.json();
 
   return dataUji;
@@ -94,6 +109,7 @@ export const updateDataRadByIdSpec = async (data: DataUji2nd, id_spesifikasi: st
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.INTERNAL_API_KEY}`,
     },
     body: JSON.stringify(data),
   });
@@ -132,6 +148,7 @@ export const saveDataRad = async (data: DataUji3rd) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.INTERNAL_API_KEY}`,
     },
     body: JSON.stringify(data),
   });
@@ -144,6 +161,7 @@ export const saveDataFlo = async (data: DataUji3rd) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.INTERNAL_API_KEY}`,
     },
     body: JSON.stringify(data),
   });
@@ -156,6 +174,7 @@ export const saveDataDentalIntraoral = async (data: DataUji3rd) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.INTERNAL_API_KEY}`,
     },
     body: JSON.stringify(data),
   });
@@ -193,6 +212,9 @@ export const deleteDataRadByIdSpec = async (selectedSpecId: number | null) => {
 export const removeDataRadByIdSpec = async (id_parameter: string | number) => {
   const result = await fetch(`${externalApiUrl}/qc-data-radiografi/spesifikasi/${id_parameter}`, {
     method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${process.env.INTERNAL_API_KEY}`,
+    },
   });
   const deletedData = await result.json();
 

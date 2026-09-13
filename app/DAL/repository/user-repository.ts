@@ -12,7 +12,12 @@ export const getUserByEmail = async (email: string) => {
 };
 
 export const getUserByEmailFromExtApi = async (email: string) => {
-  const response = await fetch(`${externalApiUrl}/user/${email}`);
+  const response = await fetch(`${externalApiUrl}/user/${email}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${process.env.INTERNAL_API_KEY}`,
+    },
+  });
   //const data = await response.json();
   //console.log("Response from getUserByEmail:", data);
   return response;
@@ -23,6 +28,7 @@ export const saveGoogleUserToExtApi = async (payload: { database_userId: string;
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.INTERNAL_API_KEY}`,
     },
     body: JSON.stringify(payload),
   });
@@ -52,6 +58,7 @@ export const insertUser = async (payload: { email: string | null; password: stri
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.INTERNAL_API_KEY}`,
     },
     body: JSON.stringify(payload),
   });
@@ -64,6 +71,7 @@ export const updateUser = async (payload: { id_user: number; database_userId: st
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.INTERNAL_API_KEY}`,
     },
     body: JSON.stringify(payload),
   });
